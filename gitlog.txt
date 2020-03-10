@@ -112,3 +112,4 @@ Date:   Tue Mar 10 15:28:31 2020 +0200
  tiedosto.txt | 0
  1 file changed, 0 insertions(+), 0 deletions(-)
 
+lokitiedoston loppu (testimuutos)

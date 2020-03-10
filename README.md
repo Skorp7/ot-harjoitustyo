@@ -1,9 +1,7 @@
-# Tämä on otsikko
+# Ohjelmistotekniikka
 
-Tämä on tavallista teksti mutta *testataan kursivointia* ja **lihavointia**.
-Kokeillaan listatoimintoa:
-* Alkio 1
-	* Ala-alkio 1
-	* Ala-alkio 2
-* Alkio 2
-* Alkio 2
+## Viikon 1 tehtävät
+
+* https://github.com/Skorp7/ot-harjoitustyo/blob/master/komentorivi.txt
+* https://github.com/Skorp7/ot-harjoitustyo/blob/master/gitlog.txt
+

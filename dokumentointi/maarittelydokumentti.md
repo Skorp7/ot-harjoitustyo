@@ -34,7 +34,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 
 - Kirjautumisnäkymä
 - Aloitusikkuna
-  - TILAUKSEN SISÄÄNKIRAUS
+  - TILAUKSEN SISÄÄNKIRJAUS
     - (anna koodi tai luo uusi koodi)
   - MERKITSE TYÖVAIHE
     - (anna koodi ja valitse työvaihe sekä työntekijä)
@@ -42,13 +42,15 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - (anna koodi ja valitse toimitustapa)
   - HAE TILAUS
     - (anna koodi tai päivämäärä)
-- Tilastoikkuna (vain työnjohtajille)
+- Työnjohtajaikkuna
   - näyttää automaattisesti kuukauden sisäänkirjatut työmäärät päiväkohtaisesti
   - LUO TUNNUS
 
-## Jatkokehityksen tavoitteet
+## Jatkokehityksen tavoitteet lopulliseen sovellukseen
 
 Käyttöliittymä on tarkoitus rakentaa siten, että lopullisessa versiossa on mahdollista tulostaa jokaiselle tilaukselle oma viivakoodi/qr-koodi ja jokaiselle työntekijälle oma työvaihelista, jossa on koodit jokaista työvaihetta kohti. Työvaiheen tekeminen merkataan skannaamalla tilauksen seurantakoodi ja työvaihekoodi peräkkäin. Tällöin sovellus lisää tietokantaan tietyn seurantakoodin alle työvaiheen joka sisältää tiedon työntekijästä ja aikaleiman. Lisäksi on mahdollista merkitä info-kenttään merkintöjä jos johonkin työvaiheeseen liittyy erityistietoja (esim. purennan määritys hankalaa jäljennösvirheen vuoksi). Tarkoitus kuitenkin olisi että työntekijä säästyisi klikkailemiselta ja kirjoittamiselta ja pelkkä viivakoodiskannaus riittäisi peruskäyttöön.
+
+## Jatkokehitysideat harjoitustyöhön
 
 Mahdollisia lisättäviä toiminnallisuuksia:
   - työnantajalle lisätoiminnot:

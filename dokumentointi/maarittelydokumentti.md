@@ -21,6 +21,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - tehdä niihin työvaihemerkintöjä
     - hakea seurantakoodilla tai päivämäärällä tilauksia tietokannasta
     - poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä
+    - tehdä tilauksen uloskirjauksen (tilaus poistuu tuotantotiloista mutta saattaa tulla takaisin)
 
   - Työnjohtajat voivat tämän lisäksi:
     - nähdä kuukausikohtaisia tilastoja tilauksista tilastonäkymässä
@@ -34,8 +35,23 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 
 ## Käyttöliittymäluonnos
 
-
-
+- Kirjautumisnäkymä
+- Aloitusikkuna
+  - TILAUKSEN SISÄÄNKIRAUS
+    - (anna koodi tai luo uusi koodi)
+  - MERKITSE TYÖVAIHE
+    - (anna koodi ja valitse työvaihe sekä työntekijä)
+  - TILAUKSEN ULOSKIRJAUS
+    - (anna koodi ja valitse toimitustapa)
+  - HAE TILAUS
+    - (anna koodi tai päivämäärä)
+- Tilastoikkuna (vain työnjohtajille)
+  - näyttää automaattisesti kuukauden sisäänkirjatut työmäärät päiväkohtaisesti
+  - HAE TYÖNTEKIJÄN TUNNUKSELLA
+  - LUO TUNNUS
+  - POISTA TUNNUS
+  - POISTA TILAUS
+  - POISTA TYÖVAIHE
 
 ## Jatkokehityksen tavoitteet
 

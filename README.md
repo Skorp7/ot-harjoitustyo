@@ -7,3 +7,8 @@
 
 Testataan *kursivoinita* ja **lihavointia**.
 (testimuutos)
+
+## Viikon 2 tehtävät
+
+* [kuvakaappaus_jacoco_report.png](https://github.com/Skorp7/ot-harjoitustyo/blob/master/laskarit/viikko2/kuvakaappaus_jacoco_report.png)
+* [JUnit testit] (https://github.com/Skorp7/ot-harjoitustyo/blob/master/laskarit/viikko2/Unicafe)

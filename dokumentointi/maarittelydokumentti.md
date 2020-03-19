@@ -52,7 +52,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - näyttää tilauksen seurantahistorian jos haettiin koodilla
     - näyttää päivän aikana käsitellyt tilaukset (koodit) jos haettiin päivämäärällä
 - Työnjohtajaikkuna
-  - näyttää automaattisesti kuukauden sisäänkirjatut työmäärät päiväkohtaisesti
+  - näyttää automaattisesti tilastokäppyrän kuukauden sisäänkirjatuista työmääristä päiväkohtaisesti
   - LUO TUNNUS
     - (anna tunnus ja valitse pudotusvalikosta käyttäjäryhmä)
     - viesti onnistumisesta/epäonnistumisesta

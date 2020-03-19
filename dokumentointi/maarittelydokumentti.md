@@ -16,11 +16,21 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 
 - Kirjautumisen jälkeen
 
-  - Työntekijät voivat luoda tilauksia ja tehdä niihin työvaihemerkintöjä sekä hakea seurantakoodilla tai päivämäärällä tilauksia tietokannasta. Työntekijät voivat myös poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä.
+  - Työntekijät voivat:
+    - luoda tilauksia
+    - tehdä niihin työvaihemerkintöjä
+    - hakea seurantakoodilla tai päivämäärällä tilauksia tietokannasta
+    - poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä
 
-  - Työnjohtajalla on työntekijöiden toiminnallisuuksien lisäksi mahdollisuus nähdä kuukausikohtaisia tilastoja tilauksista sekä työntekijäkohtaisia työmääriä. Työnjohtajat voivat poistaa työntekijöitä, tilauksia tai työvaiheita. Työnjohtajat voivat luoda käyttäjätunnuksia ja määrittää tunnuksien oikeudet.
+  - Työnjohtajat voivat tämän lisäksi:
+    - nähdä kuukausikohtaisia tilastoja tilauksista tilastonäkymässä
+    - nähdä työntekijäkohtaisia työmääriä tilastonäkymässä
+    - poistaa työntekijöitä, tilauksia tai työvaiheita
+    - luoda käyttäjätunnuksia ja määrittää tunnusten oikeudet
   
   - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet.
+  
+  - Perusversiossa ei ole toteutettu kirjautumisessa salasanatoimintoa vaan kirjautuminen tapahtuu pelkällä tunnuksella.
 
 ## Käyttöliittymäluonnos
 

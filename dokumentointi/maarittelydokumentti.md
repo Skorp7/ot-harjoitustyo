@@ -33,6 +33,8 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 ## Käyttöliittymäluonnos
 
 - Kirjautumisnäkymä
+  - ANNA TUNNUS
+  - viesti jos epäonnistuu
 - Aloitusikkuna
   - TILAUKSEN SISÄÄNKIRJAUS
     - (anna koodi tai luo uusi koodi)

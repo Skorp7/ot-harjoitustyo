@@ -20,13 +20,10 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - luoda tilauksia
     - tehdä niihin työvaihemerkintöjä
     - hakea seurantakoodilla tai päivämäärällä tilauksia tietokannasta
-    - poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä
     - tehdä tilauksen uloskirjauksen (tilaus poistuu tuotantotiloista mutta saattaa tulla takaisin)
 
   - Työnjohtajat voivat tämän lisäksi:
     - nähdä kuukausikohtaisia tilastoja tilauksista tilastonäkymässä
-    - nähdä työntekijäkohtaisia työmääriä tilastonäkymässä
-    - poistaa työntekijöitä, tilauksia tai työvaiheita
     - luoda käyttäjätunnuksia ja määrittää tunnusten oikeudet
   
   - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet.
@@ -47,12 +44,17 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - (anna koodi tai päivämäärä)
 - Tilastoikkuna (vain työnjohtajille)
   - näyttää automaattisesti kuukauden sisäänkirjatut työmäärät päiväkohtaisesti
-  - HAE TYÖNTEKIJÄN TUNNUKSELLA
   - LUO TUNNUS
-  - POISTA TUNNUS
-  - POISTA TILAUS
-  - POISTA TYÖVAIHE
 
 ## Jatkokehityksen tavoitteet
 
 Käyttöliittymä on tarkoitus rakentaa siten, että lopullisessa versiossa on mahdollista tulostaa jokaiselle tilaukselle oma viivakoodi/qr-koodi ja jokaiselle työntekijälle oma työvaihelista, jossa on koodit jokaista työvaihetta kohti. Työvaiheen tekeminen merkataan skannaamalla tilauksen seurantakoodi ja työvaihekoodi peräkkäin. Tällöin sovellus lisää tietokantaan tietyn seurantakoodin alle työvaiheen joka sisältää tiedon työntekijästä ja aikaleiman. Lisäksi on mahdollista merkitä info-kenttään merkintöjä jos johonkin työvaiheeseen liittyy erityistietoja (esim. purennan määritys hankalaa jäljennösvirheen vuoksi). Tarkoitus kuitenkin olisi että työntekijä säästyisi klikkailemiselta ja kirjoittamiselta ja pelkkä viivakoodiskannaus riittäisi peruskäyttöön.
+
+Mahdollisia lisättäviä toiminnallisuuksia:
+  - työnantajalle lisätoiminnot:
+    - poista tunnus
+    - poista tilaus
+    - poista työvaihe
+    - hae tilastot työntekijäkohtaisesti
+  - työntekijälle lisätoiminnot:
+    - poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä

@@ -50,7 +50,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - (anna koodi tai päivämäärä)
     - viesti onnistumisesta/epäonnistumisesta
     - näyttää tilauksen seurantahistorian jos haettiin koodilla
-    - näyttää päivän aikana käsitellyt tilaukset (koodit)
+    - näyttää päivän aikana käsitellyt tilaukset (koodit) jos haettiin päivämäärällä
 - Työnjohtajaikkuna
   - näyttää automaattisesti kuukauden sisäänkirjatut työmäärät päiväkohtaisesti
   - LUO TUNNUS

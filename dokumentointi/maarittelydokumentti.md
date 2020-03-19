@@ -36,21 +36,26 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 - Aloitusikkuna
   - TILAUKSEN SISÄÄNKIRJAUS
     - (anna koodi tai luo uusi koodi)
+    - viesti onnistumisesta/epäonnistumisesta
+    - näyttää tilauksen seurantahistorian jos sitä on
   - MERKITSE TYÖVAIHE
     - (anna koodi ja valitse työvaihe sekä työntekijä)
+    - viesti onnistumisesta/epäonnistumisesta
   - TILAUKSEN ULOSKIRJAUS
     - (anna koodi ja valitse toimitustapa)
+    - viesti onnistumisesta/epäonnistumisesta
   - HAE TILAUS
     - (anna koodi tai päivämäärä)
+    - viesti onnistumisesta/epäonnistumisesta
+    - näyttää tilauksen seurantahistorian jos haettiin koodilla
+    - näyttää päivän aikana käsitellyt tilaukset (koodit)
 - Työnjohtajaikkuna
   - näyttää automaattisesti kuukauden sisäänkirjatut työmäärät päiväkohtaisesti
   - LUO TUNNUS
-
-## Jatkokehityksen tavoitteet lopulliseen sovellukseen
-
-Käyttöliittymä on tarkoitus rakentaa siten, että lopullisessa versiossa on mahdollista tulostaa jokaiselle tilaukselle oma viivakoodi/qr-koodi ja jokaiselle työntekijälle oma työvaihelista, jossa on koodit jokaista työvaihetta kohti. Työvaiheen tekeminen merkataan skannaamalla tilauksen seurantakoodi ja työvaihekoodi peräkkäin. Tällöin sovellus lisää tietokantaan tietyn seurantakoodin alle työvaiheen joka sisältää tiedon työntekijästä ja aikaleiman. Lisäksi on mahdollista merkitä info-kenttään merkintöjä jos johonkin työvaiheeseen liittyy erityistietoja (esim. purennan määritys hankalaa jäljennösvirheen vuoksi). Tarkoitus kuitenkin olisi että työntekijä säästyisi klikkailemiselta ja kirjoittamiselta ja pelkkä viivakoodiskannaus riittäisi peruskäyttöön työvaiheiden merkinnässä. Työvaiheiden merkintä tapahtuisi laboratorion työpisteillä pelkän pädin ja viivakoodinlukijan tai vastaavan avulla.
-Sisään- ja uloskirjaus tapahtuisi tietokonepäätteellä toimistossa, joten siinä ylimääräinen klikkailu ei ole niin haitaksi.
-
+    - (anna tunnus ja valitse pudotusvalikosta käyttäjäryhmä)
+    - viesti onnistumisesta/epäonnistumisesta
+    
+    
 ## Jatkokehitysideat harjoitustyöhön
 
 Mahdollisia lisättäviä toiminnallisuuksia:
@@ -61,3 +66,11 @@ Mahdollisia lisättäviä toiminnallisuuksia:
     - hae tilastot työntekijäkohtaisesti
   - työntekijälle lisätoiminnot:
     - poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä
+    
+
+## Jatkokehityksen tavoitteet lopulliseen sovellukseen
+
+Harjoitustyönä ei ole tarkoitus tehdä alla mainittuja ominaisuuksia, mutta ne kannattaa ottaa huomioon rakennetta suunnitellessa.
+Käyttöliittymä on tarkoitus rakentaa siten, että lopullisessa versiossa on mahdollista tulostaa jokaiselle tilaukselle oma viivakoodi/qr-koodi ja jokaiselle työntekijälle oma työvaihelista, jossa on koodit jokaista työvaihetta kohti. Työvaiheen tekeminen merkataan skannaamalla tilauksen seurantakoodi ja työvaihekoodi peräkkäin. Tällöin sovellus lisää tietokantaan tietyn seurantakoodin alle työvaiheen joka sisältää tiedon työntekijästä ja aikaleiman. Lisäksi on mahdollista merkitä info-kenttään merkintöjä jos johonkin työvaiheeseen liittyy erityistietoja (esim. purennan määritys hankalaa jäljennösvirheen vuoksi). Tarkoitus kuitenkin olisi että työntekijä säästyisi klikkailemiselta ja kirjoittamiselta ja pelkkä viivakoodiskannaus riittäisi peruskäyttöön työvaiheiden merkinnässä. Työvaiheiden merkintä tapahtuisi laboratorion työpisteillä pelkän pädin ja viivakoodinlukijan tai vastaavan avulla.
+Sisään- ja uloskirjaus tapahtuisi tietokonepäätteellä toimistossa, joten siinä ylimääräinen klikkailu ei ole niin haitaksi.
+

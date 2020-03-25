@@ -4,4 +4,5 @@
 | :----:|:-----| :-----|
 | 19.3. |   3  | Toiminnallisuuden suunnittelua, alustava vaatimusmäärittely |
 | 24.3. |   5  | Netbeansin asetusten säätöä, käyttöliittymän hahmottelua ja 1. sql taulu |
-|  |  8  | YHTEENSÄ |
+| 25.3. |   4  | Käyttöliittymän ja ohjelmarakenteen koodausta |
+|  |  12  | YHTEENSÄ |

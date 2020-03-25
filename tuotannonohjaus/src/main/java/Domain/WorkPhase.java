@@ -10,5 +10,38 @@ package Domain;
  * @author sakorpi
  */
 public class WorkPhase {
+    private String workphase;
+    private String code;
+    private String name;
+    private String description;
+    private String timestamp;
+    
+    public WorkPhase(String timestamp, String workphase, String code, String name, String description) {
+        this.workphase = workphase;
+        this.code = code;
+        this.name = name;
+        this.description = description;
+        this.timestamp = timestamp;
+    }
+
+    public String getWorkphase() {
+        return workphase;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
     
 }

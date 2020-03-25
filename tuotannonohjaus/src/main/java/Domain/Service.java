@@ -6,6 +6,9 @@
 package Domain;
 
 import Database.*;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -51,8 +54,10 @@ public class Service {
         return database.addOrder(code);
     }
 
-    public boolean getOrder(String code) {
-        return database.getOrder(code);
+    public ObservableList<WorkPhase> getOrder(String code) {
+       ObservableList<WorkPhase> list = FXCollections.observableArrayList();
+       list.addAll(database.getOrder(code));
+        return list;
     }
 
     public boolean orderExists(String code) {

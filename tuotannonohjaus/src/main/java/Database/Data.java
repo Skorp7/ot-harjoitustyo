@@ -1,6 +1,8 @@
 package Database;
 
+import Domain.*;
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,7 +39,7 @@ public interface Data {
     
     boolean orderExists(String code);
     
-    boolean getOrder(String code);
+    ArrayList<WorkPhase> getOrder(String code);
     
     
     // Event actions

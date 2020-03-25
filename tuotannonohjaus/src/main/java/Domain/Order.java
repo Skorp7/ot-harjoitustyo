@@ -10,5 +10,5 @@ package Domain;
  * @author sakorpi
  */
 public class Order {
-    
+
 }

@@ -13,12 +13,16 @@ package UI;
 import Database.*;
 import Domain.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
@@ -35,7 +39,9 @@ public class App extends Application {
         // Create window components
         BorderPane mainwindow = new BorderPane();
         BorderPane workwindow = new BorderPane();
-        VBox testBox = new VBox();
+        VBox topBox = new VBox();
+        Insets spaces = new Insets(20,40,40,40);
+
         
         // Create login field:
         VBox loginfield = new VBox();
@@ -46,8 +52,9 @@ public class App extends Application {
         Label logintext = new Label("Kirjaudu sisään:");
         Label feedbacktext = new Label("");
         loginfield.getChildren().addAll(logintext, loginfieldtext, loginbtn, feedbacktext);
-        loginfield.setPrefSize(200, 400);
+       // loginfield.setPrefSize(200, 400);
         loginfield.setSpacing(10);
+        loginfield.setPadding(spaces);
         
         // Create topic field:
         VBox welcomefield = new VBox();
@@ -58,17 +65,19 @@ public class App extends Application {
         welcomefield.setSpacing(20);
         welcomefield.setAlignment(Pos.CENTER);
         welcomefield.autosize();
-        Insets spaces = new Insets(40,40,40,40);
+        
         welcometext.setPadding(spaces);
         
         // Create bottom field:
         HBox bottomfield = new HBox();
         bottomfield.getChildren().add(formatbtn);
         bottomfield.setAlignment(Pos.CENTER);
+        bottomfield.setPadding(spaces);
 
 
         // Create center field:
         VBox centerfield = new VBox();
+        centerfield.setPadding(spaces);
         Label centertext = new Label("CENTERTEXT plaaplaplaaplaa");
         centerfield.getChildren().add(centertext);
         centerfield.setPrefSize(200, 400);
@@ -103,6 +112,9 @@ public class App extends Application {
         VBox emptybox = new VBox();
         emptybox.setPrefSize(200, 400);
         emptybox.setSpacing(20);
+        VBox emptybox2 = new VBox();
+        emptybox.setPrefSize(200, 400);
+        emptybox.setSpacing(20);
         
         // Admin field right
         Label righttext = new Label("Plaaplaaplaapalapa");
@@ -114,6 +126,7 @@ public class App extends Application {
         // Admin field center
         VBox adminField = new VBox();
         adminField.setSpacing(20);
+        adminField.setPadding(spaces);
         adminField.getChildren().addAll(adminFieldTop, addUserTextField, rb1, rb2, addUserbtn, addUserFeedback);
   
         // Create left field in workwindow:
@@ -127,6 +140,7 @@ public class App extends Application {
         leftfield.getChildren().addAll(lefttext, adminbtn, orderbtn, backbtn);
         leftfield.setPrefSize(200, 400);
         leftfield.setSpacing(20);
+        leftfield.setPadding(spaces);
         
         // Create workfield center
         VBox workField = new VBox();
@@ -144,6 +158,7 @@ public class App extends Application {
         VBox workFieldRight = new VBox();
         workFieldRight.setPrefWidth(300);
         workFieldRight.setSpacing(20);
+        workFieldRight.setPadding(spaces);
         workFieldRight.getChildren().addAll(rightText, createOrder, createPhase, seekbtnCode, seekbtnDate);
         
         // AddOrderField:
@@ -157,6 +172,7 @@ public class App extends Application {
         // Add Order field center
         VBox addOrderField = new VBox();
         addOrderField.setSpacing(20);
+        addOrderField.setPadding(spaces);
         addOrderField.getChildren().addAll(addOrderTextField, addOrderbtn, addOrderFeedback);
         
          // Seek order field:
@@ -170,6 +186,7 @@ public class App extends Application {
         // Seek Order field center
         VBox seekOrderField = new VBox();
         seekOrderField.setSpacing(20);
+        seekOrderField.setPadding(spaces);
         seekOrderField.getChildren().addAll(seekOrderTextField, seekOrderbtn, seekOrderFeedback);
         
         // AddEventField:
@@ -189,19 +206,20 @@ public class App extends Application {
         // Add Event field center:
         VBox addEventField = new VBox();
         addEventField.setSpacing(20);
+        addEventField.setPadding(spaces);
         addEventField.getChildren().addAll(addEventCodeTextField, addEventTextField, addEventDescTextField, addEventbtn, addEventFeedback);
 
         // Create workwiew:
         Label welcometext2 = new Label("Tuotannonohjaus DICIP");
-        testBox.getChildren().add(welcometext2);
+        topBox.getChildren().add(welcometext2);
         welcometext2.setAlignment(Pos.CENTER);
         welcometext2.setFont(Font.font("Monospace", 20));
-        testBox.setSpacing(20);
-        testBox.setPadding(spaces);
+        topBox.setSpacing(20);
+        topBox.setPadding(spaces);
         welcometext2.setAlignment(Pos.CENTER);
-        workwindow.setTop(testBox);
+        workwindow.setTop(topBox);
         workwindow.setLeft(leftfield);
-        testBox.setAlignment(Pos.CENTER);
+        topBox.setAlignment(Pos.CENTER);
 
         
         
@@ -212,28 +230,38 @@ public class App extends Application {
         mainwindow.setTop(welcomefield);
         
         
-        Scene beginScene = new Scene(mainwindow, 900, 640);
-        Scene workScene = new Scene(workwindow, 900, 640);
+        Scene beginScene = new Scene(mainwindow, 940, 680);
+        Scene workScene = new Scene(workwindow, 940, 680);
         win.setScene(beginScene);
         win.setTitle("DICIP");
         win.show();
         
         
         // Table for showing seeking results
-  
-        TableView table = new TableView();
+        TableView<WorkPhase> table = new TableView();
         TableColumn timestampCol = new TableColumn("Aikaleima");
+        timestampCol.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         TableColumn workphaseCol = new TableColumn("Työvaihe");
+        workphaseCol.setCellValueFactory(new PropertyValueFactory<>("workphase"));
         TableColumn infoCol = new TableColumn("Lisätiedot");
+        infoCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         TableColumn usrCol = new TableColumn("Työntekijä");
-        timestampCol.setMinWidth(100);
-        workphaseCol.setMinWidth(100);
-        infoCol.setMinWidth(100);
+        usrCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        timestampCol.setMinWidth(150);
+        workphaseCol.setMinWidth(150);
+        infoCol.setMinWidth(200);
         usrCol.setMinWidth(100);
-        table.getColumns().addAll(timestampCol, workphaseCol, infoCol, usrCol);
- 
-     
-        
+        table.getColumns().addAll(timestampCol, workphaseCol, usrCol, infoCol);
+        VBox tablebox = new VBox();
+        tablebox.setPrefHeight(300);
+        tablebox.setPadding(spaces);
+        tablebox.getChildren().add(table);
+// 
+//        columnOne.setCellValueFactory(c -> new SimpleStringProperty(new String("123")));
+//        columnTwo.setCellValueFactory(c -> new SimpleStringProperty(new String("456")));
+
+       // table.getItems().addAll("Column one's data", "Column two's data");
+
         
         
         // Create functions for buttons:
@@ -268,12 +296,14 @@ public class App extends Application {
         orderbtn.setOnAction(event -> {
             workwindow.setCenter(workField);
             workwindow.setRight(workFieldRight);
+            workwindow.setBottom(emptybox2);
         });
         
         // Go back to the start wiew      
         backbtn.setOnAction(event -> {
             workwindow.setCenter(emptybox);
             win.setScene(beginScene);
+            workwindow.setBottom(emptybox2);
             feedbacktext.setText("");
         });
         
@@ -281,6 +311,7 @@ public class App extends Application {
         adminbtn.setOnAction(event -> {
             workwindow.setCenter(adminField);
             workwindow.setRight(adminFieldRight);
+            workwindow.setBottom(emptybox2);
             addUserTextField.setText("");
             addUserFeedback.setText("");
             rb1.setSelected(true);
@@ -315,6 +346,7 @@ public class App extends Application {
         // Show create order wiew
         createOrder.setOnAction(event -> {
             workwindow.setCenter(addOrderField);
+            workwindow.setBottom(emptybox2);
             addOrderTextField.setText("");
             addOrderFeedback.setText("");
             addOrderFeedback.setTextFill(Color.BLACK);
@@ -337,6 +369,7 @@ public class App extends Application {
         // Show order seeking wiew
         seekbtnCode.setOnAction(event -> {
             workwindow.setCenter(seekOrderField);
+            workwindow.setBottom(emptybox2);
             seekOrderTextField.setText("");
             seekOrderFeedback.setText("");
             seekOrderFeedback.setTextFill(Color.BLACK);
@@ -345,10 +378,10 @@ public class App extends Application {
         // Check if order exists and then get the order info        
         seekOrderbtn.setOnAction(event -> {
              if (service.orderExists(seekOrderTextField.getText())) {
-                seekOrderFeedback.setText("Tilaus löytyi.");
-                service.getOrder(seekOrderTextField.getText());
-                seekOrderFeedback.setTextFill(Color.GREEN);
-                workwindow.setBottom(table);
+                 seekOrderFeedback.setText("Tilaus löytyi.");
+                 seekOrderFeedback.setTextFill(Color.GREEN);
+                 table.setItems(service.getOrder(seekOrderTextField.getText()));
+                 workwindow.setBottom(tablebox);
             } else {
                 seekOrderFeedback.setText("Tilausta ei löytynyt UI.");
                 seekOrderFeedback.setTextFill(Color.RED);
@@ -358,6 +391,7 @@ public class App extends Application {
         // Show workphase creating wiew
         createPhase.setOnAction(event -> {
             workwindow.setCenter(addEventField);
+            workwindow.setBottom(emptybox2);
             addEventCodeTextField.setText("");
             addEventTextField.setText("");
             addEventDescTextField.setText("");

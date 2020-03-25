@@ -1,9 +1,13 @@
 package Database;
 
 
+import Domain.*;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableArrayBase;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -176,25 +180,28 @@ public class DataSql implements Data {
         }
     }
     
-    public boolean getOrder(String code) {
+    @Override
+    public ArrayList<WorkPhase> getOrder(String code) {
+        ArrayList<WorkPhase> events = new ArrayList<>();
         try {
             PreparedStatement p = this.dbCon.prepareStatement("SELECT E.workphase, E.description, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE code=?");
 
             p.setString(1, code);
             ResultSet rr = p.executeQuery();
-            if (!rr.next()) {
-                System.out.println("Ei työvaiheita");
-                return false;
-            }
-            while (rr.next()) {
-                System.out.println(rr.getString("timestamp") + " , " + rr.getString("workphase") + " , " + rr.getString("description") + " , " + rr.getString("name"));
-            }
-            return true;
+                // Create a Workphase object from sql data
+                while (rr.next()) {
+                    WorkPhase event = new WorkPhase(rr.getString("timestamp"), rr.getString("workphase"), code, rr.getString("name"), rr.getString("description"));
+                    System.out.println(rr.getString("timestamp") + " , " + rr.getString("workphase") + " , " + rr.getString("description") + " , " + rr.getString("name"));
+                    events.add(event);
+                }
         } catch (Exception e) {
             System.out.println("Yhteyttä tietokantaan ei löydy.(code exist)");
             System.out.println(e.getMessage());
-            return false;
         }
+        if (events.isEmpty()) {
+            System.out.println("tyhjä lista");
+        }
+        return events;
     }
 
     public boolean addEvent(String workphase, String code, String descr, String name) {

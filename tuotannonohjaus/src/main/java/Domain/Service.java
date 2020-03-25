@@ -35,6 +35,8 @@ public class Service {
         return database.format();
     }
     
+    // User functions
+    
     public boolean getUserStatus(String name) {
         return database.getUserStatus(name);
     }
@@ -42,6 +44,8 @@ public class Service {
     public boolean addUser(String name, Integer status) {
         return database.addUser(name, status);
     }
+    
+    // Order functions
 
     public boolean addOrder(String code) {
         return database.addOrder(code);
@@ -55,4 +59,9 @@ public class Service {
         return database.orderExists(code);
     }
 
+    // Event functions
+    
+    public boolean addEvent(String workphase, String code, String descr, String name) {
+        return database.addEvent(workphase, code,descr, name);
+    }
 }

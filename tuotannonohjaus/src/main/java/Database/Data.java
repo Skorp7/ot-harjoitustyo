@@ -39,6 +39,11 @@ public interface Data {
     
     boolean getOrder(String code);
     
+    
+    // Event actions
+    
+    boolean addEvent(String workphase, String code, String descr, String name);
+    
      
      
      

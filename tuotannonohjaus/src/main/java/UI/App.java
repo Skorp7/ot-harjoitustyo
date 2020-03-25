@@ -84,7 +84,8 @@ public class App extends Application {
 
         // AddUserField:
         Button addUserbtn = new Button("Lisää käyttäjä");
-        TextField addUserTextField = new TextField("Anna tunnus");
+        TextField addUserTextField = new TextField("");
+        addUserTextField.setPromptText("Anna tunnus");
         addUserTextField.setMaxWidth(200);
         Label addUserFeedback = new Label("feedback");
         
@@ -148,7 +149,8 @@ public class App extends Application {
         // AddOrderField:
         Button addOrderbtn = new Button("Lisää tilaus");
         addOrderbtn.setDefaultButton(true);
-        TextField addOrderTextField = new TextField("Luo tilauskoodi");
+        TextField addOrderTextField = new TextField("");
+        addOrderTextField.setPromptText("Luo tilauskoodi");
         addOrderTextField.setMaxWidth(200);
         Label addOrderFeedback = new Label("feedback");
 
@@ -157,17 +159,37 @@ public class App extends Application {
         addOrderField.setSpacing(20);
         addOrderField.getChildren().addAll(addOrderTextField, addOrderbtn, addOrderFeedback);
         
-          // Seek OrderF ield:
+         // Seek order field:
         Button seekOrderbtn = new Button("Etsi tilaus");
         seekOrderbtn.setDefaultButton(true);
-        TextField seekOrderTextField = new TextField("Luo tilauskoodi");
-        addOrderTextField.setMaxWidth(200);
+        TextField seekOrderTextField = new TextField("");
+        seekOrderTextField.setPromptText("Anna tilauskoodi");
+        seekOrderTextField.setMaxWidth(200);
         Label seekOrderFeedback = new Label("feedback");
 
         // Seek Order field center
         VBox seekOrderField = new VBox();
         seekOrderField.setSpacing(20);
         seekOrderField.getChildren().addAll(seekOrderTextField, seekOrderbtn, seekOrderFeedback);
+        
+        // AddEventField:
+        Button addEventbtn = new Button("Lisää työvaihe");
+        addEventbtn.setDefaultButton(true);
+        TextField addEventCodeTextField = new TextField("");
+        addEventCodeTextField.setMaxWidth(200);
+        addEventCodeTextField.setPromptText("Anna tilauskoodi");
+        TextField addEventTextField = new TextField("");
+        addEventTextField.setPromptText("Anna työvaihe");
+        addEventTextField.setMaxWidth(200);
+        TextField addEventDescTextField = new TextField("");
+        addEventDescTextField.setPromptText("(Anna lisätietoja)");
+        addEventDescTextField.setMaxWidth(200);
+        Label addEventFeedback = new Label("feedback");
+
+        // Add Event field center:
+        VBox addEventField = new VBox();
+        addEventField.setSpacing(20);
+        addEventField.getChildren().addAll(addEventCodeTextField, addEventTextField, addEventDescTextField, addEventbtn, addEventFeedback);
 
         // Create workwiew:
         Label welcometext2 = new Label("Tuotannonohjaus DICIP");
@@ -197,6 +219,20 @@ public class App extends Application {
         win.show();
         
         
+        // Table for showing seeking results
+  
+        TableView table = new TableView();
+        TableColumn timestampCol = new TableColumn("Aikaleima");
+        TableColumn workphaseCol = new TableColumn("Työvaihe");
+        TableColumn infoCol = new TableColumn("Lisätiedot");
+        TableColumn usrCol = new TableColumn("Työntekijä");
+        timestampCol.setMinWidth(100);
+        workphaseCol.setMinWidth(100);
+        infoCol.setMinWidth(100);
+        usrCol.setMinWidth(100);
+        table.getColumns().addAll(timestampCol, workphaseCol, infoCol, usrCol);
+ 
+     
         
         
         
@@ -228,24 +264,29 @@ public class App extends Application {
                 }
         }); 
         
+        // Show order wiew with buttons
         orderbtn.setOnAction(event -> {
             workwindow.setCenter(workField);
             workwindow.setRight(workFieldRight);
         });
-      
+        
+        // Go back to the start wiew      
         backbtn.setOnAction(event -> {
             workwindow.setCenter(emptybox);
             win.setScene(beginScene);
+            feedbacktext.setText("");
         });
         
+        // Show admin wiew
         adminbtn.setOnAction(event -> {
             workwindow.setCenter(adminField);
             workwindow.setRight(adminFieldRight);
-            addUserTextField.setText("Anna tunnus");
+            addUserTextField.setText("");
             addUserFeedback.setText("");
             rb1.setSelected(true);
         });
         
+        // Check if the username is already taken or too short, then add user
         addUserbtn.setOnAction(event -> {
             if (service.login(addUserTextField.getText())) {
                 addUserFeedback.setText("Tunnus on jo olemassa, valitse toinen tunnus.");
@@ -271,13 +312,15 @@ public class App extends Application {
             }
         });
         
+        // Show create order wiew
         createOrder.setOnAction(event -> {
             workwindow.setCenter(addOrderField);
-            addOrderTextField.setText("Luo tilausnumero");
+            addOrderTextField.setText("");
             addOrderFeedback.setText("");
             addOrderFeedback.setTextFill(Color.BLACK);
         });
         
+        // Check if the given order code is alrady taken, then add order        
         addOrderbtn.setOnAction(event -> {
             if (service.orderExists(addOrderTextField.getText())) {
                 addOrderFeedback.setText("Tilausnumero on jo käytössä.");
@@ -291,25 +334,50 @@ public class App extends Application {
             }
         });
        
+        // Show order seeking wiew
         seekbtnCode.setOnAction(event -> {
             workwindow.setCenter(seekOrderField);
-            seekOrderTextField.setText("Anna tilausnumero");
+            seekOrderTextField.setText("");
             seekOrderFeedback.setText("");
             seekOrderFeedback.setTextFill(Color.BLACK);
         });
         
+        // Check if order exists and then get the order info        
         seekOrderbtn.setOnAction(event -> {
-             if (service.orderExists(addOrderTextField.getText())) {
-                service.getOrder(addOrderTextField.getText());
+             if (service.orderExists(seekOrderTextField.getText())) {
                 seekOrderFeedback.setText("Tilaus löytyi.");
+                service.getOrder(seekOrderTextField.getText());
                 seekOrderFeedback.setTextFill(Color.GREEN);
+                workwindow.setBottom(table);
             } else {
-                seekOrderFeedback.setText("Tilausta ei löytynyt.");
+                seekOrderFeedback.setText("Tilausta ei löytynyt UI.");
                 seekOrderFeedback.setTextFill(Color.RED);
             }
         });
-
         
+        // Show workphase creating wiew
+        createPhase.setOnAction(event -> {
+            workwindow.setCenter(addEventField);
+            addEventCodeTextField.setText("");
+            addEventTextField.setText("");
+            addEventDescTextField.setText("");
+            addEventFeedback.setText("");
+            addEventFeedback.setTextFill(Color.BLACK);
+        });
+        
+        // Check if order exists and then add workphase
+        addEventbtn.setOnAction(event -> {
+            if (!service.orderExists(addEventCodeTextField.getText())) {
+                addEventFeedback.setText("Tilausnumeroa ei löydy, ei voi lisätä työvaihetta. UI");
+                addEventFeedback.setTextFill(Color.RED);
+            } else if (service.addEvent(addEventTextField.getText(),addEventCodeTextField.getText(),addEventDescTextField.getText(), loginfieldtext.getText())) {
+                addEventFeedback.setText("Työvaihe lisätty.UI");
+                addEventFeedback.setTextFill(Color.GREEN);
+            } else {
+                addEventFeedback.setText("Työvaiheen lisäämien ei onnistunut. UI");
+                addEventFeedback.setTextFill(Color.RED);
+            }
+        });
         
     }
 

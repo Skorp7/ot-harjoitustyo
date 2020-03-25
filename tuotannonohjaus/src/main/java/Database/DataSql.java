@@ -58,7 +58,7 @@ public class DataSql implements Data {
             s.execute("CREATE TABLE Users (id INTEGER PRIMARY KEY, name TEXT UNIQUE, status INTEGER)");
             s.execute("INSERT INTO Users (name, status) VALUES ('admin',1)");
             s.execute("CREATE TABLE Orders (code TEXT UNIQUE PRIMARY KEY, timestamp TEXT)");
-            s.execute("CREATE TABLE Events (id INTEGER PRIMARY KEY, workphase TEXT, code TEXT NOT NULL REFERENCES Orders, description TEXT, timestamp TEXT)");
+            s.execute("CREATE TABLE Events (id INTEGER PRIMARY KEY, workphase TEXT, code TEXT NOT NULL REFERENCES Orders, usr_id REFERENCES Users, description TEXT, timestamp TEXT)");
 //            this.dbCon.commit();
             System.out.println("tietokanta alustettu");
             this.formated = true;
@@ -158,7 +158,7 @@ public class DataSql implements Data {
     }
     
     public boolean orderExists(String code) {
-          try {
+        try {
             PreparedStatement p = this.dbCon.prepareStatement("SELECT code from Orders WHERE code=?");
 
             p.setString(1, code);
@@ -166,15 +166,8 @@ public class DataSql implements Data {
             if (!rr.next()) {
                 System.out.println("Tilausta ei löydy");
                 return false;
-            }
-            String ordrCode = rr.getString("code");
-             
-            if (ordrCode.equals(code)) {
-                System.out.println("Tilaus löytyi");
-                return true;
             } else {
-                System.out.println("Tilausta ei löydy/muu virhe");
-                return false;
+                return true;
             }
         } catch (Exception e) {
             System.out.println("Yhteyttä tietokantaan ei löydy.(code exist)");
@@ -185,33 +178,42 @@ public class DataSql implements Data {
     
     public boolean getOrder(String code) {
         try {
-            PreparedStatement p = this.dbCon.prepareStatement("SELECT workphase, description, timestamp FROM Events WHERE code=?");
+            PreparedStatement p = this.dbCon.prepareStatement("SELECT E.workphase, E.description, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE code=?");
 
             p.setString(1, code);
             ResultSet rr = p.executeQuery();
             if (!rr.next()) {
-                System.out.println("Tilausta ei löydy");
+                System.out.println("Ei työvaiheita");
                 return false;
             }
-            String ordrCode = rr.getString("code");
-             
-            if (ordrCode.equals(code)) {
-                System.out.println("Tilaus löytyi");
-                while (rr.next()) {
-                    System.out.println(rr.getString("timestamp") + " , " + rr.getInt("workphase") + " , " + rr.getInt("description"));
-                }
-                return true;
-            } else {
-                System.out.println("Tilausta ei löydy/muu virhe");
-                return false;
+            while (rr.next()) {
+                System.out.println(rr.getString("timestamp") + " , " + rr.getString("workphase") + " , " + rr.getString("description") + " , " + rr.getString("name"));
             }
+            return true;
         } catch (Exception e) {
             System.out.println("Yhteyttä tietokantaan ei löydy.(code exist)");
             System.out.println(e.getMessage());
             return false;
         }
     }
-    
 
-    
+    public boolean addEvent(String workphase, String code, String descr, String name) {
+          try {   
+            PreparedStatement p = this.dbCon.
+                    prepareStatement("INSERT INTO Events (workphase, code, usr_id, description, timestamp) VALUES (?,?, (SELECT id FROM Users WHERE name=?), ?, datetime('now'))");
+            p.setString(1, workphase);
+            p.setString(2, code);
+            p.setString(3, name);
+            p.setString(4, descr);
+            p.executeUpdate();
+        //    this.dbCon.commit();
+            System.out.println("Tilaus lisätty");
+            return true;
+        } catch (Exception SQLException) {
+              System.out.println("Työvaihetta ei lisätty sql");
+            System.out.println(SQLException.getMessage());
+            return false;
+        }
+    }
 }
+    

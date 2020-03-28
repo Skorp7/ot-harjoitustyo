@@ -13,10 +13,8 @@ package UI;
 import Database.*;
 import Domain.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
+
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -78,7 +76,7 @@ public class App extends Application {
         // Create center field:
         VBox centerfield = new VBox();
         centerfield.setPadding(spaces);
-        Label centertext = new Label("CENTERTEXT plaaplaplaaplaa");
+        Label centertext = new Label("Alustuksen jälkeen voi kirjautua\ntunnuksella 'admin', jolla \non kaikki käyttöoikeudet.");
         centerfield.getChildren().add(centertext);
         centerfield.setPrefSize(200, 400);
         centerfield.setMinHeight(400);
@@ -101,11 +99,9 @@ public class App extends Application {
         // Radio buttons for status choise:
         final ToggleGroup group = new ToggleGroup();
         RadioButton rb1 = new RadioButton("Työntekjä");
-        rb1.setId("0");
         rb1.setToggleGroup(group);
         rb1.setSelected(true);
         RadioButton rb2 = new RadioButton("Työnjohtaja");
-        rb1.setId("1");
         rb2.setToggleGroup(group);
         
         // Empty field center
@@ -195,19 +191,47 @@ public class App extends Application {
         TextField addEventCodeTextField = new TextField("");
         addEventCodeTextField.setMaxWidth(200);
         addEventCodeTextField.setPromptText("Anna tilauskoodi");
+        // HBox for selecting the workphase:
+        HBox chooseWorkphase = new HBox();
+        chooseWorkphase.setSpacing(20);
         TextField addEventTextField = new TextField("");
         addEventTextField.setPromptText("Anna työvaihe");
         addEventTextField.setMaxWidth(200);
+        CheckBox logOutCheckBox = new CheckBox("LogOut");
+        logOutCheckBox.setText("Uloskirjaus");
+        chooseWorkphase.getChildren().addAll(addEventTextField, logOutCheckBox);
+        
         TextField addEventDescTextField = new TextField("");
         addEventDescTextField.setPromptText("(Anna lisätietoja)");
         addEventDescTextField.setMaxWidth(200);
+        
+        // HBox for choose the courier when logout is selected
+        HBox chooseCourier = new HBox();
+        chooseCourier.setSpacing(20);
+        
+        final ToggleGroup groupCourier = new ToggleGroup();
+        RadioButton cb1 = new RadioButton("Oma lähetti");
+        cb1.setToggleGroup(groupCourier);
+        cb1.setUserData("Oma lähetti");
+        cb1.setSelected(true);
+        RadioButton cb2 = new RadioButton("A to B");
+        cb2.setUserData("A to B");
+        cb2.setToggleGroup(groupCourier);
+        RadioButton cb3 = new RadioButton("Bring");
+        cb3.setUserData("Bring");
+        cb3.setToggleGroup(groupCourier);
+        RadioButton cb4 = new RadioButton("Posti");
+        cb4.setUserData("Posti");
+        cb4.setToggleGroup(groupCourier);
+        chooseCourier.getChildren().addAll(cb1, cb2, cb3, cb4);
+        chooseCourier.setDisable(true);
         Label addEventFeedback = new Label("feedback");
 
         // Add Event field center:
         VBox addEventField = new VBox();
         addEventField.setSpacing(20);
         addEventField.setPadding(spaces);
-        addEventField.getChildren().addAll(addEventCodeTextField, addEventTextField, addEventDescTextField, addEventbtn, addEventFeedback);
+        addEventField.getChildren().addAll(addEventCodeTextField, chooseWorkphase, addEventDescTextField, chooseCourier, addEventbtn, addEventFeedback);
 
         // Create workwiew:
         Label welcometext2 = new Label("Tuotannonohjaus DICIP");
@@ -355,9 +379,9 @@ public class App extends Application {
         // Check if the given order code is alrady taken, then add order        
         addOrderbtn.setOnAction(event -> {
             if (service.orderExists(addOrderTextField.getText())) {
-                addOrderFeedback.setText("Tilausnumero on jo käytössä.");
+                addOrderFeedback.setText("Tilausnumero on jo käytössä. \n Jos jo uloskirjattu tilaus on tulossa takaisin sisään,\n käytä toimintoa 'lisää työvaihe'.");
                 addOrderFeedback.setTextFill(Color.RED);
-            } else if (service.addOrder(addOrderTextField.getText())) {
+            } else if (service.addOrder(addOrderTextField.getText(), loginfieldtext.getText())) {
                 addOrderFeedback.setText("Tilaus lisätty.");
                 addOrderFeedback.setTextFill(Color.GREEN);
             } else {
@@ -392,6 +416,8 @@ public class App extends Application {
         createPhase.setOnAction(event -> {
             workwindow.setCenter(addEventField);
             workwindow.setBottom(emptybox2);
+            logOutCheckBox.setSelected(false);
+            chooseCourier.setDisable(true);
             addEventCodeTextField.setText("");
             addEventTextField.setText("");
             addEventDescTextField.setText("");
@@ -399,12 +425,27 @@ public class App extends Application {
             addEventFeedback.setTextFill(Color.BLACK);
         });
         
+        logOutCheckBox.setOnAction(event -> {
+                    if (logOutCheckBox.isSelected()) {
+                        addEventTextField.setText("Uloskirjaus");
+                        chooseCourier.setDisable(false);
+                    } else {
+                        addEventTextField.setText("");
+                        chooseCourier.setDisable(true);
+                    }
+        });
         // Check if order exists and then add workphase
         addEventbtn.setOnAction(event -> {
+            String description = addEventDescTextField.getText();
+            
+            if (logOutCheckBox.isSelected()) {
+                description = groupCourier.getSelectedToggle().getUserData().toString();
+            }
+            
             if (!service.orderExists(addEventCodeTextField.getText())) {
                 addEventFeedback.setText("Tilausnumeroa ei löydy, ei voi lisätä työvaihetta. UI");
                 addEventFeedback.setTextFill(Color.RED);
-            } else if (service.addEvent(addEventTextField.getText(),addEventCodeTextField.getText(),addEventDescTextField.getText(), loginfieldtext.getText())) {
+            } else if (service.addEvent(addEventTextField.getText(),addEventCodeTextField.getText(), description, loginfieldtext.getText())) {
                 addEventFeedback.setText("Työvaihe lisätty.UI");
                 addEventFeedback.setTextFill(Color.GREEN);
             } else {
@@ -412,7 +453,6 @@ public class App extends Application {
                 addEventFeedback.setTextFill(Color.RED);
             }
         });
-        
     }
 
 }

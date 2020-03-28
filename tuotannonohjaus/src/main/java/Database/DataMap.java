@@ -9,6 +9,7 @@ package Database;
  *
  * @author sakorpi
  */
+import Domain.WorkPhase;
 import java.util.*;
 
 public class DataMap implements Data {
@@ -52,6 +53,26 @@ public class DataMap implements Data {
     @Override
     public boolean format() {
         return false;
+    }
+
+    @Override
+    public boolean addOrder(String code, String name) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean orderExists(String code) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<WorkPhase> getOrder(String code) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean addEvent(String workphase, String code, String descr, String name) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

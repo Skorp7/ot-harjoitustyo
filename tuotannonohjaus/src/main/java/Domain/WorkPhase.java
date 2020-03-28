@@ -43,5 +43,13 @@ public class WorkPhase {
     public String getTimestamp() {
         return timestamp;
     }
+
+    public void setWorkphase(String workphase) {
+        this.workphase = workphase;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
     
 }

@@ -35,7 +35,7 @@ public interface Data {
     
     // Order actions:
     
-    boolean addOrder(String code);
+    boolean addOrder(String code, String name);
     
     boolean orderExists(String code);
     

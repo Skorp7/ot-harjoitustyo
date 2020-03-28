@@ -50,13 +50,15 @@ public class Service {
     
     // Order functions
 
-    public boolean addOrder(String code) {
-        return database.addOrder(code);
+    public boolean addOrder(String code, String name) {
+        return database.addOrder(code, name);
     }
 
     public ObservableList<WorkPhase> getOrder(String code) {
        ObservableList<WorkPhase> list = FXCollections.observableArrayList();
-       list.addAll(database.getOrder(code));
+       ArrayList<WorkPhase> events = database.getOrder(code);
+       events.get(0).setWorkphase("Sisäänkirjaus");
+       list.addAll(events);
         return list;
     }
 

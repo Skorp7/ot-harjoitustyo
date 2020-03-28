@@ -61,7 +61,7 @@ public class DataSql implements Data {
             Statement s = this.dbCon.createStatement();
             s.execute("CREATE TABLE Users (id INTEGER PRIMARY KEY, name TEXT UNIQUE, status INTEGER)");
             s.execute("INSERT INTO Users (name, status) VALUES ('admin',1)");
-            s.execute("CREATE TABLE Orders (code TEXT UNIQUE PRIMARY KEY, timestamp TEXT)");
+            s.execute("CREATE TABLE Orders (code TEXT UNIQUE PRIMARY KEY, timestamp TEXT, usr_id REFERENCES Users)");
             s.execute("CREATE TABLE Events (id INTEGER PRIMARY KEY, workphase TEXT, code TEXT NOT NULL REFERENCES Orders, usr_id REFERENCES Users, description TEXT, timestamp TEXT)");
 //            this.dbCon.commit();
             System.out.println("tietokanta alustettu");
@@ -147,10 +147,11 @@ public class DataSql implements Data {
     }
     
     @Override
-    public boolean addOrder(String code) {
+    public boolean addOrder(String code, String name) {
           try {
-            PreparedStatement p = this.dbCon.prepareStatement("INSERT INTO Orders (code, timestamp) VALUES (?,datetime('now'))");
+            PreparedStatement p = this.dbCon.prepareStatement("INSERT INTO Orders (code, timestamp, usr_id) VALUES (?,datetime('now'),(SELECT id FROM Users WHERE name=?))");
             p.setString(1, code);
+            p.setString(2, name);
             p.executeUpdate();
         //    this.dbCon.commit();
             System.out.println("Tilaus lisätty");
@@ -184,6 +185,16 @@ public class DataSql implements Data {
     public ArrayList<WorkPhase> getOrder(String code) {
         ArrayList<WorkPhase> events = new ArrayList<>();
         try {
+            // First select the registration time for the order code
+            PreparedStatement pp = this.dbCon.prepareStatement("SELECT O.timestamp, U.name FROM Orders O LEFT JOIN Users U ON U.id == O.usr_id WHERE O.code=?");
+            
+            pp.setString(1, code);
+            ResultSet r = pp.executeQuery();
+            WorkPhase registration = new WorkPhase(r.getString("timestamp"), "registration", code, r.getString("name"), "");
+            events.add(registration);
+            System.out.println(r.getString("timestamp")+ "registration" + code + r.getString("name"));
+            
+            // Then select all the events for this order code
             PreparedStatement p = this.dbCon.prepareStatement("SELECT E.workphase, E.description, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE code=?");
 
             p.setString(1, code);

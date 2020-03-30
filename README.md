@@ -22,3 +22,10 @@ Testikattavuusraportti saadaan luotua komennolla
 mvn test jacoco:report
 ```
 Raportin saa nähtäväksi avaamalla selaimella tiedoston target/site/jacoco/index.html
+
+### Käynnistys
+
+Sovelluksen saa käynnistettyä yliopiston Cubbli-linux koneilla siitä kansiosta jossa pom.xml sijaitsee
+```
+mvn compile exec:java -Dexec.mainClass=UI.MainProg
+```

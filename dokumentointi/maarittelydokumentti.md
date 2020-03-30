@@ -66,6 +66,7 @@ Mahdollisia lisättäviä toiminnallisuuksia:
     - poista tilaus
     - poista työvaihe
     - hae tilastot työntekijäkohtaisesti
+    - välitä asiakkaalta saatu palaute työntekijälle
   - työntekijälle lisätoiminnot:
     - poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä
     

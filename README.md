@@ -3,8 +3,8 @@
 
 ## Dokumentaatio
 
-* [tyoaikakirjanpito.md](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
-* [maarittelydokumentti.md](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
+* [Työaikakirjanpito](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+* [Vaatimusmäärittely](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
 
 ## Komentorivitoiminnot
 

@@ -37,6 +37,7 @@ public class DataTest {
     @Before
     public void setUp() {
         this.databTest = new DataSql();
+        this.databTest.format();
     }
     
     @After

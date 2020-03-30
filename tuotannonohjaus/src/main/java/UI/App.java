@@ -297,7 +297,10 @@ public class App extends Application {
                     win.setScene(workScene);
                     orderbtn.fire();
                     if (service.getUserStatus(loginfieldtext.getText())) {
+                        System.out.println(service.getUserStatus(loginfieldtext.getText()));
                         adminbtn.setDisable(false);
+                    } else {
+                        adminbtn.setDisable(true);
                     }
                 } else {
                     feedbacktext.setText("Käyttäjää ei löytynyt.");

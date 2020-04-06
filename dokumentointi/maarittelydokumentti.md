@@ -33,29 +33,32 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 ## Käyttöliittymäluonnos
 
 - Kirjautumisnäkymä
-  - ANNA TUNNUS
-  - viesti jos epäonnistuu
+  - ANNA TUNNUS - tekstikenttä TEHTY
+  - viesti jos epäonnistuu TEHTY
 - Aloitusikkuna
-  - TILAUKSEN SISÄÄNKIRJAUS
-    - (anna koodi tai luo uusi koodi)
-    - viesti onnistumisesta/epäonnistumisesta
-    - näyttää tilauksen seurantahistorian jos sitä on
-  - MERKITSE TYÖVAIHE
-    - (anna koodi ja valitse työvaihe sekä työntekijä)
-    - viesti onnistumisesta/epäonnistumisesta
-  - TILAUKSEN ULOSKIRJAUS
-    - (anna koodi ja valitse toimitustapa)
-    - viesti onnistumisesta/epäonnistumisesta
-  - HAE TILAUS
-    - (anna koodi tai päivämäärä)
-    - viesti onnistumisesta/epäonnistumisesta
-    - näyttää tilauksen seurantahistorian jos haettiin koodilla
+  - LUO UUSI TILAUS
+    - (anna koodi) -tekstikenttä TEHTY
+    - viesti onnistumisesta/epäonnistumisesta TEHTY
+    - jos tilaus on jo olemassa, antaa virheilmoituksen ja näyttää napin, joka klikatessa siirtää tiedot työvaiheen merkintäikkunaan ja valinta "sisäänkirjaus" on valittuna TEHTY
+  - LISÄÄ TYÖVAIHE
+    - (anna koodi ja työntekijä) - tekstikentät TEHTY
+    - ruutuvalinta: uloskirjaus tai uusi sisäänkirjaus - muuttaa tekstikenttää TEHTY
+    - uloskirjaus-valinta antaa valittavaksi käytettävän lähettipalvelun TEHTY
+    - viesti onnistumisesta/epäonnistumisesta TEHTY
+  - TILAUKSEN ULOSKIRJAUS (liitetty työvaiheen merkintään)
+    - (anna koodi ja valitse toimitustapa) - tekstikentät TEHTY
+    - viesti onnistumisesta/epäonnistumisesta TEHTY
+  - ETSI TILAUS KOODILLA
+    - (anna koodi) TEHTY
+    - viesti onnistumisesta/epäonnistumisesta TEHTY
+    - näyttää tilauksen seurantahistorian TEHTY
+  - ETSI TILAUKSET PÄIVÄMÄÄRÄLLÄ
     - näyttää päivän aikana käsitellyt tilaukset (koodit) jos haettiin päivämäärällä
 - Työnjohtajaikkuna
   - näyttää automaattisesti tilastokäppyrän kuukauden sisäänkirjatuista työmääristä päiväkohtaisesti
   - LUO TUNNUS
-    - (anna tunnus ja valitse käyttäjäryhmä)
-    - viesti onnistumisesta/epäonnistumisesta
+    - (anna tunnus ja valitse käyttäjäryhmä) - tekestikentät TEHTY
+    - viesti onnistumisesta/epäonnistumisesta TEHTY
     
     
 ## Jatkokehitysideat harjoitustyöhön

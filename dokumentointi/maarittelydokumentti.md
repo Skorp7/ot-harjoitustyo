@@ -11,22 +11,22 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 ## Perusversion toiminnallisuus
 
 - Ennen kirjautumista
-  - Käyttäjä voi kirjautua sisään
-  - Virheellinen tunnus aiheuttaa virheviestin
+  - Käyttäjä voi kirjautua sisään TEHTY
+  - Virheellinen tunnus aiheuttaa virheviestin TEHTY
 
 - Kirjautumisen jälkeen
 
   - Työntekijät voivat:
-    - luoda tilauksia
-    - tehdä niihin työvaihemerkintöjä
-    - hakea seurantakoodilla tai päivämäärällä tilauksia tietokannasta
-    - tehdä tilauksen uloskirjauksen (tilaus poistuu tuotantotiloista mutta saattaa tulla takaisin)
+    - luoda tilauksia TEHTY
+    - tehdä niihin työvaihemerkintöjä TEHTY
+    - hakea seurantakoodilla (TEHTY) tai päivämäärällä tilauksia tietokannasta
+    - tehdä tilauksen uloskirjauksen (tilaus poistuu tuotantotiloista mutta saattaa tulla takaisin) TEHTY
 
   - Työnjohtajat voivat tämän lisäksi:
     - nähdä kuukausikohtaisia tilastoja tilauksista tilastonäkymässä
-    - luoda käyttäjätunnuksia ja määrittää tunnusten oikeudet
+    - luoda käyttäjätunnuksia ja määrittää tunnusten oikeudet TEHTY
   
-  - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet.
+  - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet. TEHTY
   
   - Perusversiossa ei ole toteutettu kirjautumisessa salasanatoimintoa vaan kirjautuminen tapahtuu pelkällä tunnuksella.
 

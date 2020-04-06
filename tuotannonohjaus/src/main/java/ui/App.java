@@ -180,6 +180,20 @@ public class App extends Application {
         seekOrderField.setSpacing(20);
         seekOrderField.setPadding(spaces);
         seekOrderField.getChildren().addAll(seekOrderTextField, seekOrderbtn, seekOrderFeedback);
+        
+        Button seekOrderDatebtn = new Button("Etsi tilaus");
+        seekOrderDatebtn.setDefaultButton(true);
+        Label seekOrderDateTitle = new Label("Anna päivämäärä muodossa 'vvvv-kk-pp'");
+        TextField seekOrderDateTextField = new TextField("");
+        seekOrderDateTextField.setPromptText("Anna päivämäärä");
+        seekOrderDateTextField.setMaxWidth(200);
+        Label seekOrderDateFeedback = new Label("feedback");
+                
+        // Seek Order by date field center
+        VBox seekOrderDateField = new VBox();
+        seekOrderDateField.setSpacing(20);
+        seekOrderDateField.setPadding(spaces);
+        seekOrderDateField.getChildren().addAll(seekOrderDateTitle, seekOrderDateTextField, seekOrderDatebtn, seekOrderDateFeedback);
 
         // AddEventField:
         Button addEventbtn = new Button("Lisää työvaihe");
@@ -258,6 +272,8 @@ public class App extends Application {
 
         // Table for showing seeking results
         TableView<WorkPhase> table = new TableView();
+        TableColumn codeCol = new TableColumn("Tilauskoodi");
+        codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         TableColumn timestampCol = new TableColumn("Aikaleima");
         timestampCol.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         TableColumn workphaseCol = new TableColumn("Työvaihe");
@@ -266,11 +282,12 @@ public class App extends Application {
         infoCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         TableColumn usrCol = new TableColumn("Työntekijä");
         usrCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        codeCol.setMinWidth(150);
         timestampCol.setMinWidth(150);
         workphaseCol.setMinWidth(150);
         infoCol.setMinWidth(200);
         usrCol.setMinWidth(100);
-        table.getColumns().addAll(timestampCol, workphaseCol, usrCol, infoCol);
+        table.getColumns().addAll(codeCol, timestampCol, workphaseCol, usrCol, infoCol);
         VBox tablebox = new VBox();
         tablebox.setPrefHeight(300);
         tablebox.setPadding(spaces);
@@ -391,7 +408,7 @@ public class App extends Application {
             addOrderFeedback.setText("");
         });
 
-        // Show order seeking wiew
+        // Show order seeking (by code) wiew
         seekbtnCode.setOnAction(event -> {
             workwindow.setCenter(seekOrderField);
             workwindow.setBottom(emptybox2);
@@ -400,17 +417,45 @@ public class App extends Application {
             seekOrderFeedback.setTextFill(Color.BLACK);
         });
 
+        // Show order seeking (by date) wiew
+        seekbtnDate.setOnAction(event -> {
+            workwindow.setCenter(seekOrderDateField);
+            workwindow.setBottom(emptybox2);
+            seekOrderDateTextField.setText("");
+            seekOrderDateFeedback.setText("");
+            seekOrderDateFeedback.setTextFill(Color.BLACK);
+        });
+
         // Check if order exists and then get the order info        
         seekOrderbtn.setOnAction(event -> {
             if (service.getOrder(seekOrderTextField.getText()) != null) {
-                seekOrderFeedback.setText("Tilaus löytyi.");
+                seekOrderFeedback.setText("Tilaus koodilla '"+ seekOrderTextField.getText() + "' löytyi.");
                 seekOrderFeedback.setTextFill(Color.GREEN);
                 table.setItems(service.getOrderInfo(seekOrderTextField.getText()));
+                codeCol.setVisible(false);
                 workwindow.setBottom(tablebox);
             } else {
-                seekOrderFeedback.setText("Tilausta ei löytynyt UI.");
+                seekOrderFeedback.setText("Tilausta ei löytynyt.");
                 workwindow.setBottom(emptybox2);
                 seekOrderFeedback.setTextFill(Color.RED);
+            }
+        });
+        
+        seekOrderDatebtn.setOnAction(event -> {
+            if (seekOrderDateTextField.equals("")) {
+                seekOrderDateFeedback.setText("Päivämäärän muoto virheellinen.");
+                seekOrderDateFeedback.setTextFill(Color.RED);
+            } else {
+                if (service.getOrderInfoByDate(seekOrderDateTextField.getText()).isEmpty()) {
+                    seekOrderDateFeedback.setText("Tällä päivämäärällä ei löytynyt yhtään käsiteltyä tilausta.");
+                    seekOrderDateFeedback.setTextFill(Color.RED);
+                } else {
+                    table.setItems(service.getOrderInfoByDate(seekOrderDateTextField.getText()));
+                    codeCol.setVisible(true);
+                    workwindow.setBottom(tablebox);
+                    seekOrderDateFeedback.setText("Käsiteltyjä tilauksia löytyi.");
+                    seekOrderDateFeedback.setTextFill(Color.GREEN);
+                }
             }
         });
 
@@ -419,6 +464,7 @@ public class App extends Application {
             workwindow.setCenter(addEventField);
             workwindow.setBottom(emptybox2);
             logOutCheckBox.setSelected(false);
+            logAgainInCheckBox.setSelected(false);
             chooseCourier.setDisable(true);
             addEventCodeTextField.setText("");
             addEventTextField.setText("");
@@ -427,14 +473,15 @@ public class App extends Application {
             addEventFeedback.setTextFill(Color.BLACK);
         });
         
+        // Show workphase creation wiew when coming from 'Add order' wiew:
         addOldOrderbtn.setOnAction(event -> {
+            addOldOrderbtn.setVisible(false);
             workwindow.setCenter(addEventField);
             workwindow.setBottom(emptybox2);
             logOutCheckBox.setSelected(false);
             logAgainInCheckBox.fire();
             chooseCourier.setDisable(true);
             addEventCodeTextField.setText(addOrderTextField.getText());
-//          addEventTextField.setText("");
             addEventDescTextField.setText("");
             addEventFeedback.setText("");
             addEventFeedback.setTextFill(Color.BLACK);
@@ -462,22 +509,32 @@ public class App extends Application {
                 chooseCourier.setDisable(true);
             }
         });
-        // Check if order exists and then add workphase
+        
+        // When textfields are active, make changes to the fields and checkboxes
+        addEventTextField.setOnKeyTyped(event -> {
+            logOutCheckBox.setSelected(false);
+            logAgainInCheckBox.setSelected(false);
+            chooseCourier.setDisable(true);
+            addEventFeedback.setText("");
+        });
+        
+        addEventCodeTextField.setOnKeyTyped(event -> addEventFeedback.setText(""));
+        addEventDescTextField.setOnKeyTyped(event -> addEventFeedback.setText(""));
+
+        // Check if order exists and then add workphase.
         addEventbtn.setOnAction(event -> {
             String description = addEventDescTextField.getText();
-
             if (logOutCheckBox.isSelected()) {
                 description = groupCourier.getSelectedToggle().getUserData().toString();
             }
-
             if (service.getOrder(addEventCodeTextField.getText()) == null) {
-                addEventFeedback.setText("Tilausnumeroa ei löydy, ei voi lisätä työvaihetta. UI");
+                addEventFeedback.setText("Tilausnumeroa ei löydy, ei voi lisätä työvaihetta.");
                 addEventFeedback.setTextFill(Color.RED);
             } else if (service.addEvent(addEventTextField.getText(), addEventCodeTextField.getText(), description, loginfieldtext.getText())) {
-                addEventFeedback.setText("Työvaihe lisätty.UI");
+                addEventFeedback.setText("Työvaihe lisätty tilauskoodille '" + addEventCodeTextField.getText() + "'.");
                 addEventFeedback.setTextFill(Color.GREEN);
             } else {
-                addEventFeedback.setText("Työvaiheen lisäämien ei onnistunut. UI");
+                addEventFeedback.setText("Työvaiheen lisäämien ei onnistunut.");
                 addEventFeedback.setTextFill(Color.RED);
             }
         });

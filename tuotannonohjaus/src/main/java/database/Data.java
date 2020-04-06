@@ -40,6 +40,8 @@ public interface Data {
     
     ArrayList<WorkPhase> getOrderInfo(String code);
     
+    ArrayList<WorkPhase> getOrderInfoByDate(String date);
+    
     
     // Event actions
     

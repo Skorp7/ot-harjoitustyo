@@ -180,14 +180,13 @@ public class DataSql implements Data {
     public ArrayList<WorkPhase> getOrderInfo(String code) {
         ArrayList<WorkPhase> events = new ArrayList<>();
         try {
-            // First select the registration time for the order code
-            PreparedStatement pp = this.dbCon.prepareStatement("SELECT O.timestamp, U.name FROM Orders O LEFT JOIN Users U ON U.id == O.usr_id WHERE O.code=?");
-
-            pp.setString(1, code);
-            ResultSet r = pp.executeQuery();
-            WorkPhase registration = new WorkPhase(r.getString("timestamp"), "registration", code, r.getString("name"), "");
-            events.add(registration);
-//            System.out.println(r.getString("timestamp") + "registration" + code + r.getString("name"));
+//            // First select the registration time for the order code
+//            PreparedStatement pp = this.dbCon.prepareStatement("SELECT O.timestamp, U.name FROM Orders O LEFT JOIN Users U ON U.id == O.usr_id WHERE O.code=?");
+//
+//            pp.setString(1, code);
+//            ResultSet r = pp.executeQuery();
+//            WorkPhase registration = new WorkPhase(r.getString("timestamp"), "registration", code, r.getString("name"), "");
+//            events.add(registration);
 
             // Then select all the events for this order code
             PreparedStatement p = this.dbCon.prepareStatement("SELECT E.workphase, E.description, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE code=?");
@@ -201,12 +200,28 @@ public class DataSql implements Data {
                 events.add(event);
             }
         } catch (SQLException e) {
- //           System.out.println("Yhteyttä tietokantaan ei löydy.(code exist)");
             System.out.println(e.getMessage());
         }
-//        if (events.isEmpty()) {
-//            System.out.println("tyhjä lista");
-//        }
+        return events;
+    }
+    
+    
+    @Override
+    public ArrayList<WorkPhase> getOrderInfoByDate(String date) {
+        ArrayList<WorkPhase> events = new ArrayList<>();
+        try {
+            PreparedStatement p = this.dbCon.prepareStatement("SELECT E.workphase, E.description, E.code, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE date(E.timestamp)=? GROUP BY E.code ORDER BY E.timestamp");
+            p.setString(1, date);
+            ResultSet rr = p.executeQuery();
+            // Create a Workphase object from sql data
+            while (rr.next()) {
+                WorkPhase event = new WorkPhase(rr.getString("timestamp"), rr.getString("workphase"), rr.getString("code"), rr.getString("name"), rr.getString("description"));
+                System.out.println(rr.getString("timestamp") + " , " + rr.getString("workphase") + " , " + rr.getString("code") + " , " + rr.getString("description") + " , " + rr.getString("name"));
+                events.add(event);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
         return events;
     }
 

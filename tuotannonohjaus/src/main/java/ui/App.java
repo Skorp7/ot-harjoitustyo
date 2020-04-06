@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -9,11 +9,9 @@ package UI;
  *
  * @author sakorpi
  */
-
-import Database.*;
-import Domain.*;
+import domain.WorkPhase;
+import domain.Service;
 import java.sql.SQLException;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,22 +23,20 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
 
-
 public class App extends Application {
 
     @Override
     public void start(Stage win) throws SQLException {
-        
+
         // Create app service:
         Service service = new Service();
-        
+
         // Create window components
         BorderPane mainwindow = new BorderPane();
         BorderPane workwindow = new BorderPane();
         VBox topBox = new VBox();
-        Insets spaces = new Insets(20,40,40,40);
+        Insets spaces = new Insets(20, 40, 40, 40);
 
-        
         // Create login field:
         VBox loginfield = new VBox();
         Button loginbtn = new Button("Kirjaudu");
@@ -50,10 +46,10 @@ public class App extends Application {
         Label logintext = new Label("Kirjaudu sisään:");
         Label feedbacktext = new Label("");
         loginfield.getChildren().addAll(logintext, loginfieldtext, loginbtn, feedbacktext);
-       // loginfield.setPrefSize(200, 400);
+        // loginfield.setPrefSize(200, 400);
         loginfield.setSpacing(10);
         loginfield.setPadding(spaces);
-        
+
         // Create topic field:
         VBox welcomefield = new VBox();
         Label welcometext = new Label("Tuotannonohjaus DICIP");
@@ -63,15 +59,14 @@ public class App extends Application {
         welcomefield.setSpacing(20);
         welcomefield.setAlignment(Pos.CENTER);
         welcomefield.autosize();
-        
+
         welcometext.setPadding(spaces);
-        
+
         // Create bottom field:
         HBox bottomfield = new HBox();
         bottomfield.getChildren().add(formatbtn);
         bottomfield.setAlignment(Pos.CENTER);
         bottomfield.setPadding(spaces);
-
 
         // Create center field:
         VBox centerfield = new VBox();
@@ -81,13 +76,12 @@ public class App extends Application {
         centerfield.setPrefSize(200, 400);
         centerfield.setMinHeight(400);
         centerfield.setSpacing(20);
-        
+
         // Create adminstrative fields:
         // Controlfield:
         HBox adminFieldTop = new HBox();
         Button addUserbtn2 = new Button("Lisää käyttäjä");
         adminFieldTop.getChildren().add(addUserbtn2);
-        
 
         // AddUserField:
         Button addUserbtn = new Button("Lisää käyttäjä");
@@ -95,7 +89,7 @@ public class App extends Application {
         addUserTextField.setPromptText("Anna tunnus");
         addUserTextField.setMaxWidth(200);
         Label addUserFeedback = new Label("feedback");
-        
+
         // Radio buttons for status choise:
         final ToggleGroup group = new ToggleGroup();
         RadioButton rb1 = new RadioButton("Työntekjä");
@@ -103,7 +97,7 @@ public class App extends Application {
         rb1.setSelected(true);
         RadioButton rb2 = new RadioButton("Työnjohtaja");
         rb2.setToggleGroup(group);
-        
+
         // Empty field center
         VBox emptybox = new VBox();
         emptybox.setPrefSize(200, 400);
@@ -111,7 +105,7 @@ public class App extends Application {
         VBox emptybox2 = new VBox();
         emptybox.setPrefSize(200, 400);
         emptybox.setSpacing(20);
-        
+
         // Admin field right
         Label righttext = new Label("Plaaplaaplaapalapa");
         VBox adminFieldRight = new VBox();
@@ -124,7 +118,7 @@ public class App extends Application {
         adminField.setSpacing(20);
         adminField.setPadding(spaces);
         adminField.getChildren().addAll(adminFieldTop, addUserTextField, rb1, rb2, addUserbtn, addUserFeedback);
-  
+
         // Create left field in workwindow:
         VBox leftfield = new VBox();
         Label lefttext = new Label("leftTEXT plaaplaplaaplaa");
@@ -137,14 +131,14 @@ public class App extends Application {
         leftfield.setPrefSize(200, 400);
         leftfield.setSpacing(20);
         leftfield.setPadding(spaces);
-        
+
         // Create workfield center
         VBox workField = new VBox();
         workField.setSpacing(10);
         workField.setPrefWidth(400);
         Label workLabel = new Label("TÄHÄN TULEE TEKSTIÄ");
         workField.getChildren().add(workLabel);
-        
+
         // Workfield right
         Label rightText = new Label("WORKWIEW RIGHT");
         Button seekbtnCode = new Button("Etsi tilaus koodilla");
@@ -156,7 +150,7 @@ public class App extends Application {
         workFieldRight.setSpacing(20);
         workFieldRight.setPadding(spaces);
         workFieldRight.getChildren().addAll(rightText, createOrder, createPhase, seekbtnCode, seekbtnDate);
-        
+
         // AddOrderField:
         Button addOrderbtn = new Button("Lisää tilaus");
         addOrderbtn.setDefaultButton(true);
@@ -170,8 +164,8 @@ public class App extends Application {
         addOrderField.setSpacing(20);
         addOrderField.setPadding(spaces);
         addOrderField.getChildren().addAll(addOrderTextField, addOrderbtn, addOrderFeedback);
-        
-         // Seek order field:
+
+        // Seek order field:
         Button seekOrderbtn = new Button("Etsi tilaus");
         seekOrderbtn.setDefaultButton(true);
         TextField seekOrderTextField = new TextField("");
@@ -184,7 +178,7 @@ public class App extends Application {
         seekOrderField.setSpacing(20);
         seekOrderField.setPadding(spaces);
         seekOrderField.getChildren().addAll(seekOrderTextField, seekOrderbtn, seekOrderFeedback);
-        
+
         // AddEventField:
         Button addEventbtn = new Button("Lisää työvaihe");
         addEventbtn.setDefaultButton(true);
@@ -200,15 +194,15 @@ public class App extends Application {
         CheckBox logOutCheckBox = new CheckBox("LogOut");
         logOutCheckBox.setText("Uloskirjaus");
         chooseWorkphase.getChildren().addAll(addEventTextField, logOutCheckBox);
-        
+
         TextField addEventDescTextField = new TextField("");
         addEventDescTextField.setPromptText("(Anna lisätietoja)");
         addEventDescTextField.setMaxWidth(200);
-        
+
         // HBox for choose the courier when logout is selected
         HBox chooseCourier = new HBox();
         chooseCourier.setSpacing(20);
-        
+
         final ToggleGroup groupCourier = new ToggleGroup();
         RadioButton cb1 = new RadioButton("Oma lähetti");
         cb1.setToggleGroup(groupCourier);
@@ -245,22 +239,18 @@ public class App extends Application {
         workwindow.setLeft(leftfield);
         topBox.setAlignment(Pos.CENTER);
 
-        
-        
         // Create begin wiew:
         mainwindow.setBottom(bottomfield);
         mainwindow.setRight(loginfield);
         mainwindow.setCenter(centerfield);
         mainwindow.setTop(welcomefield);
-        
-        
+
         Scene beginScene = new Scene(mainwindow, 940, 680);
         Scene workScene = new Scene(workwindow, 940, 680);
         win.setScene(beginScene);
         win.setTitle("DICIP");
         win.show();
-        
-        
+
         // Table for showing seeking results
         TableView<WorkPhase> table = new TableView();
         TableColumn timestampCol = new TableColumn("Aikaleima");
@@ -284,48 +274,44 @@ public class App extends Application {
 //        columnOne.setCellValueFactory(c -> new SimpleStringProperty(new String("123")));
 //        columnTwo.setCellValueFactory(c -> new SimpleStringProperty(new String("456")));
 
-       // table.getItems().addAll("Column one's data", "Column two's data");
-
-        
-        
+        // table.getItems().addAll("Column one's data", "Column two's data");
         // Create functions for buttons:
         // Check if inserted name is correct and then log in
         loginbtn.setOnAction(event -> {
-                if (service.login(loginfieldtext.getText())) {
-                    feedbacktext.setText("Käyttäjä löytyi");
-                    feedbacktext.setTextFill(Color.GREEN);
-                    win.setScene(workScene);
-                    orderbtn.fire();
-                    if (service.getUserStatus(loginfieldtext.getText())) {
-                        System.out.println(service.getUserStatus(loginfieldtext.getText()));
-                        adminbtn.setDisable(false);
-                    } else {
-                        adminbtn.setDisable(true);
-                    }
+            if (service.getUser(loginfieldtext.getText()) != null) {
+                feedbacktext.setText("Käyttäjä löytyi");
+                feedbacktext.setTextFill(Color.GREEN);
+                win.setScene(workScene);
+                orderbtn.fire();
+                if (service.getUser(loginfieldtext.getText()).getStatus() == 1) {
+                    adminbtn.setDisable(false);
                 } else {
-                    feedbacktext.setText("Käyttäjää ei löytynyt.");
-                    feedbacktext.setTextFill(Color.RED);
+                    adminbtn.setDisable(true);
                 }
+            } else {
+                feedbacktext.setText("Käyttäjää ei löytynyt.");
+                feedbacktext.setTextFill(Color.RED);
+            }
         });
-        
+
         // Format the database if not formated before
         formatbtn.setOnAction(event -> {
-                if (service.checkDatabase()) {
-                    feedbacktext.setText("Tietokanta alustettu nyt");
-                    feedbacktext.setTextFill(Color.GREEN);
-                } else {
-                    feedbacktext.setText("Alustus on jo tehty");
-                    feedbacktext.setTextFill(Color.BLACK);
-                }
-        }); 
-        
+            if (service.checkDatabase()) {
+                feedbacktext.setText("Tietokanta alustettu nyt");
+                feedbacktext.setTextFill(Color.GREEN);
+            } else {
+                feedbacktext.setText("Alustus on jo tehty");
+                feedbacktext.setTextFill(Color.BLACK);
+            }
+        });
+
         // Show order wiew with buttons
         orderbtn.setOnAction(event -> {
             workwindow.setCenter(workField);
             workwindow.setRight(workFieldRight);
             workwindow.setBottom(emptybox2);
         });
-        
+
         // Go back to the start wiew      
         backbtn.setOnAction(event -> {
             workwindow.setCenter(emptybox);
@@ -333,7 +319,7 @@ public class App extends Application {
             workwindow.setBottom(emptybox2);
             feedbacktext.setText("");
         });
-        
+
         // Show admin wiew
         adminbtn.setOnAction(event -> {
             workwindow.setCenter(adminField);
@@ -343,7 +329,7 @@ public class App extends Application {
             addUserFeedback.setText("");
             rb1.setSelected(true);
         });
-        
+
         // Check if the username is already taken or too short, then add user
         addUserbtn.setOnAction(event -> {
             if (service.login(addUserTextField.getText())) {
@@ -369,7 +355,7 @@ public class App extends Application {
                 }
             }
         });
-        
+
         // Show create order wiew
         createOrder.setOnAction(event -> {
             workwindow.setCenter(addOrderField);
@@ -378,11 +364,11 @@ public class App extends Application {
             addOrderFeedback.setText("");
             addOrderFeedback.setTextFill(Color.BLACK);
         });
-        
+
         // Check if the given order code is alrady taken, then add order        
         addOrderbtn.setOnAction(event -> {
-            if (service.orderExists(addOrderTextField.getText())) {
-                addOrderFeedback.setText("Tilausnumero on jo käytössä. \n Jos jo uloskirjattu tilaus on tulossa takaisin sisään,\n käytä toimintoa 'lisää työvaihe'.");
+            if (service.getOrder(addOrderTextField.getText()) != null) {
+                addOrderFeedback.setText("Tilausnumero on jo käytössä. \n Jos jo uloskirjattu tilaus on tulossa takaisin sisään,\n käytä toimintoa 'Lisää työvaihe'.");
                 addOrderFeedback.setTextFill(Color.RED);
             } else if (service.addOrder(addOrderTextField.getText(), loginfieldtext.getText())) {
                 addOrderFeedback.setText("Tilaus lisätty.");
@@ -392,7 +378,7 @@ public class App extends Application {
                 addOrderFeedback.setTextFill(Color.RED);
             }
         });
-       
+
         // Show order seeking wiew
         seekbtnCode.setOnAction(event -> {
             workwindow.setCenter(seekOrderField);
@@ -401,20 +387,20 @@ public class App extends Application {
             seekOrderFeedback.setText("");
             seekOrderFeedback.setTextFill(Color.BLACK);
         });
-        
+
         // Check if order exists and then get the order info        
         seekOrderbtn.setOnAction(event -> {
-             if (service.orderExists(seekOrderTextField.getText())) {
-                 seekOrderFeedback.setText("Tilaus löytyi.");
-                 seekOrderFeedback.setTextFill(Color.GREEN);
-                 table.setItems(service.getOrder(seekOrderTextField.getText()));
-                 workwindow.setBottom(tablebox);
+            if (service.getOrder(seekOrderTextField.getText()) != null) {
+                seekOrderFeedback.setText("Tilaus löytyi.");
+                seekOrderFeedback.setTextFill(Color.GREEN);
+                table.setItems(service.getOrderInfo(seekOrderTextField.getText()));
+                workwindow.setBottom(tablebox);
             } else {
                 seekOrderFeedback.setText("Tilausta ei löytynyt UI.");
                 seekOrderFeedback.setTextFill(Color.RED);
             }
         });
-        
+
         // Show workphase creating wiew
         createPhase.setOnAction(event -> {
             workwindow.setCenter(addEventField);
@@ -427,28 +413,28 @@ public class App extends Application {
             addEventFeedback.setText("");
             addEventFeedback.setTextFill(Color.BLACK);
         });
-        
+
         logOutCheckBox.setOnAction(event -> {
-                    if (logOutCheckBox.isSelected()) {
-                        addEventTextField.setText("Uloskirjaus");
-                        chooseCourier.setDisable(false);
-                    } else {
-                        addEventTextField.setText("");
-                        chooseCourier.setDisable(true);
-                    }
+            if (logOutCheckBox.isSelected()) {
+                addEventTextField.setText("Uloskirjaus");
+                chooseCourier.setDisable(false);
+            } else {
+                addEventTextField.setText("");
+                chooseCourier.setDisable(true);
+            }
         });
         // Check if order exists and then add workphase
         addEventbtn.setOnAction(event -> {
             String description = addEventDescTextField.getText();
-            
+
             if (logOutCheckBox.isSelected()) {
                 description = groupCourier.getSelectedToggle().getUserData().toString();
             }
-            
-            if (!service.orderExists(addEventCodeTextField.getText())) {
+
+            if (service.getOrder(addEventCodeTextField.getText()) == null) {
                 addEventFeedback.setText("Tilausnumeroa ei löydy, ei voi lisätä työvaihetta. UI");
                 addEventFeedback.setTextFill(Color.RED);
-            } else if (service.addEvent(addEventTextField.getText(),addEventCodeTextField.getText(), description, loginfieldtext.getText())) {
+            } else if (service.addEvent(addEventTextField.getText(), addEventCodeTextField.getText(), description, loginfieldtext.getText())) {
                 addEventFeedback.setText("Työvaihe lisätty.UI");
                 addEventFeedback.setTextFill(Color.GREEN);
             } else {

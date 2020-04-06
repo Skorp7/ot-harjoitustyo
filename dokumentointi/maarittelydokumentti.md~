@@ -54,7 +54,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 - Työnjohtajaikkuna
   - näyttää automaattisesti tilastokäppyrän kuukauden sisäänkirjatuista työmääristä päiväkohtaisesti
   - LUO TUNNUS
-    - (anna tunnus ja valitse käyttäjäryhmä)
+    - (anna tunnus ja valitse pudotusvalikosta käyttäjäryhmä)
     - viesti onnistumisesta/epäonnistumisesta
     
     
@@ -68,9 +68,6 @@ Mahdollisia lisättäviä toiminnallisuuksia:
     - hae tilastot työntekijäkohtaisesti
   - työntekijälle lisätoiminnot:
     - poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä
-  - muut lisätoiminnot:
-  	- tilausnumeron automaattinen generointi
-  	- asiakastiedon liittäminen tilaukseen
     
 
 ## Jatkokehityksen tavoitteet lopulliseen sovellukseen

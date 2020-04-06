@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Domain;
+package domain;
 
 /**
  *
@@ -11,15 +11,15 @@ package Domain;
  */
 public class WorkPhase {
     private String workphase;
-    private String code;
-    private String name;
+    private String orderCode;
+    private String userName;
     private String description;
     private String timestamp;
     
     public WorkPhase(String timestamp, String workphase, String code, String name, String description) {
         this.workphase = workphase;
-        this.code = code;
-        this.name = name;
+        this.orderCode = code;
+        this.userName = name;
         this.description = description;
         this.timestamp = timestamp;
     }
@@ -29,11 +29,11 @@ public class WorkPhase {
     }
 
     public String getCode() {
-        return code;
+        return orderCode;
     }
 
     public String getName() {
-        return name;
+        return userName;
     }
 
     public String getDescription() {

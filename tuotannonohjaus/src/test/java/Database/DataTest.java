@@ -1,4 +1,4 @@
-package Tests;
+package Database;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,8 +6,9 @@ package Tests;
  * and open the template in the editor.
  */
 
-import Database.Data;
-import Database.DataSql;
+import database.DataMap;
+import database.Data;
+import domain.User;
 import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -35,8 +36,9 @@ public class DataTest {
     }
     
     @Before
-    public void setUp() {
-        this.databTest = new DataSql();
+    public void setUp() {  
+        // Change here if you want to test the real SQL-database or a fake database "DataMap" which is based on ArrayLists.
+        this.databTest = new DataMap();
         this.databTest.format();
     }
     
@@ -52,12 +54,12 @@ public class DataTest {
      
      @Test
      public void adminExistsAtBeginning() throws SQLException{
-         assertTrue(databTest.userExists("admin"));
+         assertTrue(databTest.getUser("admin") != null);
      }
      
      @Test
      public void statusIsCorrect() throws SQLException {
-         databTest.addUser("TestiKayttaja", 0);
-         assertFalse(databTest.getUserStatus("TestiKayttaja"));
+         databTest.addUser(new User("TestiKayttaja", 0));
+         assertTrue(databTest.getUser("TestiKayttaja").getStatus() == 0);
      }
 }

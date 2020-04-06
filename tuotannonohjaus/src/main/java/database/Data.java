@@ -1,6 +1,8 @@
-package Database;
+package database;
 
-import Domain.*;
+import domain.WorkPhase;
+import domain.User;
+import domain.Order;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
 
@@ -23,28 +25,25 @@ public interface Data {
     
     // User actions:
     
-    boolean userExists(String name);
+    User getUser(String name);
     
-    // 0 = normal user, 1 = superuser
-    boolean getUserStatus(String name);
-    
-    boolean addUser(String name, int status);
+    boolean addUser(User user);
     
     boolean removeUser(String name);
 
     
     // Order actions:
     
-    boolean addOrder(String code, String name);
+    boolean addOrder(Order order);
     
-    boolean orderExists(String code);
+    Order getOrder(String code);
     
-    ArrayList<WorkPhase> getOrder(String code);
+    ArrayList<WorkPhase> getOrderInfo(String code);
     
     
     // Event actions
     
-    boolean addEvent(String workphase, String code, String descr, String name);
+    boolean addEvent(WorkPhase event);
     
      
      

@@ -19,7 +19,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
   - Työntekijät voivat:
     - luoda tilauksia TEHTY
     - tehdä niihin työvaihemerkintöjä TEHTY
-    - hakea seurantakoodilla (TEHTY) tai päivämäärällä tilauksia tietokannasta
+    - hakea seurantakoodilla tai päivämäärällä tilauksia tietokannasta TEHTY
     - tehdä tilauksen uloskirjauksen (tilaus poistuu tuotantotiloista mutta saattaa tulla takaisin) TEHTY
 
   - Työnjohtajat voivat tämän lisäksi:
@@ -53,7 +53,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - viesti onnistumisesta/epäonnistumisesta TEHTY
     - näyttää tilauksen seurantahistorian TEHTY
   - ETSI TILAUKSET PÄIVÄMÄÄRÄLLÄ
-    - näyttää päivän aikana käsitellyt tilaukset (koodit) jos haettiin päivämäärällä
+    - näyttää päivän aikana käsiteltyjen tilausten edellisen työvaiheen jos haettiin päivämäärällä TEHTY
 - Työnjohtajaikkuna
   - näyttää automaattisesti tilastokäppyrän kuukauden sisäänkirjatuista työmääristä päiväkohtaisesti
   - LUO TUNNUS

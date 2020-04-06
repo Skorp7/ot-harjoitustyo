@@ -27,5 +27,5 @@ Raportin saa nähtäväksi avaamalla selaimella tiedoston target/site/jacoco/ind
 
 Sovelluksen saa käynnistettyä yliopiston Cubbli-linux koneilla siitä kansiosta jossa pom.xml sijaitsee
 ```
-mvn compile exec:java -Dexec.mainClass=UI.MainProg
+mvn compile exec:java -Dexec.mainClass=ui.MainProg
 ```

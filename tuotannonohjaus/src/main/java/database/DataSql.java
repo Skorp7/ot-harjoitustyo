@@ -187,7 +187,7 @@ public class DataSql implements Data {
             ResultSet r = pp.executeQuery();
             WorkPhase registration = new WorkPhase(r.getString("timestamp"), "registration", code, r.getString("name"), "");
             events.add(registration);
-            System.out.println(r.getString("timestamp") + "registration" + code + r.getString("name"));
+//            System.out.println(r.getString("timestamp") + "registration" + code + r.getString("name"));
 
             // Then select all the events for this order code
             PreparedStatement p = this.dbCon.prepareStatement("SELECT E.workphase, E.description, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE code=?");
@@ -197,16 +197,16 @@ public class DataSql implements Data {
             // Create a Workphase object from sql data
             while (rr.next()) {
                 WorkPhase event = new WorkPhase(rr.getString("timestamp"), rr.getString("workphase"), code, rr.getString("name"), rr.getString("description"));
-                System.out.println(rr.getString("timestamp") + " , " + rr.getString("workphase") + " , " + rr.getString("description") + " , " + rr.getString("name"));
+//                System.out.println(rr.getString("timestamp") + " , " + rr.getString("workphase") + " , " + rr.getString("description") + " , " + rr.getString("name"));
                 events.add(event);
             }
         } catch (SQLException e) {
-            System.out.println("Yhteyttä tietokantaan ei löydy.(code exist)");
+ //           System.out.println("Yhteyttä tietokantaan ei löydy.(code exist)");
             System.out.println(e.getMessage());
         }
-        if (events.isEmpty()) {
-            System.out.println("tyhjä lista");
-        }
+//        if (events.isEmpty()) {
+//            System.out.println("tyhjä lista");
+//        }
         return events;
     }
 

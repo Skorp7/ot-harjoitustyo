@@ -158,12 +158,14 @@ public class App extends Application {
         addOrderTextField.setPromptText("Luo tilauskoodi");
         addOrderTextField.setMaxWidth(200);
         Label addOrderFeedback = new Label("feedback");
+        Button addOldOrderbtn = new Button("Kirjaa olemassa oleva tilaus uudelleen sisään");
+        addOldOrderbtn.setVisible(false);
 
         // Add Order field center
         VBox addOrderField = new VBox();
         addOrderField.setSpacing(20);
         addOrderField.setPadding(spaces);
-        addOrderField.getChildren().addAll(addOrderTextField, addOrderbtn, addOrderFeedback);
+        addOrderField.getChildren().addAll(addOrderTextField, addOrderbtn, addOrderFeedback, addOldOrderbtn);
 
         // Seek order field:
         Button seekOrderbtn = new Button("Etsi tilaus");
@@ -188,12 +190,15 @@ public class App extends Application {
         // HBox for selecting the workphase:
         HBox chooseWorkphase = new HBox();
         chooseWorkphase.setSpacing(20);
+        chooseWorkphase.setAlignment(Pos.CENTER);
         TextField addEventTextField = new TextField("");
         addEventTextField.setPromptText("Anna työvaihe");
         addEventTextField.setMaxWidth(200);
         CheckBox logOutCheckBox = new CheckBox("LogOut");
         logOutCheckBox.setText("Uloskirjaus");
-        chooseWorkphase.getChildren().addAll(addEventTextField, logOutCheckBox);
+        CheckBox logAgainInCheckBox = new CheckBox("LogAgainIn");
+        logAgainInCheckBox.setText("Sisäänkirjaus\n(vanha tilaus)");
+        chooseWorkphase.getChildren().addAll(addEventTextField, logOutCheckBox, logAgainInCheckBox);
 
         TextField addEventDescTextField = new TextField("");
         addEventDescTextField.setPromptText("(Anna lisätietoja)");
@@ -245,8 +250,8 @@ public class App extends Application {
         mainwindow.setCenter(centerfield);
         mainwindow.setTop(welcomefield);
 
-        Scene beginScene = new Scene(mainwindow, 940, 680);
-        Scene workScene = new Scene(workwindow, 940, 680);
+        Scene beginScene = new Scene(mainwindow, 1000, 700);
+        Scene workScene = new Scene(workwindow, 1000, 700);
         win.setScene(beginScene);
         win.setTitle("DICIP");
         win.show();
@@ -368,8 +373,9 @@ public class App extends Application {
         // Check if the given order code is alrady taken, then add order        
         addOrderbtn.setOnAction(event -> {
             if (service.getOrder(addOrderTextField.getText()) != null) {
-                addOrderFeedback.setText("Tilausnumero on jo käytössä. \n Jos jo uloskirjattu tilaus on tulossa takaisin sisään,\n käytä toimintoa 'Lisää työvaihe'.");
+                addOrderFeedback.setText(" Tilausnumero on jo käytössä. \n Jos jo uloskirjattu tilaus on tulossa takaisin sisään,\n kirjaa se sisään tästä:");
                 addOrderFeedback.setTextFill(Color.RED);
+                addOldOrderbtn.setVisible(true);
             } else if (service.addOrder(addOrderTextField.getText(), loginfieldtext.getText())) {
                 addOrderFeedback.setText("Tilaus lisätty.");
                 addOrderFeedback.setTextFill(Color.GREEN);
@@ -377,6 +383,12 @@ public class App extends Application {
                 addOrderFeedback.setText("Tilauksen lisäämien ei onnistunut.");
                 addOrderFeedback.setTextFill(Color.RED);
             }
+        });
+        
+        // When textfield is active when adding a new order name, hide the old order adding button
+        addOrderTextField.setOnKeyTyped(event -> {
+            addOldOrderbtn.setVisible(false);
+            addOrderFeedback.setText("");
         });
 
         // Show order seeking wiew
@@ -397,6 +409,7 @@ public class App extends Application {
                 workwindow.setBottom(tablebox);
             } else {
                 seekOrderFeedback.setText("Tilausta ei löytynyt UI.");
+                workwindow.setBottom(emptybox2);
                 seekOrderFeedback.setTextFill(Color.RED);
             }
         });
@@ -413,11 +426,37 @@ public class App extends Application {
             addEventFeedback.setText("");
             addEventFeedback.setTextFill(Color.BLACK);
         });
-
+        
+        addOldOrderbtn.setOnAction(event -> {
+            workwindow.setCenter(addEventField);
+            workwindow.setBottom(emptybox2);
+            logOutCheckBox.setSelected(false);
+            logAgainInCheckBox.fire();
+            chooseCourier.setDisable(true);
+            addEventCodeTextField.setText(addOrderTextField.getText());
+//          addEventTextField.setText("");
+            addEventDescTextField.setText("");
+            addEventFeedback.setText("");
+            addEventFeedback.setTextFill(Color.BLACK);
+        });
+        
+        
         logOutCheckBox.setOnAction(event -> {
             if (logOutCheckBox.isSelected()) {
                 addEventTextField.setText("Uloskirjaus");
                 chooseCourier.setDisable(false);
+                logAgainInCheckBox.setSelected(false);
+            } else {
+                addEventTextField.setText("");
+                chooseCourier.setDisable(true);
+            }
+        });
+        
+        logAgainInCheckBox.setOnAction(event -> {
+            if (logAgainInCheckBox.isSelected()) {
+                addEventTextField.setText("Uusi sisäänkirjaus");
+                chooseCourier.setDisable(true);
+                logOutCheckBox.setSelected(false);
             } else {
                 addEventTextField.setText("");
                 chooseCourier.setDisable(true);

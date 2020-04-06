@@ -26,7 +26,7 @@ public class Service {
     }
 
     public boolean login(String name) {
-        return this.getUser(name) != null;
+        return this.database.getUser(name) != null;
     }
 
     // try to format database, return false if can not format (most likely already formated)

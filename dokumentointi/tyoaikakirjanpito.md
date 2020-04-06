@@ -7,5 +7,5 @@
 | 25.3. |   10  | Käyttöliittymän ja ohjelmarakenteen koodausta, tilaustenentsimis-toiminto |
 | 30.3. |   1   | Pientä säätöä |
 | 2.4.  |   6   | Metodien muokkausta olioita käsitteleviksi, testien tekemistä olioille |
-| 6.4.  |   7   | Dokumenttien tekemistä ja toiminnot: etsintä koodilla ja vanhan tilauksen sisäänkirjaus |
+| 6.4.  |   7   | Dokumenttien tekemistä ja toiminnot: etsintä pvm:llä ja vanhan tilauksen sisäänkirjaus |
 |  |  32  | YHTEENSÄ |

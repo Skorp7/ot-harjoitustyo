@@ -1,16 +1,31 @@
-# Ohjelmistotekniikka
+# Tuotannonohjaus
 
-## Viikon 1 tehtävät
+Sovelluksella voi seurata hammaslaboratorion tuotantoa. Laboratorion työtahti on nopea ja tilaukset liikkuvat päivän aikana usean eri työntekijän käsissä eri tuotantotiloissa. Sovellus auttaa pitämään tilaukset järjestyksessä ja auttaa työnjohtajaa hahmottamaan kunkin työntekijän työmääriä. Seurantakoodin avulla näkee missä työvaiheessa tilaus on menossa tuotantoketjussa ja ketkä työntekijät ovat tehneet mitkä työvaiheet. Jos jostakin tilauksesta tulee palautetta, se on helppo näin kohdentaa oikealle työntekijälle.
 
-* [komentorivi.txt](https://github.com/Skorp7/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
-* [gitlog.txt](https://github.com/Skorp7/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 
-Testataan *kursivoinita* ja **lihavointia**.
-(testimuutos)
+## Dokumentaatio
 
-## Viikon 2 tehtävät
+* [Työaikakirjanpito](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+* [Vaatimusmäärittely](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
 
-* [kuvakaappaus_jacoco_report.png](https://github.com/Skorp7/ot-harjoitustyo/blob/master/laskarit/viikko2/kuvakaappaus_jacoco_report.png)
-* [JUnit testit](https://github.com/Skorp7/ot-harjoitustyo/blob/master/laskarit/viikko2/)
-* [tyoaikakirjanpito.md](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
-* [maarittelydokumentti.md](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
+## Komentorivitoiminnot
+
+### Testaus
+
+Testit suoritetaan komennolla
+```
+mvn test
+```
+
+Testikattavuusraportti saadaan luotua komennolla
+```
+mvn test jacoco:report
+```
+Raportin saa nähtäväksi avaamalla selaimella tiedoston target/site/jacoco/index.html
+
+### Käynnistys
+
+Sovelluksen saa käynnistettyä yliopiston Cubbli-linux koneilla siitä kansiosta jossa pom.xml sijaitsee
+```
+mvn compile exec:java -Dexec.mainClass=ui.MainProg
+```

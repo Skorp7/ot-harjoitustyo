@@ -442,7 +442,7 @@ public class App extends Application {
         });
         
         seekOrderDatebtn.setOnAction(event -> {
-            if (seekOrderDateTextField.equals("")) {
+            if (seekOrderDateTextField.getText().equals("")) {
                 seekOrderDateFeedback.setText("Päivämäärän muoto virheellinen.");
                 seekOrderDateFeedback.setTextFill(Color.RED);
             } else {

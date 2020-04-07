@@ -209,8 +209,9 @@ public class DataSql implements Data {
     @Override
     public ArrayList<WorkPhase> getOrderInfoByDate(String date) {
         ArrayList<WorkPhase> events = new ArrayList<>();
+        // First select the events with specific date and order them by date, then group by order code
         try {
-            PreparedStatement p = this.dbCon.prepareStatement("SELECT E.workphase, E.description, E.code, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE date(E.timestamp)=? GROUP BY E.code ORDER BY E.timestamp");
+            PreparedStatement p = this.dbCon.prepareStatement("SELECT * FROM (SELECT E.workphase, E.description, E.code, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE date(E.timestamp)=? ORDER BY E.timestamp DESC) AS S GROUP BY S.code");
             p.setString(1, date);
             ResultSet rr = p.executeQuery();
             // Create a Workphase object from sql data

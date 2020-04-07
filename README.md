@@ -10,6 +10,7 @@ Sovelluksella voi seurata hammaslaboratorion tuotantoa. Laboratorion työtahti o
 * [Arkkitehtuurikuvaus](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
 ## Komentorivitoiminnot
+Kommennot siitä kansiosta jossa pom.xml sijaitsee.
 
 ### Testaus
 
@@ -26,7 +27,15 @@ Raportin saa nähtäväksi avaamalla selaimella tiedoston target/site/jacoco/ind
 
 ### Käynnistys
 
-Sovelluksen saa käynnistettyä yliopiston Cubbli-linux koneilla siitä kansiosta jossa pom.xml sijaitsee
+Sovelluksen saa käynnistettyä yliopiston Cubbli-linux koneilla
 ```
 mvn compile exec:java -Dexec.mainClass=ui.MainProg
 ```
+
+### Checkstyle
+
+Checkstyle-tarkistukset saa ajettua komennolla
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+Raportin saa nähtäväksi avaamalla selaimella tiedoston target/site/checkstyle.html

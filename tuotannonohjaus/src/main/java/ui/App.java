@@ -382,6 +382,7 @@ public class App extends Application {
         createOrder.setOnAction(event -> {
             workwindow.setCenter(addOrderField);
             workwindow.setBottom(emptybox2);
+            addOldOrderbtn.setVisible(false);
             addOrderTextField.setText("");
             addOrderFeedback.setText("");
             addOrderFeedback.setTextFill(Color.BLACK);
@@ -466,6 +467,7 @@ public class App extends Application {
             logOutCheckBox.setSelected(false);
             logAgainInCheckBox.setSelected(false);
             chooseCourier.setDisable(true);
+            addEventDescTextField.setDisable(false);
             addEventCodeTextField.setText("");
             addEventTextField.setText("");
             addEventDescTextField.setText("");
@@ -475,11 +477,11 @@ public class App extends Application {
         
         // Show workphase creation wiew when coming from 'Add order' wiew:
         addOldOrderbtn.setOnAction(event -> {
-            addOldOrderbtn.setVisible(false);
             workwindow.setCenter(addEventField);
             workwindow.setBottom(emptybox2);
             logOutCheckBox.setSelected(false);
-            logAgainInCheckBox.fire();
+            logAgainInCheckBox.setSelected(false);
+            logAgainInCheckBox.fire();           
             chooseCourier.setDisable(true);
             addEventCodeTextField.setText(addOrderTextField.getText());
             addEventDescTextField.setText("");
@@ -487,15 +489,17 @@ public class App extends Application {
             addEventFeedback.setTextFill(Color.BLACK);
         });
         
-        
+      
         logOutCheckBox.setOnAction(event -> {
             if (logOutCheckBox.isSelected()) {
                 addEventTextField.setText("Uloskirjaus");
                 chooseCourier.setDisable(false);
                 logAgainInCheckBox.setSelected(false);
+                addEventDescTextField.setDisable(true);
             } else {
                 addEventTextField.setText("");
                 chooseCourier.setDisable(true);
+                addEventDescTextField.setDisable(false);
             }
         });
         
@@ -504,6 +508,7 @@ public class App extends Application {
                 addEventTextField.setText("Uusi sisäänkirjaus");
                 chooseCourier.setDisable(true);
                 logOutCheckBox.setSelected(false);
+                addEventDescTextField.setDisable(false);
             } else {
                 addEventTextField.setText("");
                 chooseCourier.setDisable(true);
@@ -514,6 +519,7 @@ public class App extends Application {
         addEventTextField.setOnKeyTyped(event -> {
             logOutCheckBox.setSelected(false);
             logAgainInCheckBox.setSelected(false);
+            addEventDescTextField.setDisable(false);
             chooseCourier.setDisable(true);
             addEventFeedback.setText("");
         });

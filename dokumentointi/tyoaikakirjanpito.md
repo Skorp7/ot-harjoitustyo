@@ -9,4 +9,5 @@
 | 2.4.  |   6   | Metodien muokkausta olioita käsitteleviksi, testien tekemistä olioille |
 | 6.4.  |   7   | Dokumenttien tekemistä ja toiminnot: etsintä pvm:llä ja vanhan tilauksen sisäänkirjaus |
 | 7.4.  |   1   | Pieniä korjauksia ed. toimintoihin |
-|  |  33  | YHTEENSÄ |
+| 9.4.  |   4   | SQL-yhteyden korjauksia ja testit toimimaan SQL:n kanssa |
+|  |  37  | YHTEENSÄ |

@@ -26,7 +26,10 @@ public class DataTest {
     Data databTest;
 
     public DataTest() {
+        // Change the database here to "new DataMap()" if you don't want to test with SQL
+        // This test uses it's own SQL-database file testi.db and does not mess up the file used by real app.
         this.databTest = new DataSql("jdbc:sqlite:testi.db");
+        // this.databTest = new DataMap();
         this.databTest.format();
     }
 

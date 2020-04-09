@@ -21,7 +21,8 @@ public interface Data {
     // Database actions:
         
     boolean format();
-
+    
+    void removeAllDataFromDatabase();
     
     // User actions:
     

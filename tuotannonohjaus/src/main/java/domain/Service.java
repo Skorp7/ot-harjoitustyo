@@ -5,10 +5,10 @@
  */
 package domain;
 
-import database.Data;
-import database.DataSql;
+import database.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,13 +19,20 @@ import javafx.collections.ObservableList;
 public class Service {
 
     private Data database;
+    private DateTimeFormatter formatter;
+    private User loggedIn;
 
-    public Service() {
+    public Service(Data database) {
         // Create database:
-        this.database = new DataSql();
+        this.database = database;
+        this.database.format();
+        this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
 
     public boolean login(String name) {
+        if (this.database.getUser(name) != null) {
+            this.loggedIn = this.getUser(name);
+        }
         return this.database.getUser(name) != null;
     }
 
@@ -35,6 +42,9 @@ public class Service {
     }
 
     public boolean addUser(String name, Integer status) {
+        if (this.database.getUser(name) != null) {
+            return false;
+        }
         User user = new User(name, status);
         return this.database.addUser(user);
     }
@@ -44,14 +54,18 @@ public class Service {
     }
 
     // Order functions
-    public boolean addOrder(String code, String userName) {
-        String timestamp = new Date().toString();
+    public boolean addOrder(String code, User user) {
+        LocalDateTime timestamp = LocalDateTime.now();
+        String modTimestamp = timestamp.format(this.formatter);
         Boolean succeed = false;
-        Order order = new Order(code, userName, timestamp);
+        Order order = new Order(code, user.getName(), modTimestamp);
+        if (this.database.getOrder(code) != null || this.database.getUser(user.getName()) == null) {
+            return false;
+        }
         if (this.database.addOrder(order)) {
             succeed = true;
         }
-        this.addEvent("Sisäänkirjaus", code, "", userName);
+        this.addEvent("Sisäänkirjaus", code, "", user);
         return succeed;
     }
 
@@ -72,11 +86,20 @@ public class Service {
     public Order getOrder(String code) {
         return this.database.getOrder(code);
     }
+    
+    public User getLoggedInUser() {
+        return this.loggedIn;
+    }
 
     // Event functions
-    public boolean addEvent(String workphase, String code, String descr, String name) {
-        String timestamp = new Date().toString();
-        WorkPhase event = new WorkPhase(timestamp, workphase, code, name, descr);
+    public boolean addEvent(String workphase, String code, String descr, User user) {
+        if (this.database.getOrder(code) == null || this.database.getUser(user.getName()) == null) {
+            return false;
+        }
+
+        LocalDateTime timestamp = LocalDateTime.now();
+        String modTimestamp = timestamp.format(this.formatter);
+        WorkPhase event = new WorkPhase(modTimestamp, workphase, code, user.getName(), descr);
         return this.database.addEvent(event);
     }
 }

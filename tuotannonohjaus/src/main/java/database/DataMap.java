@@ -73,9 +73,6 @@ public class DataMap implements Data {
     public ArrayList<WorkPhase> getOrderInfo(String code) {
         ArrayList<WorkPhase> phaseList = new ArrayList<>();
         Order order = this.getOrder(code);
-        WorkPhase registrationPhase = new WorkPhase(order.getTimeStamp(), "registration", code, order.getUserName(), "");
-        phaseList.add(registrationPhase);
-
         for (WorkPhase e : this.events) {
             if (e.getCode().equals(code)) {
                 phaseList.add(e);
@@ -92,6 +89,30 @@ public class DataMap implements Data {
 
     @Override
     public ArrayList<WorkPhase> getOrderInfoByDate(String date) {
+        ArrayList<WorkPhase> phaseList = new ArrayList<>();
+        ArrayList<WorkPhase> modPhaseList = new ArrayList<>();
+        // Select events by date
+        for (WorkPhase e : this.events) {
+            if (e.getTimestamp().contains(date)) {
+                phaseList.add(e);
+            }
+        }
+        // Events are saved in ascending order, so reverse it first and then 
+        // save codes into a list and check that every WP is added only once
+        Collections.reverse(phaseList);
+        ArrayList<String> codeList = new ArrayList<>();
+        for (WorkPhase e : phaseList) {
+            if (!codeList.contains(e.getCode())) {
+                modPhaseList.add(e);
+                codeList.add(e.getCode());
+            }
+        }
+        return modPhaseList;
+    }
+
+
+    @Override
+    public void removeAllDataFromDatabase() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

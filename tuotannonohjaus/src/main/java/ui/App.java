@@ -9,9 +9,11 @@ package ui;
  *
  * @author sakorpi
  */
+import database.DataSql;
 import domain.WorkPhase;
 import domain.Service;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,7 +31,7 @@ public class App extends Application {
     public void start(Stage win) throws SQLException {
 
         // Create app service:
-        Service service = new Service();
+        Service service = new Service(new DataSql("jdbc:sqlite:datafile.db"));
 
         // Create window components
         BorderPane mainwindow = new BorderPane();
@@ -181,19 +183,24 @@ public class App extends Application {
         seekOrderField.setPadding(spaces);
         seekOrderField.getChildren().addAll(seekOrderTextField, seekOrderbtn, seekOrderFeedback);
         
-        Button seekOrderDatebtn = new Button("Etsi tilaus");
+        HBox chooseDateBox = new HBox();
+        chooseDateBox.setSpacing(20);
+        chooseDateBox.setAlignment(Pos.CENTER_LEFT);
+        Button chooseTodaybtn = new Button("Tänään");
+        Button seekOrderDatebtn = new Button("Etsi tilaukset");
         seekOrderDatebtn.setDefaultButton(true);
         Label seekOrderDateTitle = new Label("Anna päivämäärä muodossa 'vvvv-kk-pp'");
         TextField seekOrderDateTextField = new TextField("");
         seekOrderDateTextField.setPromptText("Anna päivämäärä");
         seekOrderDateTextField.setMaxWidth(200);
         Label seekOrderDateFeedback = new Label("feedback");
+        chooseDateBox.getChildren().addAll(seekOrderDateTextField, chooseTodaybtn);
                 
         // Seek Order by date field center
         VBox seekOrderDateField = new VBox();
         seekOrderDateField.setSpacing(20);
         seekOrderDateField.setPadding(spaces);
-        seekOrderDateField.getChildren().addAll(seekOrderDateTitle, seekOrderDateTextField, seekOrderDatebtn, seekOrderDateFeedback);
+        seekOrderDateField.getChildren().addAll(seekOrderDateTitle, chooseDateBox, seekOrderDatebtn, seekOrderDateFeedback);
 
         // AddEventField:
         Button addEventbtn = new Button("Lisää työvaihe");
@@ -300,12 +307,12 @@ public class App extends Application {
         // Create functions for buttons:
         // Check if inserted name is correct and then log in
         loginbtn.setOnAction(event -> {
-            if (service.getUser(loginfieldtext.getText()) != null) {
+            if (service.login(loginfieldtext.getText())) {
                 feedbacktext.setText("Käyttäjä löytyi");
                 feedbacktext.setTextFill(Color.GREEN);
                 win.setScene(workScene);
                 orderbtn.fire();
-                if (service.getUser(loginfieldtext.getText()).getStatus() == 1) {
+                if (service.getLoggedInUser().getStatus() == 1) {
                     adminbtn.setDisable(false);
                 } else {
                     adminbtn.setDisable(true);
@@ -354,7 +361,7 @@ public class App extends Application {
 
         // Check if the username is already taken or too short, then add user
         addUserbtn.setOnAction(event -> {
-            if (service.login(addUserTextField.getText())) {
+            if (service.getUser(addUserTextField.getText()) != null) {
                 addUserFeedback.setText("Tunnus on jo olemassa, valitse toinen tunnus.");
                 addUserFeedback.setTextFill(Color.RED);
             } else if (addUserTextField.getText().length() < 3) {
@@ -394,7 +401,7 @@ public class App extends Application {
                 addOrderFeedback.setText(" Tilausnumero on jo käytössä. \n Jos jo uloskirjattu tilaus on tulossa takaisin sisään,\n kirjaa se sisään tästä:");
                 addOrderFeedback.setTextFill(Color.RED);
                 addOldOrderbtn.setVisible(true);
-            } else if (service.addOrder(addOrderTextField.getText(), loginfieldtext.getText())) {
+            } else if (service.addOrder(addOrderTextField.getText(), service.getLoggedInUser())) {
                 addOrderFeedback.setText("Tilaus lisätty.");
                 addOrderFeedback.setTextFill(Color.GREEN);
             } else {
@@ -442,23 +449,41 @@ public class App extends Application {
             }
         });
         
+        chooseTodaybtn.setOnAction(event -> {
+            LocalDate date =  LocalDate.now();
+            seekOrderDateTextField.setText(date.toString());
+        });
+        
         seekOrderDatebtn.setOnAction(event -> {
-            if (seekOrderDateTextField.getText().equals("")) {
+            if (!seekOrderDateTextField.getText().matches("((19|2[0-9])[0-9]{2})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")) {
                 seekOrderDateFeedback.setText("Päivämäärän muoto virheellinen.");
                 seekOrderDateFeedback.setTextFill(Color.RED);
             } else {
                 if (service.getOrderInfoByDate(seekOrderDateTextField.getText()).isEmpty()) {
                     seekOrderDateFeedback.setText("Tällä päivämäärällä ei löytynyt yhtään käsiteltyä tilausta.");
-                    seekOrderDateFeedback.setTextFill(Color.RED);
+                    seekOrderDateFeedback.setTextFill(Color.BLACK);
                 } else {
                     table.setItems(service.getOrderInfoByDate(seekOrderDateTextField.getText()));
                     codeCol.setVisible(true);
                     workwindow.setBottom(tablebox);
-                    seekOrderDateFeedback.setText("Käsiteltyjä tilauksia löytyi.");
+                    seekOrderDateFeedback.setText("Käsiteltyjä tilauksia löytyi.\nNäytetään viimeisimmät työvaiheet.\nKlikkaa riviä (pitkään) nähdäksesi tilauksen koko seuranta.");
                     seekOrderDateFeedback.setTextFill(Color.GREEN);
                 }
             }
         });
+        
+        // Show the history of clicked order and return when released
+        table.setOnMousePressed(event -> {
+            WorkPhase selectedWP = table.getSelectionModel().getSelectedItem();
+            if (selectedWP != null) {
+                table.setItems(service.getOrderInfo(selectedWP.getCode()));
+                seekOrderDateFeedback.setText("Näytetään tilauksen '" + selectedWP.getCode() + "' seuranta.");
+            }
+        });
+        table.setOnMouseReleased(event -> {
+            seekOrderDatebtn.fire();
+        });
+
 
         // Show workphase creating wiew
         createPhase.setOnAction(event -> {
@@ -536,7 +561,7 @@ public class App extends Application {
             if (service.getOrder(addEventCodeTextField.getText()) == null) {
                 addEventFeedback.setText("Tilausnumeroa ei löydy, ei voi lisätä työvaihetta.");
                 addEventFeedback.setTextFill(Color.RED);
-            } else if (service.addEvent(addEventTextField.getText(), addEventCodeTextField.getText(), description, loginfieldtext.getText())) {
+            } else if (service.addEvent(addEventTextField.getText(), addEventCodeTextField.getText(), description, service.getLoggedInUser())) {
                 addEventFeedback.setText("Työvaihe lisätty tilauskoodille '" + addEventCodeTextField.getText() + "'.");
                 addEventFeedback.setTextFill(Color.GREEN);
             } else {

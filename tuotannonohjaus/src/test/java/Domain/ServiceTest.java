@@ -116,7 +116,7 @@ public class ServiceTest {
     
     @Test
     public void addEventFailureIfFalseUser() {
-        User falseUser = new User("nimi", 0);
+        User falseUser = new User("nimifalse", 0);
         this.service.addOrder("code", this.user);
         assertFalse(this.service.addEvent("orkphase", "code", "descr", falseUser));
     }

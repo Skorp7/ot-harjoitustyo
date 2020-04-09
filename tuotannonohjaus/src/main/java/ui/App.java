@@ -44,6 +44,7 @@ public class App extends Application {
         Button loginbtn = new Button("Kirjaudu");
         loginbtn.setDefaultButton(true);
         Button formatbtn = new Button("Alusta tietokanta (ensimmäinen käynnistys)");
+        formatbtn.setVisible(false);
         TextField loginfieldtext = new TextField("Anna tunnus");
         Label logintext = new Label("Kirjaudu sisään:");
         Label feedbacktext = new Label("");

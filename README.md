@@ -31,6 +31,14 @@ Sovelluksen saa käynnistettyä yliopiston Cubbli-linux koneilla
 ```
 mvn compile exec:java -Dexec.mainClass=ui.MainProg
 ```
+Tai voit luoda .jar-tiedoston komennolla
+```
+mvn package
+```
+ja käynnistää juuri luodun .jar-tiedoston kansiosta target/ komennolla
+```
+java -jar tuotannonohjaus-1.0-SNAPSHOT.jar
+```
 
 ### Checkstyle
 

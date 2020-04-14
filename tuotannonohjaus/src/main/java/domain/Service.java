@@ -6,9 +6,11 @@
 package domain;
 
 import database.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,8 +20,8 @@ import javafx.collections.ObservableList;
  */
 public class Service {
 
-    private Data database;
-    private DateTimeFormatter formatter;
+    private final Data database;
+    private final DateTimeFormatter formatter;
     private User loggedIn;
 
     public Service(Data database) {
@@ -28,17 +30,20 @@ public class Service {
         this.database.format();
         this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
+   
+    // try to format database, return false if can not format (most likely already formated)
+    public boolean checkDatabase() {
+        return this.database.format();
+    }
 
+    // User functions:
+    // Return true if user exists and store it to 'loggedIn'
+    // This method is also used by UI to log User out. Then use login(null) and set 'loggedIn' null.
     public boolean login(String name) {
         if (this.database.getUser(name) != null) {
             this.loggedIn = this.getUser(name);
         }
         return this.database.getUser(name) != null;
-    }
-
-    // try to format database, return false if can not format (most likely already formated)
-    public boolean checkDatabase() {
-        return this.database.format();
     }
 
     public boolean addUser(String name, Integer status) {
@@ -69,29 +74,16 @@ public class Service {
         return succeed;
     }
 
-    public ObservableList<WorkPhase> getOrderInfo(String code) {
-        ObservableList<WorkPhase> list = FXCollections.observableArrayList();
-        ArrayList<WorkPhase> events = this.database.getOrderInfo(code);
-        list.addAll(events);
-        return list;
-    }
-    
-    public ObservableList<WorkPhase> getOrderInfoByDate(String date) {
-        ObservableList<WorkPhase> list = FXCollections.observableArrayList();
-        ArrayList<WorkPhase> events = this.database.getOrderInfoByDate(date);
-        list.addAll(events);
-        return list;
-    }
-
     public Order getOrder(String code) {
         return this.database.getOrder(code);
     }
-    
+
     public User getLoggedInUser() {
         return this.loggedIn;
     }
 
-    // Event functions
+    // Event functions:
+    // Give event a timestamp and add Event
     public boolean addEvent(String workphase, String code, String descr, User user) {
         if (this.database.getOrder(code) == null || this.database.getUser(user.getName()) == null) {
             return false;
@@ -102,4 +94,58 @@ public class Service {
         WorkPhase event = new WorkPhase(modTimestamp, workphase, code, user.getName(), descr);
         return this.database.addEvent(event);
     }
+
+    // Get all Events for an asked Order as list
+    public ObservableList<WorkPhase> getOrderInfo(String code) {
+        ObservableList<WorkPhase> list = FXCollections.observableArrayList();
+        ArrayList<WorkPhase> events = this.database.getOrderInfo(code);
+        list.addAll(events);
+        return list;
+    }
+
+    // Get all newest Events for an asked date as list
+    public ArrayList<WorkPhase> getOrderInfoByDate(String date) {
+       // ObservableList<WorkPhase> list = FXCollections.observableArrayList();
+        ArrayList<WorkPhase> events = this.database.getOrderInfoByDate(date);
+       // list.addAll(events);
+        return events;
+    }
+    
+    // Group Events by Order code and show the latest Events
+    public ObservableList<WorkPhase> getOrderInfoByDateGrouped(String date) {
+        ObservableList<WorkPhase> list = FXCollections.observableArrayList();
+        ArrayList<WorkPhase> events = this.getOrderInfoByDate(date);
+        ArrayList<WorkPhase> modEvents = new ArrayList<>();
+        ArrayList<String> codeCheckList = new ArrayList<>();
+        for (WorkPhase e : events) {
+            if (!codeCheckList.contains(e.getCode())) {
+                modEvents.add(e);
+                codeCheckList.add(e.getCode());
+            }
+        }
+        list.addAll(modEvents);
+        return list;
+    }
+    
+    // Chart functions:
+    // Create a map which contains event amount per day, for 30days
+    public HashMap<LocalDate, Integer> getOrderAmount30Days() {
+        LocalDate today = LocalDate.now();
+        HashMap<LocalDate, Integer> orderAmounts = new HashMap<>();
+        HashMap<String, Integer> orders = this.database.getOrderCountByDate();
+        int i = 0;
+        while (i < 30) {
+            LocalDate date = today.minusDays(i);
+            // Format value 0 for every day before real values
+            orderAmounts.putIfAbsent(date, 0);
+            orders.entrySet().stream().forEach(pair -> {
+                if (pair.getKey().contains(date.toString())) {
+                    orderAmounts.put(date, pair.getValue());
+                }
+            });
+            i += 1;
+        }
+        return orderAmounts;
+    }
+
 }

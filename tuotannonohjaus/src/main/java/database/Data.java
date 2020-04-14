@@ -4,6 +4,7 @@ import domain.WorkPhase;
 import domain.User;
 import domain.Order;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.collections.ObservableList;
 
 /*
@@ -39,9 +40,13 @@ public interface Data {
     
     Order getOrder(String code);
     
+    ArrayList<Order> getAllOrders();
+    
     ArrayList<WorkPhase> getOrderInfo(String code);
     
     ArrayList<WorkPhase> getOrderInfoByDate(String date);
+    
+    HashMap<String, Integer> getOrderCountByDate();
     
     
     // Event actions

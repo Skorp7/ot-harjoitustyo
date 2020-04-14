@@ -12,18 +12,23 @@ package ui;
 import database.DataSql;
 import domain.WorkPhase;
 import domain.Service;
+import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
+import javafx.util.StringConverter;
 
 public class App extends Application {
 
@@ -43,8 +48,6 @@ public class App extends Application {
         VBox loginfield = new VBox();
         Button loginbtn = new Button("Kirjaudu");
         loginbtn.setDefaultButton(true);
-        Button formatbtn = new Button("Alusta tietokanta (ensimmäinen käynnistys)");
-        formatbtn.setVisible(false);
         TextField loginfieldtext = new TextField("Anna tunnus");
         Label logintext = new Label("Kirjaudu sisään:");
         Label feedbacktext = new Label("");
@@ -55,7 +58,9 @@ public class App extends Application {
 
         // Create topic field:
         VBox welcomefield = new VBox();
+        welcomefield.getStyleClass().add("styles/style.css");
         Label welcometext = new Label("Tuotannonohjaus DICIP");
+        welcometext.getStyleClass().add("welcometext");
         welcomefield.getChildren().add(welcometext);
         welcometext.setAlignment(Pos.CENTER);
         welcometext.setFont(Font.font("Monospace", 20));
@@ -67,7 +72,6 @@ public class App extends Application {
 
         // Create bottom field:
         HBox bottomfield = new HBox();
-        bottomfield.getChildren().add(formatbtn);
         bottomfield.setAlignment(Pos.CENTER);
         bottomfield.setPadding(spaces);
 
@@ -111,21 +115,76 @@ public class App extends Application {
 
         // Admin field right
         Label righttext = new Label("Plaaplaaplaapalapa");
+        Button modUserLinkBtn = new Button("Käyttäjähallinta");
+        Button chartLinkBtn = new Button("Tilastot");
+       // chartLinkBtn.getStyleClass().add("button");
+        Button settingsLinkBtn = new Button("Asetukset");
         VBox adminFieldRight = new VBox();
+        adminFieldRight.getStylesheets().add("styles/style_admin.css");
         adminFieldRight.setPrefWidth(300);
         adminFieldRight.setSpacing(20);
-        adminFieldRight.getChildren().add(righttext);
+        adminFieldRight.setPadding(spaces);
+        adminFieldRight.getChildren().addAll(righttext, modUserLinkBtn, chartLinkBtn, settingsLinkBtn);
 
         // Admin field center
         VBox adminField = new VBox();
+        adminField.getStylesheets().add("styles/style_admin.css");
         adminField.setSpacing(20);
         adminField.setPadding(spaces);
         adminField.getChildren().addAll(adminFieldTop, addUserTextField, rb1, rb2, addUserbtn, addUserFeedback);
+        
+         // Admin field center - chart
+        VBox adminFieldChart = new VBox();
+        Label chartTopic = new Label("Tilastoteksti");
+        adminFieldChart.setSpacing(20);
+        adminFieldChart.setPadding(spaces);
+        
+        
+         
+        // Create chart axels
+        LocalDate today = LocalDate.now();
+        NumberAxis xAxis = new NumberAxis(today.minusDays(30).getDayOfYear(), today.getDayOfYear(), 30);
+        // Converter to get numbers to string on xAxis
+        StringConverter<Number> formatNumToString = new StringConverter<Number>() {
+            @Override
+            public String toString(Number t) {
+                int i = t.intValue();
+                if (i == today.minusDays(30).getDayOfYear()) {
+                    return "30pv sitten";
+                } else {
+                    return "Tänään";
+                }
+            }
+            @Override
+            public Number fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet."); 
+            }
+        };
+        
+        xAxis.setTickLabelFormatter(formatNumToString);
+        xAxis.setMinorTickCount(30);
+        NumberAxis yAxis = new NumberAxis("Tilaukset", 0,20,5);    
+
+        // Create the chart and insert axises
+        LineChart<Number, Number> orderChart30Days = new LineChart<>(xAxis, yAxis);
+        orderChart30Days.setCreateSymbols(false);
+        orderChart30Days.setTitle("Uudet tilaukset, viimeiset 30 päivää");
+        orderChart30Days.setLegendVisible(false);
+        orderChart30Days.setVerticalGridLinesVisible(false);
+        
+        XYChart.Series orderData = new XYChart.Series();
+        // Load orderData when clicked the Button
+        orderChart30Days.getData().add(orderData);
+        adminFieldChart.getChildren().addAll(orderChart30Days);
+        
+        
+        
+        
 
         // Create left field in workwindow:
         VBox leftfield = new VBox();
         Label lefttext = new Label("leftTEXT plaaplaplaaplaa");
-        Button backbtn = new Button("Aloitussivu");
+        Button backbtn = new Button("Kirjaudu ulos");
         backbtn.setCancelButton(true);
         Button adminbtn = new Button("Hallinta");
         adminbtn.setDisable(true);
@@ -256,7 +315,9 @@ public class App extends Application {
 
         // Create workwiew:
         Label welcometext2 = new Label("Tuotannonohjaus DICIP");
+        welcometext2.getStyleClass().add("welcometext");
         topBox.getChildren().add(welcometext2);
+        topBox.getStyleClass().add("styles/style.css");
         welcometext2.setAlignment(Pos.CENTER);
         welcometext2.setFont(Font.font("Monospace", 20));
         topBox.setSpacing(20);
@@ -273,7 +334,9 @@ public class App extends Application {
         mainwindow.setTop(welcomefield);
 
         Scene beginScene = new Scene(mainwindow, 1000, 700);
+        beginScene.getStylesheets().add("styles/style.css");
         Scene workScene = new Scene(workwindow, 1000, 700);
+        workScene.getStylesheets().add("styles/style.css");
         win.setScene(beginScene);
         win.setTitle("DICIP");
         win.show();
@@ -300,11 +363,20 @@ public class App extends Application {
         tablebox.setPrefHeight(300);
         tablebox.setPadding(spaces);
         tablebox.getChildren().add(table);
-// 
-//        columnOne.setCellValueFactory(c -> new SimpleStringProperty(new String("123")));
-//        columnTwo.setCellValueFactory(c -> new SimpleStringProperty(new String("456")));
 
-        // table.getItems().addAll("Column one's data", "Column two's data");
+        
+        
+        
+        
+        
+        
+        
+        //FUNCTIONS
+        
+        
+        
+        
+        
         // Create functions for buttons:
         // Check if inserted name is correct and then log in
         loginbtn.setOnAction(event -> {
@@ -313,6 +385,7 @@ public class App extends Application {
                 feedbacktext.setTextFill(Color.GREEN);
                 win.setScene(workScene);
                 orderbtn.fire();
+                orderbtn.requestFocus();
                 if (service.getLoggedInUser().getStatus() == 1) {
                     adminbtn.setDisable(false);
                 } else {
@@ -323,17 +396,17 @@ public class App extends Application {
                 feedbacktext.setTextFill(Color.RED);
             }
         });
-
-        // Format the database if not formated before
-        formatbtn.setOnAction(event -> {
-            if (service.checkDatabase()) {
-                feedbacktext.setText("Tietokanta alustettu nyt");
-                feedbacktext.setTextFill(Color.GREEN);
-            } else {
-                feedbacktext.setText("Alustus on jo tehty");
-                feedbacktext.setTextFill(Color.BLACK);
-            }
-        });
+//
+//        // Format the database if not formated before
+//        formatbtn.setOnAction(event -> {
+//            if (service.checkDatabase()) {
+//                feedbacktext.setText("Tietokanta alustettu nyt");
+//                feedbacktext.setTextFill(Color.GREEN);
+//            } else {
+//                feedbacktext.setText("Alustus on jo tehty");
+//                feedbacktext.setTextFill(Color.BLACK);
+//            }
+//        });
 
         // Show order wiew with buttons
         orderbtn.setOnAction(event -> {
@@ -347,20 +420,20 @@ public class App extends Application {
             workwindow.setCenter(emptybox);
             win.setScene(beginScene);
             workwindow.setBottom(emptybox2);
+            service.login(null);
+            loginfieldtext.setText("Anna tunnus");
             feedbacktext.setText("");
         });
 
         // Show admin wiew
         adminbtn.setOnAction(event -> {
-            workwindow.setCenter(adminField);
             workwindow.setRight(adminFieldRight);
             workwindow.setBottom(emptybox2);
-            addUserTextField.setText("");
-            addUserFeedback.setText("");
-            rb1.setSelected(true);
+            chartLinkBtn.fire();
+            chartLinkBtn.requestFocus();
         });
 
-        // Check if the username is already taken or too short, then add user
+        // Admin view: Add user: Check if the username is already taken or too short, then add user
         addUserbtn.setOnAction(event -> {
             if (service.getUser(addUserTextField.getText()) != null) {
                 addUserFeedback.setText("Tunnus on jo olemassa, valitse toinen tunnus.");
@@ -385,6 +458,25 @@ public class App extends Application {
                 }
             }
         });
+        
+        // Admin view: Right button field
+        // Load data to chart and show the chart:
+        chartLinkBtn.setOnAction(event -> {
+            workwindow.setCenter(adminFieldChart);
+            service.getOrderAmount30Days().entrySet().stream().forEach(pari -> {
+                orderData.getData().add(new XYChart.Data(pari.getKey().getDayOfYear(), pari.getValue()));
+            });
+        });
+
+        modUserLinkBtn.setOnAction(event -> {
+            workwindow.setCenter(adminField);
+            addUserTextField.setText("");
+            addUserFeedback.setText("");
+            rb1.setSelected(true);
+        });
+        
+        
+        
 
         // Show create order wiew
         createOrder.setOnAction(event -> {
@@ -464,7 +556,7 @@ public class App extends Application {
                     seekOrderDateFeedback.setText("Tällä päivämäärällä ei löytynyt yhtään käsiteltyä tilausta.");
                     seekOrderDateFeedback.setTextFill(Color.BLACK);
                 } else {
-                    table.setItems(service.getOrderInfoByDate(seekOrderDateTextField.getText()));
+                    table.setItems(service.getOrderInfoByDateGrouped(seekOrderDateTextField.getText()));
                     codeCol.setVisible(true);
                     workwindow.setBottom(tablebox);
                     seekOrderDateFeedback.setText("Käsiteltyjä tilauksia löytyi.\nNäytetään viimeisimmät työvaiheet.\nKlikkaa riviä (pitkään) nähdäksesi tilauksen koko seuranta.");

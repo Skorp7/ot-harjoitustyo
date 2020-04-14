@@ -6,6 +6,7 @@ import domain.Order;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -213,7 +214,7 @@ public class DataSql implements Data {
         // First select the events with specific date and order them by date, then group by order code
         try {
             this.connect();
-            this.p = this.dbCon.prepareStatement("SELECT * FROM (SELECT E.workphase, E.description, E.code, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE date(E.timestamp)=? ORDER BY E.timestamp DESC) AS S GROUP BY S.code");
+            this.p = this.dbCon.prepareStatement("SELECT * FROM (SELECT E.workphase, E.description, E.code, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE date(E.timestamp)=? ORDER BY E.timestamp DESC)");
             this.p.setString(1, date);
             this.rr = this.p.executeQuery();
             // Create a Workphase object from sql data
@@ -229,6 +230,48 @@ public class DataSql implements Data {
             this.closeConnections();
         }
         return events;
+    }
+    
+    @Override
+    public ArrayList<Order> getAllOrders() {
+        ArrayList<Order> orders = new ArrayList<>();
+        try {
+            this.connect();
+            // Then select all the orders
+            this.p = this.dbCon.prepareStatement("* FROM Orders O LEFT JOIN Users U ON O.usr_id == U.id");
+            this.rr = this.p.executeQuery();
+            // Create a Order object from sql data
+            while (this.rr.next()) {
+                Order order = new Order(rr.getString("code"), rr.getString("name"), rr.getString("timestamp"));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            this.closeConnections();
+        }
+        return orders;
+    }
+    
+    @Override
+    public HashMap<String, Integer> getOrderCountByDate() {
+        HashMap<String, Integer> orders = new HashMap<>();
+        try {
+            this.connect();
+            // Then select all the orders
+            this.p = this.dbCon.prepareStatement("SELECT date(O.timestamp) as t, COUNT(*) AS c from Orders O LEFT JOIN Users U ON U.id == O.usr_id GROUP BY t");
+            this.rr = this.p.executeQuery();
+            // Create a Order object from sql data
+            while (this.rr.next()) {
+                orders.put(rr.getString("t"), rr.getInt("c"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            this.closeConnections();
+        }
+        System.out.println(orders);
+        return orders;
     }
 
     @Override

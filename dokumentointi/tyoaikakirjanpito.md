@@ -11,4 +11,6 @@
 | 7.4.  |   1   | Pieniä korjauksia ed. toimintoihin |
 | 8.4.  |   2   | Lisää testejä |
 | 9.4.  |   4   | SQL-yhteyden korjauksia ja testit toimimaan SQL:n kanssa |
-|  |  39  | YHTEENSÄ |
+| 12.4. |   8   | Log-out-toiminto, tilasto, SQL-kysely 'kaikki tilaukset' |
+| 13.4. |   4   | CSS-ulkoasu, .jar:in generointi |
+|  |  51  | YHTEENSÄ |

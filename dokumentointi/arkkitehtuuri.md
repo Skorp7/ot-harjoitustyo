@@ -27,10 +27,14 @@ Pakkaus/luokkakaaviosta näkee luokkien ja pakkausten suhteet toisiinsa.
 
 ### Päätoiminnallisuudet
 
-Näytetään muutama toiminnalisuus sekvenssikaaviona
+Näytetään muutama toiminnalisuus sekvenssikaaviona.
 
 #### Käyttäjän kirjautuminen
 
-Kun käyttäjä kirjoittaa tekstikenttään olemassaolevan admin-statuksella varustetun käyttäjäätunnuksen ja klikkaa painiketta "loginBtn", kontrolli etenee ohjelmassa seuraavasti:
+Kun käyttäjä kirjoittaa tekstikenttään olemassaolevan admin-statuksella varustetun käyttäjätunnuksen ja klikkaa painiketta "loginBtn", kontrolli etenee ohjelmassa seuraavasti:
 
-<img src="kuvat/sekvenssikaavio_logIn.png" width="max" title="Sekvenssikaavio - logIn"> 
+<img src="kuvat/sekvenssi_logIn.JPG" width="max" title="Sekvenssikaavio - logIn"> 
+
+Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla sovelluslogiikkaluokan *Service* metodia *login*, jolle annetaan parametriksi teksikenttään syötetty teksti, eli käyttäjätunnuksen nimi. *Service* kutsuu rajapinnan *Data* metodia *getUser* saadakseen tietää onko kyseinen käyttäjä olemassa annetun nimen perusteella. Jos käyttäjä löytyy, *getUser* palauttaa olion *User*, joka sisältää kyseisen käyttäjätunnuksen nimen ja käyttäjästatuksen (tässä tapauksessa status on 'admin', jota merkintään numerolla 1). Käyttäjän löydyttyä *Service* palauttaa käyttöliittymälle (App) arvon *true*.
+
+Seuraavaksi *App* pyytää *Service*ltä kirjautuneen käyttäjän (olion User) metodilla getLoggedInUser selvittääkesen tämän käyttäjästatuksen metodilla *getStatus*, jolle annetaan parametriksi olio *User*. Saatuaan tietoon että käyttäjän status on '1', *App* ottaa adminBtn-napin takaisin käyttöön (lähtökohtaisesti nappi on poissa käytöstä), ja asettaa näkymäksi workScenen, eli sovelluksen varsinaisen käyttönäkymän. Tässä yhteydessä *App* myös klikkaa itse nappia *orderBtn* saadakseen tilaustenhallinta-kentän workScenen valituksi ja nähtäväksi kentäksi.

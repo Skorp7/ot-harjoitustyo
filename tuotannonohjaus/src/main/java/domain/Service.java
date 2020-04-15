@@ -47,6 +47,11 @@ public class Service {
         return false;
     }
 
+    public boolean logOut() {
+        this.loggedIn = null;
+        return true;
+    }
+    
     public boolean addUser(String name, Integer status) {
         if (this.database.getUser(name) != null) {
             return false;

@@ -45,12 +45,12 @@ public class App extends Application {
 
         // Create login field:
         VBox loginfield = new VBox();
-        Button loginbtn = new Button("Kirjaudu");
-        loginbtn.setDefaultButton(true);
+        Button loginBtn = new Button("Kirjaudu");
+        loginBtn.setDefaultButton(true);
         TextField loginfieldtext = new TextField("Anna tunnus");
         Label logintext = new Label("Kirjaudu sisään:");
         Label feedbacktext = new Label("");
-        loginfield.getChildren().addAll(logintext, loginfieldtext, loginbtn, feedbacktext);
+        loginfield.getChildren().addAll(logintext, loginfieldtext, loginBtn, feedbacktext);
         // loginfield.setPrefSize(200, 400);
         loginfield.setSpacing(10);
         loginfield.setPadding(spaces);
@@ -90,7 +90,7 @@ public class App extends Application {
         adminFieldTop.getChildren().add(addUserbtn2);
 
         // AddUserField:
-        Button addUserbtn = new Button("Lisää käyttäjä");
+        Button addUserBtn = new Button("Lisää käyttäjä");
         TextField addUserTextField = new TextField("");
         addUserTextField.setPromptText("Anna tunnus");
         addUserTextField.setMaxWidth(200);
@@ -130,7 +130,7 @@ public class App extends Application {
         adminField.getStylesheets().add("styles/style_admin.css");
         adminField.setSpacing(20);
         adminField.setPadding(spaces);
-        adminField.getChildren().addAll(adminFieldTop, addUserTextField, rb1, rb2, addUserbtn, addUserFeedback);
+        adminField.getChildren().addAll(adminFieldTop, addUserTextField, rb1, rb2, addUserBtn, addUserFeedback);
         
          // Admin field center - chart
         VBox adminFieldChart = new VBox();
@@ -183,12 +183,12 @@ public class App extends Application {
         // Create left field in workwindow:
         VBox leftfield = new VBox();
         Label lefttext = new Label("leftTEXT plaaplaplaaplaa");
-        Button backbtn = new Button("Kirjaudu ulos");
-        backbtn.setCancelButton(true);
-        Button adminbtn = new Button("Hallinta");
-        adminbtn.setDisable(true);
-        Button orderbtn = new Button("Tuotanto");
-        leftfield.getChildren().addAll(lefttext, adminbtn, orderbtn, backbtn);
+        Button logOutBtn = new Button("Kirjaudu ulos");
+        logOutBtn.setCancelButton(true);
+        Button adminBtn = new Button("Hallinta");
+        adminBtn.setDisable(true);
+        Button orderBtn = new Button("Tuotanto");
+        leftfield.getChildren().addAll(lefttext, adminBtn, orderBtn, logOutBtn);
         leftfield.setPrefSize(200, 400);
         leftfield.setSpacing(20);
         leftfield.setPadding(spaces);
@@ -377,18 +377,18 @@ public class App extends Application {
         
            // Create functions for buttons:
         // Check if inserted name is correct and then log in
-        loginbtn.setOnAction(event -> {
+        loginBtn.setOnAction(event -> {
             if (service.login(loginfieldtext.getText())) {
                 feedbacktext.setText("Käyttäjä löytyi");
                 feedbacktext.setTextFill(Color.GREEN);
                 if (service.getLoggedInUser().getStatus() == 1) {
-                    adminbtn.setDisable(false);
+                    adminBtn.setDisable(false);
                 } else {
-                    adminbtn.setDisable(true);
+                    adminBtn.setDisable(true);
                 }
                 win.setScene(workScene);
-                orderbtn.fire();
-                orderbtn.requestFocus();
+                orderBtn.fire();
+                orderBtn.requestFocus();
             } else {
                 feedbacktext.setText("Käyttäjää ei löytynyt.");
                 feedbacktext.setTextFill(Color.RED);
@@ -407,24 +407,22 @@ public class App extends Application {
 //        });
 
         // Show order wiew with buttons
-        orderbtn.setOnAction(event -> {
+        orderBtn.setOnAction(event -> {
             workwindow.setCenter(workField);
             workwindow.setRight(workFieldRight);
             workwindow.setBottom(emptybox2);
         });
 
         // Go back to the start wiew      
-        backbtn.setOnAction(event -> {
-            workwindow.setCenter(emptybox);
+        logOutBtn.setOnAction(event -> {
+            service.logOut();
             win.setScene(beginScene);
-            workwindow.setBottom(emptybox2);
-            service.login(null);
             loginfieldtext.setText("Anna tunnus");
             feedbacktext.setText("");
         });
 
         // Show admin wiew
-        adminbtn.setOnAction(event -> {
+        adminBtn.setOnAction(event -> {
             workwindow.setRight(adminFieldRight);
             workwindow.setBottom(emptybox2);
             chartLinkBtn.fire();
@@ -432,7 +430,7 @@ public class App extends Application {
         });
 
         // Admin view: Add user: Check if the username is already taken or too short, then add user
-        addUserbtn.setOnAction(event -> {
+        addUserBtn.setOnAction(event -> {
             if (service.getUser(addUserTextField.getText()) != null) {
                 addUserFeedback.setText("Tunnus on jo olemassa, valitse toinen tunnus.");
                 addUserFeedback.setTextFill(Color.RED);

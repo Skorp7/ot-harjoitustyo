@@ -33,4 +33,4 @@ Näytetään muutama toiminnalisuus sekvenssikaaviona
 
 Kun käyttäjä kirjoittaa tekstikenttään olemassaolevan admin-statuksella varustetun käyttäjäätunnuksen ja klikkaa painiketta "loginBtn", kontrolli etenee ohjelmassa seuraavasti:
 
-<img src="kuvat/sekvenssikaavio_logIn.png" width="max" title="Sekvenssikaavio - logIn"> 
+<img src="kuvat/sekvenssi_logIn.JPG" width="max" title="Sekvenssikaavio - logIn"> 

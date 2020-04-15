@@ -10,6 +10,7 @@ import domain.Order;
 import domain.User;
 import domain.WorkPhase;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -50,13 +51,6 @@ public class DataTest {
     @After
     public void tearDown() {
         this.databTest.removeAllDataFromDatabase();
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    @Test
-    public void hello() {
     }
 
     @Test
@@ -143,4 +137,58 @@ public class DataTest {
         }
         assertTrue(found);
     }
+    
+    @Test
+    public void getRightOrderCountByDay() {
+        String day = "2020-04-14";
+        ArrayList<Integer> foundCountForToday = new ArrayList<>();
+        Order order = new Order("H", "TestiKayttaja", "2020-04-14 11:00:00");
+        Order order2 = new Order("T", "TestiKayttaja", "2020-04-14 05:00:00");
+        WorkPhase wp = new WorkPhase("2020-04-14 12:00:00", "Sisäänkirjaus", "T", "TestiKayttaja", "kuvaus");
+        this.databTest.addEvent(wp);
+        this.databTest.addOrder(order);
+        this.databTest.addOrder(order2);
+        HashMap<String, Integer> orderCounts = this.databTest.getOrderCountByDate();
+        orderCounts.entrySet().stream().forEach(pair -> {
+            if (pair.getKey().contains(day)) {
+               foundCountForToday.add(pair.getValue());
+            }
+        });
+        int foundCount = foundCountForToday.get(0);
+        assertEquals(2, foundCount);
+    }
+    
+    @Test
+    public void getZeroOrderCountByZeroOrdersByDay() {
+        String day = "2020-04-14";
+        ArrayList<Integer> foundCountForToday = new ArrayList<>();
+        HashMap<String, Integer> orderCounts = this.databTest.getOrderCountByDate();
+        orderCounts.entrySet().stream().forEach(pair -> {
+            if (pair.getKey().contains(day)) {
+               foundCountForToday.add(pair.getValue());
+            }
+        });
+        if (foundCountForToday.isEmpty()) {
+            foundCountForToday.add(0);
+        }
+        int foundCount = foundCountForToday.get(0);
+        assertEquals(0, foundCount);
+    }
+    
+    @Test
+    public void getRightAmountOfOrders() {
+        Order order = new Order("H", "TestiKayttaja", "2020-04-14 11:00:00");
+        Order order2 = new Order("T", "TestiKayttaja", "2020-04-14 05:00:00");
+        Order order3 = new Order("T2", "TestiKayttaja", "2020-04-14 05:33:00");
+        WorkPhase wp = new WorkPhase("2020-04-14 12:00:00", "Sisäänkirjaus", "T", "TestiKayttaja", "kuvaus");
+        this.databTest.removeAllDataFromDatabase();
+        this.databTest.format();
+        this.databTest.addEvent(wp);
+        this.databTest.addOrder(order);
+        this.databTest.addOrder(order2);
+        this.databTest.addOrder(order3);
+        // The test class already has added one order, so insted of 3, we expect 4
+        assertEquals(3, this.databTest.getAllOrders().size());
+    }
 }
+    

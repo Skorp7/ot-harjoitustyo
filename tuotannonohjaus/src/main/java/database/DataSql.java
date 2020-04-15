@@ -28,7 +28,7 @@ public class DataSql implements Data {
         try {
             this.dbCon = DriverManager.getConnection(this.fileName);
             this.dbCon.setAutoCommit(false);
-            System.out.println("Yhteys luotu");
+//            System.out.println("Yhteys luotu");
         } catch (SQLException e) {
             System.out.println("Yhteyden luominen epäonnistui.");
             System.out.println(e.getMessage());
@@ -49,7 +49,7 @@ public class DataSql implements Data {
             if (this.s != null) {
                 this.s.close();
             }
-            System.out.println("Yhteydet suljettu.");
+//            System.out.println("Yhteydet suljettu.");
         } catch (SQLException e) {
             System.out.println("Yhteyden sulkeminen tietokantaan epäonnistui.");
         }
@@ -238,7 +238,7 @@ public class DataSql implements Data {
         try {
             this.connect();
             // Then select all the orders
-            this.p = this.dbCon.prepareStatement("* FROM Orders O LEFT JOIN Users U ON O.usr_id == U.id");
+            this.p = this.dbCon.prepareStatement("SELECT * FROM Orders O LEFT JOIN Users U ON O.usr_id == U.id");
             this.rr = this.p.executeQuery();
             // Create a Order object from sql data
             while (this.rr.next()) {

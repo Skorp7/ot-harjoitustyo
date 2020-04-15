@@ -42,8 +42,9 @@ public class Service {
     public boolean login(String name) {
         if (this.database.getUser(name) != null) {
             this.loggedIn = this.getUser(name);
+            return true;
         }
-        return this.database.getUser(name) != null;
+        return false;
     }
 
     public boolean addUser(String name, Integer status) {

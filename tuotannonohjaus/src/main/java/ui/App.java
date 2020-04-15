@@ -12,7 +12,6 @@ package ui;
 import database.DataSql;
 import domain.WorkPhase;
 import domain.Service;
-import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import javafx.application.Application;
@@ -376,21 +375,20 @@ public class App extends Application {
         
         
         
-        
-        // Create functions for buttons:
+           // Create functions for buttons:
         // Check if inserted name is correct and then log in
         loginbtn.setOnAction(event -> {
             if (service.login(loginfieldtext.getText())) {
                 feedbacktext.setText("Käyttäjä löytyi");
                 feedbacktext.setTextFill(Color.GREEN);
-                win.setScene(workScene);
-                orderbtn.fire();
-                orderbtn.requestFocus();
                 if (service.getLoggedInUser().getStatus() == 1) {
                     adminbtn.setDisable(false);
                 } else {
                     adminbtn.setDisable(true);
                 }
+                win.setScene(workScene);
+                orderbtn.fire();
+                orderbtn.requestFocus();
             } else {
                 feedbacktext.setText("Käyttäjää ei löytynyt.");
                 feedbacktext.setTextFill(Color.RED);
@@ -564,17 +562,20 @@ public class App extends Application {
                 }
             }
         });
-        
-        // Show the history of clicked order and return when released
+
+        // Show the history of clicked order and return when release
+        // Only if Order code column is visible a.k.a we are in "seek by date" field
         table.setOnMousePressed(event -> {
             WorkPhase selectedWP = table.getSelectionModel().getSelectedItem();
-            if (selectedWP != null) {
+            if (selectedWP != null && codeCol.isVisible()) {
                 table.setItems(service.getOrderInfo(selectedWP.getCode()));
                 seekOrderDateFeedback.setText("Näytetään tilauksen '" + selectedWP.getCode() + "' seuranta.");
             }
         });
         table.setOnMouseReleased(event -> {
-            seekOrderDatebtn.fire();
+            if (codeCol.isVisible()) {
+                seekOrderDatebtn.fire();
+            }
         });
 
 

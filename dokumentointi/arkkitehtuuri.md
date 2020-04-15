@@ -29,12 +29,24 @@ Pakkaus/luokkakaaviosta näkee luokkien ja pakkausten suhteet toisiinsa.
 
 Näytetään muutama toiminnalisuus sekvenssikaaviona.
 
-#### Käyttäjän kirjautuminen
+#### Käyttäjän kirjautuminen sisään
 
-Kun käyttäjä kirjoittaa tekstikenttään olemassaolevan admin-statuksella varustetun käyttäjätunnuksen ja klikkaa painiketta "loginBtn", kontrolli etenee ohjelmassa seuraavasti:
+Kun käyttäjä kirjoittaa tekstikenttään olemassaolevan admin-statuksella varustetun käyttäjätunnuksen ja klikkaa painiketta "Kirjaudu sisään" (loginBtn), kontrolli etenee ohjelmassa seuraavasti:
 
 <img src="kuvat/sekvenssi_logIn.JPG" width="max" title="Sekvenssikaavio - logIn"> 
 
-Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla sovelluslogiikkaluokan *Service* metodia *login*, jolle annetaan parametriksi teksikenttään syötetty teksti, eli käyttäjätunnuksen nimi. *Service* kutsuu rajapinnan *Data* metodia *getUser* saadakseen tietää onko kyseinen käyttäjä olemassa annetun nimen perusteella. Jos käyttäjä löytyy, *getUser* palauttaa olion *User*, joka sisältää kyseisen käyttäjätunnuksen nimen ja käyttäjästatuksen (tässä tapauksessa status on 'admin', jota merkintään numerolla 1). Käyttäjän löydyttyä *Service* palauttaa käyttöliittymälle (App) arvon *true*.
+Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla sovelluslogiikkaluokan *Service* metodia *login*, jolle annetaan parametriksi teksikenttään syötetty teksti, eli käyttäjätunnuksen nimi. *Service* kutsuu rajapinnan *Data* metodia *getUser* saadakseen tietää onko kyseinen käyttäjä olemassa annetun nimen perusteella. Jos käyttäjä löytyy, *getUser* palauttaa olion *User*, joka sisältää kyseisen käyttäjätunnuksen nimen ("Leo") ja käyttäjästatuksen (tässä tapauksessa status on 'admin' eli työnjohtaja, jota merkintään numerolla 1). Käyttäjä merkitään *Servicen* oliomuuttujaan loggedInUser sisäänirjautuneeksi käyttäjäksi. Käyttäjän löydyttyä *Service* palauttaa käyttöliittymälle (App) arvon *true*.
 
-Seuraavaksi *App* pyytää *Service*ltä kirjautuneen käyttäjän (olion User) metodilla getLoggedInUser selvittääkesen tämän käyttäjästatuksen metodilla *getStatus*, jolle annetaan parametriksi olio *User*. Saatuaan tietoon että käyttäjän status on '1', *App* ottaa adminBtn-napin takaisin käyttöön (lähtökohtaisesti nappi on poissa käytöstä), ja asettaa näkymäksi workScenen, eli sovelluksen varsinaisen käyttönäkymän. Tässä yhteydessä *App* myös klikkaa itse nappia *orderBtn* saadakseen tilaustenhallinta-kentän workScenen valituksi ja nähtäväksi kentäksi.
+Seuraavaksi *App* pyytää *Service*ltä kirjautuneen käyttäjän (olion User) metodilla getLoggedInUser selvittääkesen tämän käyttäjästatuksen metodilla *getStatus*, jolle annetaan parametriksi olio *User*. Saatuaan tietoon että käyttäjän status on '1', *App* ottaa adminBtn-napin takaisin käyttöön (lähtökohtaisesti nappi on poissa käytöstä), ja asettaa näkymäksi workScenen, eli sovelluksen varsinaisen käyttönäkymän. Tässä yhteydessä *App* myös klikkaa itse nappia *orderBtn* saadakseen tilaustenhallinta-kentän (workField) workScenen valituksi ja nähtäväksi kentäksi.
+
+Nyt käyttäjä näkee tilausten etsimiseen ja lisäämiseen tarkoitutetut napit oikealla puolella ikkunaa ja vasemalla kenttien välillä siirtymiseen tarkoitetut napit sekä uloskirjautumisnapin. Myös 'Hallinta'-kentän näyttävä siirtymisnappi on käytössä.
+
+
+#### Käyttäjän kirjautuminen ulos
+
+Kun sisään kirjautunut käyttäjä klikkaa painiketta "Kirjaudu ulos" (logOutBtn), kontrolli etenee ohjelmassa seuraavasti:
+
+<img src="kuvat/sekvenssi_logOut.JPG" width="max" title="Sekvenssikaavio - logOut"> 
+
+Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla sovelluslogiikkaluokan *Service* metodia *logOut*. Service merkitsee sisäänkirjautuneen käyttäjän paikalle arvon *null* ja palauttaa käyttöliittymälle *true*.
+Käyttöliittymä vaihtaa nyt näkymän takaisin aloitusnäkymäksi (beginScene) ja muuttaa samalla tekstikenttien arvot takaisin lähtötilanteeseen.

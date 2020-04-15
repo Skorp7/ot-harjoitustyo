@@ -24,3 +24,13 @@ Tietokantaluokka toteuttaa rajapinnan Data ja tässä sovelluksessa on luotu kak
 Pakkaus/luokkakaaviosta näkee luokkien ja pakkausten suhteet toisiinsa.
 
 <img src="kuvat/luokkapakkaus.png" width="400" title="Luokka/pakkauskaavio">
+
+### Päätoiminnallisuudet
+
+Näytetään muutama toiminnalisuus sekvenssikaaviona
+
+#### Käyttäjän kirjautuminen
+
+Kun käyttäjä kirjoittaa tekstikenttään olemassaolevan admin-statuksella varustetun käyttäjäätunnuksen ja klikkaa painiketta "loginBtn", kontrolli etenee ohjelmassa seuraavasti:
+
+<img src="kuvat/sekvenssikaavio_logIn.png" width="max" title="Sekvenssikaavio - logIn"> 

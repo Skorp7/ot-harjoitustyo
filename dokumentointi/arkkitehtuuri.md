@@ -27,10 +27,10 @@ Pakkaus/luokkakaaviosta näkee luokkien ja pakkausten suhteet toisiinsa.
 
 ### Päätoiminnallisuudet
 
-Näytetään muutama toiminnalisuus sekvenssikaaviona
+Näytetään muutama toiminnalisuus sekvenssikaaviona.
 
 #### Käyttäjän kirjautuminen
 
-Kun käyttäjä kirjoittaa tekstikenttään olemassaolevan admin-statuksella varustetun käyttäjäätunnuksen ja klikkaa painiketta "loginBtn", kontrolli etenee ohjelmassa seuraavasti:
+Kun käyttäjä kirjoittaa tekstikenttään olemassaolevan admin-statuksella varustetun käyttäjätunnuksen ja klikkaa painiketta "loginBtn", kontrolli etenee ohjelmassa seuraavasti:
 
 <img src="kuvat/sekvenssi_logIn.JPG" width="max" title="Sekvenssikaavio - logIn"> 

@@ -9,6 +9,10 @@ Sovelluksella voi seurata hammaslaboratorion tuotantoa. Laboratorion työtahti o
 * [Vaatimusmäärittely](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
 * [Arkkitehtuurikuvaus](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
+## Releaset
+
+* [Viikko 5](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko5)
+
 ## Komentorivitoiminnot
 Kommennot siitä kansiosta jossa pom.xml sijaitsee.
 

@@ -24,6 +24,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
@@ -48,9 +50,10 @@ public class App extends Application {
         Button loginBtn = new Button("Kirjaudu");
         loginBtn.setDefaultButton(true);
         TextField loginfieldtext = new TextField("Anna tunnus");
+        Label loginInfoText = new Label("Ensimmäisen käynnistyksen jälkeen\nvoi kirjautua tunnuksella 'admin',\njolla on kaikki käyttöoikeudet.");
         Label logintext = new Label("Kirjaudu sisään:");
         Label feedbacktext = new Label("");
-        loginfield.getChildren().addAll(logintext, loginfieldtext, loginBtn, feedbacktext);
+        loginfield.getChildren().addAll(logintext, loginfieldtext, loginBtn, feedbacktext, loginInfoText);
         // loginfield.setPrefSize(200, 400);
         loginfield.setSpacing(10);
         loginfield.setPadding(spaces);
@@ -75,13 +78,23 @@ public class App extends Application {
         bottomfield.setPadding(spaces);
 
         // Create center field:
-        VBox centerfield = new VBox();
-        centerfield.setPadding(spaces);
-        Label centertext = new Label("Alustuksen jälkeen voi kirjautua\ntunnuksella 'admin', jolla \non kaikki käyttöoikeudet.");
-        centerfield.getChildren().add(centertext);
-        centerfield.setPrefSize(200, 400);
-        centerfield.setMinHeight(400);
-        centerfield.setSpacing(20);
+        VBox centerField = new VBox();
+        centerField.setAlignment(Pos.CENTER_RIGHT);
+        Image beginImage = null;
+        try {
+            Image image = new Image(getClass().getResourceAsStream("/styles/kappyra2.png"));
+            beginImage = image;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        ImageView imView = new ImageView(beginImage);
+        imView.setFitHeight(400);
+        imView.setFitWidth(600);
+        centerField.setPadding(spaces);
+        centerField.getChildren().addAll(imView);
+        centerField.setPrefSize(200, 500);
+        centerField.setMinHeight(400);
+        centerField.setSpacing(20);
 
         // Create adminstrative fields:
         // Controlfield:
@@ -116,8 +129,9 @@ public class App extends Application {
         Label righttext = new Label("Plaaplaaplaapalapa");
         Button modUserLinkBtn = new Button("Käyttäjähallinta");
         Button chartLinkBtn = new Button("Tilastot");
-       // chartLinkBtn.getStyleClass().add("button");
+        // chartLinkBtn.getStyleClass().add("button");
         Button settingsLinkBtn = new Button("Asetukset");
+        settingsLinkBtn.setDisable(true);
         VBox adminFieldRight = new VBox();
         adminFieldRight.getStylesheets().add("styles/style_admin.css");
         adminFieldRight.setPrefWidth(300);
@@ -131,15 +145,13 @@ public class App extends Application {
         adminField.setSpacing(20);
         adminField.setPadding(spaces);
         adminField.getChildren().addAll(adminFieldTop, addUserTextField, rb1, rb2, addUserBtn, addUserFeedback);
-        
-         // Admin field center - chart
+
+        // Admin field center - chart
         VBox adminFieldChart = new VBox();
         Label chartTopic = new Label("Tilastoteksti");
         adminFieldChart.setSpacing(20);
         adminFieldChart.setPadding(spaces);
-        
-        
-         
+
         // Create chart axels
         LocalDate today = LocalDate.now();
         NumberAxis xAxis = new NumberAxis(today.minusDays(30).getDayOfYear(), today.getDayOfYear(), 30);
@@ -154,15 +166,18 @@ public class App extends Application {
                     return "Tänään";
                 }
             }
+
             @Override
             public Number fromString(String string) {
-                throw new UnsupportedOperationException("Not supported yet."); 
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         };
-        
+
         xAxis.setTickLabelFormatter(formatNumToString);
         xAxis.setMinorTickCount(30);
-        NumberAxis yAxis = new NumberAxis("Tilaukset", 0,20,5);    
+        xAxis.setPickOnBounds(true);
+
+        NumberAxis yAxis = new NumberAxis("Tilaukset", 0, 20, 5);
 
         // Create the chart and insert axises
         LineChart<Number, Number> orderChart30Days = new LineChart<>(xAxis, yAxis);
@@ -170,15 +185,11 @@ public class App extends Application {
         orderChart30Days.setTitle("Uudet tilaukset, viimeiset 30 päivää");
         orderChart30Days.setLegendVisible(false);
         orderChart30Days.setVerticalGridLinesVisible(false);
-        
+
         XYChart.Series orderData = new XYChart.Series();
         // Load orderData when clicked the Button
         orderChart30Days.getData().add(orderData);
         adminFieldChart.getChildren().addAll(orderChart30Days);
-        
-        
-        
-        
 
         // Create left field in workwindow:
         VBox leftfield = new VBox();
@@ -198,7 +209,6 @@ public class App extends Application {
         workField.setSpacing(10);
         workField.setPrefWidth(400);
         Label workLabel = new Label("TÄHÄN TULEE TEKSTIÄ");
-        workField.getChildren().add(workLabel);
 
         // Workfield right
         Label rightText = new Label("WORKWIEW RIGHT");
@@ -241,7 +251,7 @@ public class App extends Application {
         seekOrderField.setSpacing(20);
         seekOrderField.setPadding(spaces);
         seekOrderField.getChildren().addAll(seekOrderTextField, seekOrderbtn, seekOrderFeedback);
-        
+
         HBox chooseDateBox = new HBox();
         chooseDateBox.setSpacing(20);
         chooseDateBox.setAlignment(Pos.CENTER_LEFT);
@@ -254,7 +264,7 @@ public class App extends Application {
         seekOrderDateTextField.setMaxWidth(200);
         Label seekOrderDateFeedback = new Label("feedback");
         chooseDateBox.getChildren().addAll(seekOrderDateTextField, chooseTodaybtn);
-                
+
         // Seek Order by date field center
         VBox seekOrderDateField = new VBox();
         seekOrderDateField.setSpacing(20);
@@ -329,7 +339,7 @@ public class App extends Application {
         // Create begin wiew:
         mainwindow.setBottom(bottomfield);
         mainwindow.setRight(loginfield);
-        mainwindow.setCenter(centerfield);
+        mainwindow.setCenter(centerField);
         mainwindow.setTop(welcomefield);
 
         Scene beginScene = new Scene(mainwindow, 1000, 700);
@@ -363,19 +373,8 @@ public class App extends Application {
         tablebox.setPadding(spaces);
         tablebox.getChildren().add(table);
 
-        
-        
-        
-        
-        
-        
-        
         //FUNCTIONS
-        
-        
-        
-        
-           // Create functions for buttons:
+        // Create functions for buttons:
         // Check if inserted name is correct and then log in
         loginBtn.setOnAction(event -> {
             if (service.login(loginfieldtext.getText())) {
@@ -406,14 +405,14 @@ public class App extends Application {
 //            }
 //        });
 
-        // Show order wiew with buttons
+        // Show order view with button panel
         orderBtn.setOnAction(event -> {
             workwindow.setCenter(workField);
             workwindow.setRight(workFieldRight);
             workwindow.setBottom(emptybox2);
         });
 
-        // Go back to the start wiew      
+        // Go back to the begin view      
         logOutBtn.setOnAction(event -> {
             service.logOut();
             win.setScene(beginScene);
@@ -421,10 +420,9 @@ public class App extends Application {
             feedbacktext.setText("");
         });
 
-        // Show admin wiew
+        // Show admin view
         adminBtn.setOnAction(event -> {
             workwindow.setRight(adminFieldRight);
-            workwindow.setBottom(emptybox2);
             chartLinkBtn.fire();
             chartLinkBtn.requestFocus();
         });
@@ -454,7 +452,7 @@ public class App extends Application {
                 }
             }
         });
-        
+
         // Admin view: Right button field
         // Load data to chart and show the chart:
         chartLinkBtn.setOnAction(event -> {
@@ -464,15 +462,14 @@ public class App extends Application {
             });
         });
 
+        // Show add user field:
         modUserLinkBtn.setOnAction(event -> {
             workwindow.setCenter(adminField);
             addUserTextField.setText("");
             addUserFeedback.setText("");
             rb1.setSelected(true);
         });
-        
-        
-        
+       
 
         // Show create order wiew
         createOrder.setOnAction(event -> {
@@ -498,8 +495,8 @@ public class App extends Application {
                 addOrderFeedback.setTextFill(Color.RED);
             }
         });
-        
-        // When textfield is active when adding a new order name, hide the old order adding button
+
+        // When textfield is active when adding a new order name, hide the 'old order adding' button
         addOrderTextField.setOnKeyTyped(event -> {
             addOldOrderbtn.setVisible(false);
             addOrderFeedback.setText("");
@@ -526,7 +523,7 @@ public class App extends Application {
         // Check if order exists and then get the order info        
         seekOrderbtn.setOnAction(event -> {
             if (service.getOrder(seekOrderTextField.getText()) != null) {
-                seekOrderFeedback.setText("Tilaus koodilla '"+ seekOrderTextField.getText() + "' löytyi.");
+                seekOrderFeedback.setText("Tilaus koodilla '" + seekOrderTextField.getText() + "' löytyi.");
                 seekOrderFeedback.setTextFill(Color.GREEN);
                 table.setItems(service.getOrderInfo(seekOrderTextField.getText()));
                 codeCol.setVisible(false);
@@ -537,12 +534,14 @@ public class App extends Application {
                 seekOrderFeedback.setTextFill(Color.RED);
             }
         });
-        
+
+        // Get the date of today to the textfield
         chooseTodaybtn.setOnAction(event -> {
-            LocalDate date =  LocalDate.now();
+            LocalDate date = LocalDate.now();
             seekOrderDateTextField.setText(date.toString());
         });
-        
+
+        // Check if the date is in the right form and then seek the events of that day
         seekOrderDatebtn.setOnAction(event -> {
             if (!seekOrderDateTextField.getText().matches("((19|2[0-9])[0-9]{2})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")) {
                 seekOrderDateFeedback.setText("Päivämäärän muoto virheellinen.");
@@ -576,7 +575,6 @@ public class App extends Application {
             }
         });
 
-
         // Show workphase creating wiew
         createPhase.setOnAction(event -> {
             workwindow.setCenter(addEventField);
@@ -591,22 +589,22 @@ public class App extends Application {
             addEventFeedback.setText("");
             addEventFeedback.setTextFill(Color.BLACK);
         });
-        
+
         // Show workphase creation wiew when coming from 'Add order' wiew:
         addOldOrderbtn.setOnAction(event -> {
             workwindow.setCenter(addEventField);
             workwindow.setBottom(emptybox2);
             logOutCheckBox.setSelected(false);
             logAgainInCheckBox.setSelected(false);
-            logAgainInCheckBox.fire();           
+            logAgainInCheckBox.fire();
             chooseCourier.setDisable(true);
             addEventCodeTextField.setText(addOrderTextField.getText());
             addEventDescTextField.setText("");
             addEventFeedback.setText("");
             addEventFeedback.setTextFill(Color.BLACK);
         });
-        
-      
+
+        // Add event: show the courier seletion radio buttons if "uloskirjaus" is selected
         logOutCheckBox.setOnAction(event -> {
             if (logOutCheckBox.isSelected()) {
                 addEventTextField.setText("Uloskirjaus");
@@ -619,7 +617,7 @@ public class App extends Application {
                 addEventDescTextField.setDisable(false);
             }
         });
-        
+
         logAgainInCheckBox.setOnAction(event -> {
             if (logAgainInCheckBox.isSelected()) {
                 addEventTextField.setText("Uusi sisäänkirjaus");
@@ -631,7 +629,7 @@ public class App extends Application {
                 chooseCourier.setDisable(true);
             }
         });
-        
+
         // When textfields are active, make changes to the fields and checkboxes
         addEventTextField.setOnKeyTyped(event -> {
             logOutCheckBox.setSelected(false);
@@ -640,7 +638,7 @@ public class App extends Application {
             chooseCourier.setDisable(true);
             addEventFeedback.setText("");
         });
-        
+
         addEventCodeTextField.setOnKeyTyped(event -> addEventFeedback.setText(""));
         addEventDescTextField.setOnKeyTyped(event -> addEventFeedback.setText(""));
 
@@ -661,6 +659,7 @@ public class App extends Application {
                 addEventFeedback.setTextFill(Color.RED);
             }
         });
+
     }
 
 }

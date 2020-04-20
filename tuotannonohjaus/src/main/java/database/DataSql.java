@@ -68,10 +68,8 @@ public class DataSql implements Data {
             this.s.execute("PRAGMA foreign_keys = ON");
             this.dbCon.commit();
             //        s.close();
-            System.out.println("tietokanta alustettu");
             return true;
         } catch (SQLException e) {
-            System.out.println("Tietokanta ei alustettu" + e.getMessage());
             return false;
         } finally {
             this.closeConnections();
@@ -93,7 +91,6 @@ public class DataSql implements Data {
                 return new User(this.rr.getString("name"), this.rr.getInt("status"));
             }
         } catch (SQLException e) {
-      //      System.out.println("Yhteyttä tietokantaan ei löydy.(userexist)" + e.getMessage());
             return null;
         } finally {
             this.closeConnections();
@@ -109,7 +106,6 @@ public class DataSql implements Data {
             this.p.setInt(2, user.getStatus());
             this.p.executeUpdate();
             this.dbCon.commit();
-            //     p.close();
             System.out.println("Käyttäjä lisätty");
             return true;
         } catch (SQLException e) {
@@ -137,7 +133,6 @@ public class DataSql implements Data {
             this.p.setString(3, order.getUserName());
             this.p.executeUpdate();
             this.dbCon.commit();
-            // p.close();
             System.out.println("Tilaus lisätty");
             return true;
         } catch (SQLException e) {
@@ -159,15 +154,8 @@ public class DataSql implements Data {
             if (!this.rr.next()) {
                 System.out.println("Tilausta ei löydy");
             } else {
-//                PreparedStatement pp = this.dbCon.prepareStatement("SELECT name FROM Users WHERE id=?");
-//                pp.setInt(1, rr.getInt("usr_id"));
-//                ResultSet rrr = pp.executeQuery();
                 foundOrder = new Order(this.rr.getString("code"), this.rr.getString("name"), this.rr.getString("timestamp"));
-//                rrr.close();
-//                pp.close();
             }
-            //   p.close();
-            //   rr.close();
             return foundOrder;
         } catch (SQLException e) {
             System.out.println("Yhteyttä tietokantaan ei löydy. Tilausta ei löydy." + e.getMessage());
@@ -181,15 +169,8 @@ public class DataSql implements Data {
     public ArrayList<WorkPhase> getOrderInfo(String code) {
         ArrayList<WorkPhase> events = new ArrayList<>();
         try {
-//            // First select the registration time for the order code
-//            PreparedStatement pp = this.dbCon.prepareStatement("SELECT O.timestamp, U.name FROM Orders O LEFT JOIN Users U ON U.id == O.usr_id WHERE O.code=?");
-//
-//            pp.setString(1, code);
-//            ResultSet r = pp.executeQuery();
-//            WorkPhase registration = new WorkPhase(r.getString("timestamp"), "registration", code, r.getString("name"), "");
-//            events.add(registration);
             this.connect();
-            // Then select all the events for this order code
+            // Select all the events for this order code
             this.p = this.dbCon.prepareStatement("SELECT E.workphase, E.description, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE code=?");
             this.p.setString(1, code);
             this.rr = this.p.executeQuery();
@@ -198,8 +179,6 @@ public class DataSql implements Data {
                 WorkPhase event = new WorkPhase(this.rr.getString("timestamp"), this.rr.getString("workphase"), code, this.rr.getString("name"), this.rr.getString("description"));
                 events.add(event);
             }
-            //   p.close();
-            //   rr.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -222,8 +201,6 @@ public class DataSql implements Data {
                 WorkPhase event = new WorkPhase(this.rr.getString("timestamp"), this.rr.getString("workphase"), this.rr.getString("code"), this.rr.getString("name"), this.rr.getString("description"));
                 events.add(event);
             }
-            //   p.close();
-            //  rr.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -231,7 +208,7 @@ public class DataSql implements Data {
         }
         return events;
     }
-    
+
     @Override
     public ArrayList<Order> getAllOrders() {
         ArrayList<Order> orders = new ArrayList<>();
@@ -252,7 +229,7 @@ public class DataSql implements Data {
         }
         return orders;
     }
-    
+
     @Override
     public HashMap<String, Integer> getOrderCountByDate() {
         HashMap<String, Integer> orders = new HashMap<>();
@@ -270,7 +247,6 @@ public class DataSql implements Data {
         } finally {
             this.closeConnections();
         }
-        System.out.println(orders);
         return orders;
     }
 
@@ -286,7 +262,6 @@ public class DataSql implements Data {
             this.p.setString(5, event.getTimestamp());
             this.p.executeUpdate();
             this.dbCon.commit();
-            // p.close();
             System.out.println("Työvaihe lisätty");
             return true;
         } catch (SQLException e) {
@@ -308,7 +283,6 @@ public class DataSql implements Data {
             this.s.execute("DROP TABLE IF EXISTS Events");
             this.s.execute("DROP TABLE IF EXISTS Users");
             this.dbCon.commit();
-            //    s.close();
             System.out.println("Tietokanta tyhjennetty.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -10,6 +10,30 @@ Pakkauskaavio:
 <img src="kuvat/pakkaukset.png" height="300" title="Pakkauskaavio"> 
 
 
+## Käyttöliittymä
+
+Käyttöliittymä sisältää kolme erillistä päänäkymää ja kahdessa niistä on lisää vaihdettavia näkymiä
+
+- Kirjautumisnäkymä
+- Tuotanto-näkymä
+  - Uuden tilauksen luomisnäkymä
+  - Uuden työvaiheen luomisnäkymä
+  - Tilauksen etsimisnäkymä koodilla
+  - Tilauksen etsimisnäkymä päivämäärällä
+- Hallinta-näkymä
+  - Tilastonäkymä
+  - Käyttäjän hallinta -näkymä
+  - Asetusnäkymä
+
+Kirjautumisnäkymä on toteutettu Scene-oliona (beginScene). Sisäänkirjautumisen jälkeen stageen sijoitetaan näytettäväksi toinen Scene-olio (workScene), johon on toteutettu loput näkymäsiirtymät. Hallinta- sekä tuotanto-näkymä ovat kenttiä, jotka tulevat näkyviin workSceneen yksi kerrallaan, rippuen valitusta painikkeesta. Tämä toteutustapa on valittu siksi, että pystytään käyttämään samoja siirtymänappeja molemmissa näkymissä.
+Uloskirjautuessa stageen sijoitetaan uudelleen näytettäväksi kirjautumisnäkymä Scene-olio (beginScene). 
+Käyttöliittymä on rakennettu luokassa dicip.ui.App.
+
+Käyttöliittymä on pyritty eristämään sovelluslogiikasta. Se kutsuu luokan dicip.domain.Service metodeja ja oikeastaan vain toimii välikätenä tiedon välittämisessä ja näyttämisessä käyttäjälle. 
+
+Käyttöliittymä huolehtii virheilmoitusten näyttämisestä käyttäjälle, kun käyttäjä yrittää syöttää virheellisiä tietoja kenttiin. Varsinaisen tiedon oikeellisuuden kuitenkin tarkistaa sovelluslogiikasta huolehtiva luokka dicip.domain.Service.
+
+
 ## Sovelluslogiikka
 
 Keskeistä dataa tässä sovelluksessa edustavat oliot User, Order ja WorkPhase, jotka kuvaavat käyttäjiä, tilauksia ja näihin molempiin liittyviä työvaiheita.

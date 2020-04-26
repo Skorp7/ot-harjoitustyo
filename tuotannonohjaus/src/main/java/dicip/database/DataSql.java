@@ -1,8 +1,8 @@
-package database;
+package dicip.database;
 
-import domain.WorkPhase;
-import domain.User;
-import domain.Order;
+import dicip.domain.WorkPhase;
+import dicip.domain.User;
+import dicip.domain.Order;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.util.ArrayList;
@@ -11,6 +11,10 @@ import java.util.HashMap;
 /**
  *
  * @author sakorpi
+ */
+/**
+ *
+ * Luokka käsittelee SQL-tietokantaa
  */
 public class DataSql implements Data {
 
@@ -67,6 +71,7 @@ public class DataSql implements Data {
             this.s.execute("CREATE TABLE Events (id INTEGER PRIMARY KEY, workphase TEXT, code TEXT NOT NULL REFERENCES Orders, usr_id REFERENCES Users, description TEXT, timestamp TEXT)");
             this.s.execute("PRAGMA foreign_keys = ON");
             this.dbCon.commit();
+            System.out.println("Tietokanta alustettu nyt");
             //        s.close();
             return true;
         } catch (SQLException e) {
@@ -118,9 +123,60 @@ public class DataSql implements Data {
     }
 
     @Override
-    public boolean removeUser(String name) {
-        System.out.println("Ei tuetttu vielä.");
-        return false;
+    public boolean removeUser(User user) {
+        try {
+            this.connect();
+            this.p = this.dbCon.prepareStatement("DELETE FROM Users WHERE name=?");
+            this.p.setString(1, user.getName());
+            this.p.executeUpdate();
+            this.dbCon.commit();
+            System.out.println("Käyttäjä poistettu");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Käyttäjää ei poistettu.");
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+            this.closeConnections();
+        }
+    }
+
+    @Override
+    public boolean changeUserStatus(User user, int status) {
+        try {
+            this.connect();
+            this.p = this.dbCon.prepareStatement("UPDATE Users SET status=? WHERE name=?;");
+            this.p.setInt(1, status);
+            this.p.setString(2, user.getName());
+            this.p.executeUpdate();
+            this.dbCon.commit();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        } finally {
+            this.closeConnections();
+        }
+    }
+
+    @Override
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            this.connect();
+            // Then select all the users
+            this.p = this.dbCon.prepareStatement("SELECT * FROM Users");
+            this.rr = this.p.executeQuery();
+            // Create a User object from sql data
+            while (this.rr.next()) {
+                User user = new User(this.rr.getString("name"), this.rr.getInt("status"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            this.closeConnections();
+        }
+        return users;
     }
 
     @Override
@@ -177,6 +233,28 @@ public class DataSql implements Data {
             // Create a Workphase object from sql data
             while (this.rr.next()) {
                 WorkPhase event = new WorkPhase(this.rr.getString("timestamp"), this.rr.getString("workphase"), code, this.rr.getString("name"), this.rr.getString("description"));
+                events.add(event);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            this.closeConnections();
+        }
+        return events;
+    }
+
+    @Override
+    public ArrayList<WorkPhase> getOrderInfoByUser(User user) {
+        ArrayList<WorkPhase> events = new ArrayList<>();
+        try {
+            this.connect();
+            // Select all the events for this user
+            this.p = this.dbCon.prepareStatement("SELECT E.code, E.workphase, E.description, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE name=?");
+            this.p.setString(1, user.getName());
+            this.rr = this.p.executeQuery();
+            // Create a Workphase object from sql data
+            while (this.rr.next()) {
+                WorkPhase event = new WorkPhase(this.rr.getString("timestamp"), this.rr.getString("workphase"), this.rr.getString("code"), this.rr.getString("name"), this.rr.getString("description"));
                 events.add(event);
             }
         } catch (SQLException e) {
@@ -273,7 +351,7 @@ public class DataSql implements Data {
     }
 
     @Override
-    public void removeAllDataFromDatabase() {
+    public boolean removeAllDataFromDatabase() {
         try {
             this.connect();
             this.s = this.dbCon.createStatement();
@@ -284,8 +362,10 @@ public class DataSql implements Data {
             this.s.execute("DROP TABLE IF EXISTS Users");
             this.dbCon.commit();
             System.out.println("Tietokanta tyhjennetty.");
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         } finally {
             this.closeConnections();
         }

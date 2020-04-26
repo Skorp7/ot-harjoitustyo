@@ -1,15 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Domain;
 
-import domain.User;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+package domain;
+
+import dicip.domain.User;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,26 +16,6 @@ public class UserTest {
         this.user = new User("testUser", 0);
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
     @Test
     public void userNameIsCorrect() {
         assertEquals("testUser", this.user.getName());
@@ -70,5 +42,19 @@ public class UserTest {
     public void setStatusChangesStatusCorrect() {
         this.user.setStatus(1);
         assertEquals(1, this.user.getStatus());
+    }
+    
+    @Test
+    public void sameUserIsTheSame() {
+        User sameuser1 = new User("TheSame", 0);
+        User sameuser2 = new User("TheSame", 0);
+        assertEquals(sameuser1, sameuser2);
+    }
+    
+    @Test
+    public void sameUserIsTheSameEvenStatusIsNot() {
+        User sameuser1 = new User("TheSame", 0);
+        User sameuser2 = new User("TheSame", 1);
+        assertEquals(sameuser1, sameuser2);
     }
 }

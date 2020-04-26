@@ -1,20 +1,13 @@
-package Database;
+package database;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-import database.*;
-import domain.Order;
-import domain.User;
-import domain.WorkPhase;
+import dicip.database.*;
+import dicip.domain.Order;
+import dicip.domain.User;
+import dicip.domain.WorkPhase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -29,17 +22,9 @@ public class DataTest {
     public DataTest() {
         // Change the database here to "new DataMap()" if you don't want to test with SQL
         // This test uses it's own SQL-database file testi.db and does not mess up the file used by real app.
-        this.databTest = new DataSql("jdbc:sqlite:testi.db");
-        // this.databTest = new DataMap();
+         this.databTest = new DataSql("jdbc:sqlite:testi.db");
+        //this.databTest = new DataMap();
         this.databTest.format();
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
     }
 
     @Before

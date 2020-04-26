@@ -1,19 +1,20 @@
-package ui;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
-
+package dicip.ui;
 /**
  *
  * @author sakorpi
  */
-import database.DataSql;
-import domain.WorkPhase;
-import domain.Service;
+
+/**
+ *
+ * Tämä luokka vastaa käyttöliittymästä
+ */
+import dicip.database.DataSql;
+import dicip.domain.WorkPhase;
+import dicip.domain.Service;
+import dicip.domain.User;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,6 +24,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -96,18 +99,20 @@ public class App extends Application {
         centerField.setMinHeight(400);
         centerField.setSpacing(20);
 
-        // Create adminstrative fields:
+        // Create adminstrative fields - user management:
         // Controlfield:
         HBox adminFieldTop = new HBox();
-        Button addUserbtn2 = new Button("Lisää käyttäjä");
-        adminFieldTop.getChildren().add(addUserbtn2);
+        adminFieldTop.setSpacing(20);
+        Button addUserLinkBtn = new Button("Lisää käyttäjä");
+        Button changeStatusLinkBtn = new Button ("Muuta käyttäjäroolia");
+        Button removeUserLinkBtn = new Button("Poista käyttäjä");
+        adminFieldTop.getChildren().addAll(addUserLinkBtn, changeStatusLinkBtn, removeUserLinkBtn);
 
-        // AddUserField:
-        Button addUserBtn = new Button("Lisää käyttäjä");
-        TextField addUserTextField = new TextField("");
-        addUserTextField.setPromptText("Anna tunnus");
-        addUserTextField.setMaxWidth(200);
-        Label addUserFeedback = new Label("feedback");
+        // Modify User Field:
+        TextField modUserTextField = new TextField("");
+        modUserTextField.setPromptText("Anna tunnus");
+        modUserTextField.setMaxWidth(200);
+        Label modUserFeedback = new Label("feedback");
 
         // Radio buttons for status choise:
         final ToggleGroup group = new ToggleGroup();
@@ -116,6 +121,24 @@ public class App extends Application {
         rb1.setSelected(true);
         RadioButton rb2 = new RadioButton("Työnjohtaja");
         rb2.setToggleGroup(group);
+        
+        // User management button field:
+        Button addUserBtn = new Button("Lisää käyttäjä");
+        Button removeUserBtn = new Button("Poista käyttäjä");
+        Button changeStatusBtn = new Button("Muuta käyttäjärooli");
+        VBox modUserBtnField = new VBox();
+        modUserBtnField.setSpacing(-25);
+        modUserBtnField.getChildren().addAll(addUserBtn,changeStatusBtn,removeUserBtn);
+        
+        
+        
+        // Admin field center - user management
+        VBox adminField = new VBox();
+        adminField.getStylesheets().add("styles/style_admin.css");
+        adminField.setSpacing(20);
+        adminField.setPadding(spaces);
+        adminField.getChildren().addAll(adminFieldTop, modUserTextField, rb1, rb2, modUserBtnField, modUserFeedback);
+        
 
         // Empty field center
         VBox emptybox = new VBox();
@@ -131,7 +154,6 @@ public class App extends Application {
         Button chartLinkBtn = new Button("Tilastot");
         // chartLinkBtn.getStyleClass().add("button");
         Button settingsLinkBtn = new Button("Asetukset");
-        settingsLinkBtn.setDisable(true);
         VBox adminFieldRight = new VBox();
         adminFieldRight.getStylesheets().add("styles/style_admin.css");
         adminFieldRight.setPrefWidth(300);
@@ -139,18 +161,24 @@ public class App extends Application {
         adminFieldRight.setPadding(spaces);
         adminFieldRight.getChildren().addAll(righttext, modUserLinkBtn, chartLinkBtn, settingsLinkBtn);
 
-        // Admin field center
-        VBox adminField = new VBox();
-        adminField.getStylesheets().add("styles/style_admin.css");
-        adminField.setSpacing(20);
-        adminField.setPadding(spaces);
-        adminField.getChildren().addAll(adminFieldTop, addUserTextField, rb1, rb2, addUserBtn, addUserFeedback);
 
+        // Settings - controls
+        Button removeAllDataBtn = new Button("Tyhjennä tietokanta");
+                
+        // Admin field center - settings
+        VBox adminFieldSettings = new VBox();
+        adminFieldSettings.getStylesheets().add("styles/style_admin.css");
+        adminFieldSettings.setSpacing(20);
+        adminFieldSettings.setPadding(spaces);
+        adminFieldSettings.getChildren().addAll(removeAllDataBtn);
+        
+        
         // Admin field center - chart
         VBox adminFieldChart = new VBox();
-        Label chartTopic = new Label("Tilastoteksti");
+//        Label chartTopic = new Label("Tilastoteksti");
         adminFieldChart.setSpacing(20);
         adminFieldChart.setPadding(spaces);
+
 
         // Create chart axels
         LocalDate today = LocalDate.now();
@@ -393,17 +421,6 @@ public class App extends Application {
                 feedbacktext.setTextFill(Color.RED);
             }
         });
-//
-//        // Format the database if not formated before
-//        formatbtn.setOnAction(event -> {
-//            if (service.checkDatabase()) {
-//                feedbacktext.setText("Tietokanta alustettu nyt");
-//                feedbacktext.setTextFill(Color.GREEN);
-//            } else {
-//                feedbacktext.setText("Alustus on jo tehty");
-//                feedbacktext.setTextFill(Color.BLACK);
-//            }
-//        });
 
         // Show order view with button panel
         orderBtn.setOnAction(event -> {
@@ -423,18 +440,19 @@ public class App extends Application {
         // Show admin view
         adminBtn.setOnAction(event -> {
             workwindow.setRight(adminFieldRight);
+            workwindow.setBottom(emptybox2);
             chartLinkBtn.fire();
             chartLinkBtn.requestFocus();
         });
 
         // Admin view: Add user: Check if the username is already taken or too short, then add user
         addUserBtn.setOnAction(event -> {
-            if (service.getUser(addUserTextField.getText()) != null) {
-                addUserFeedback.setText("Tunnus on jo olemassa, valitse toinen tunnus.");
-                addUserFeedback.setTextFill(Color.RED);
-            } else if (addUserTextField.getText().length() < 3) {
-                addUserFeedback.setText("Tunnuksen tulee olla vähintään 3 merkkiä pitkä.");
-                addUserFeedback.setTextFill(Color.RED);
+            if (service.getUser(modUserTextField.getText()) != null) {
+                modUserFeedback.setText("Tunnus on jo olemassa, valitse toinen tunnus.");
+                modUserFeedback.setTextFill(Color.RED);
+            } else if (modUserTextField.getText().length() < 3) {
+                modUserFeedback.setText("Tunnuksen tulee olla vähintään 3 merkkiä pitkä.");
+                modUserFeedback.setTextFill(Color.RED);
             } else {
                 Integer status = 0;
                 if (group.getSelectedToggle().equals(rb1)) {
@@ -442,13 +460,12 @@ public class App extends Application {
                 } else if (group.getSelectedToggle().equals(rb2)) {
                     status = 1;
                 }
-                if (service.addUser(addUserTextField.getText(), status)) {
-                    addUserFeedback.setText("Tunnus lisätty.");
-                    addUserFeedback.setTextFill(Color.GREEN);
+                if (service.addUser(modUserTextField.getText(), status)) {
+                    modUserFeedback.setText("Käyttäjä lisätty.");
+                    modUserFeedback.setTextFill(Color.GREEN);
                 } else {
-                    addUserFeedback.setText("Tunnuksen luomisessa tapahtui virhe.");
-                    addUserFeedback.setTextFill(Color.BLACK);
-
+                    modUserFeedback.setText("Tunnuksen luomisessa tapahtui virhe.");
+                    modUserFeedback.setTextFill(Color.BLACK);
                 }
             }
         });
@@ -457,6 +474,7 @@ public class App extends Application {
         // Load data to chart and show the chart:
         chartLinkBtn.setOnAction(event -> {
             workwindow.setCenter(adminFieldChart);
+            orderData.getData().clear();
             service.getOrderAmount30Days().entrySet().stream().forEach(pari -> {
                 orderData.getData().add(new XYChart.Data(pari.getKey().getDayOfYear(), pari.getValue()));
             });
@@ -465,11 +483,104 @@ public class App extends Application {
         // Show add user field:
         modUserLinkBtn.setOnAction(event -> {
             workwindow.setCenter(adminField);
-            addUserTextField.setText("");
-            addUserFeedback.setText("");
+            modUserTextField.setText("");
+            modUserFeedback.setText("");
+            addUserBtn.setVisible(true);
+            removeUserBtn.setVisible(false);
+            changeStatusBtn.setVisible(false);
+            addUserLinkBtn.requestFocus();
+            rb1.setVisible(true);
+            rb2.setVisible(true);
             rb1.setSelected(true);
         });
+        
+        // Show settings field:
+        settingsLinkBtn.setOnAction(event -> { 
+            workwindow.setCenter(adminFieldSettings);
+        });
+        
+        // Settings field Button functions:
+        // Remove data from database if user chooses "OK" in the warningbox. Then log out and format database.
+        removeAllDataBtn.setOnAction(event -> {
+            if (this.removeAllDataIsClear()) {
+                service.removeAllDataFromDatabase();
+                logOutBtn.fire();
+                service.checkDatabase();
+            }
+        });
        
+        // User management button field:
+        addUserLinkBtn.setOnAction(event -> {
+            modUserTextField.setText("");
+            modUserFeedback.setText("");
+            rb1.setSelected(true);
+            rb1.setVisible(true);
+            rb2.setVisible(true);
+            removeUserBtn.setVisible(false);
+            changeStatusBtn.setVisible(false);
+            addUserBtn.setVisible(true);
+        });
+        
+        removeUserLinkBtn.setOnAction(event -> {
+            rb1.setVisible(false);
+            rb2.setVisible(false);
+            removeUserBtn.setVisible(true);
+            changeStatusBtn.setVisible(false);
+            addUserBtn.setVisible(false);
+        });
+        
+        changeStatusLinkBtn.setOnAction(event -> {
+            rb1.setVisible(true);
+            rb2.setVisible(true);
+            removeUserBtn.setVisible(false);
+            changeStatusBtn.setVisible(true);
+            addUserBtn.setVisible(false);
+        });
+    
+        // First check if user exists, then check if it has log in rights, then remove user or login rights
+        removeUserBtn.setOnAction(event -> {
+            if (service.getUser(modUserTextField.getText()) != null) {
+                User user = service.getUser(modUserTextField.getText());
+                if (user.getStatus() == 99) {
+                    modUserFeedback.setText("Käyttäjän oikeudet on jo poistettu.");
+                    modUserFeedback.setTextFill(Color.BLACK);
+                } else {
+                    if (removeUserIsClear(user) && service.removeUser(modUserTextField.getText())) {
+                        modUserFeedback.setText("Poistettu.");
+                        modUserFeedback.setTextFill(Color.GREEN);
+                        if (user.equals(service.getLoggedInUser())) logOutBtn.fire();
+                    } else {
+                        modUserFeedback.setText("Käyttäjää ei poistettu");
+                        modUserFeedback.setTextFill(Color.BLACK);
+                    }
+                }
+            } else {
+                modUserFeedback.setText("Käyttäjää ei löydy.");
+                modUserFeedback.setTextFill(Color.RED);
+            }
+        });
+
+        changeStatusBtn.setOnAction(event -> {
+            Integer status = 0;
+            if (group.getSelectedToggle().equals(rb1)) {
+                status = 0;
+            } else if (group.getSelectedToggle().equals(rb2)) {
+                status = 1;
+            }
+            if (service.getUser(modUserTextField.getText()) != null) {
+                if (changeStatusIsClear(service.getUser(modUserTextField.getText()), status)) {
+                    service.changeUserStatus(modUserTextField.getText(), status);
+                    modUserFeedback.setText("Käyttäjärooli vaihdettu.");
+                    modUserFeedback.setTextFill(Color.GREEN);
+                } else {
+                    modUserFeedback.setText("Käyttäjäroolia ei vaihdettu.");
+                    modUserFeedback.setTextFill(Color.BLACK);
+                }
+            } else {
+                modUserFeedback.setText("Käyttäjää ei löydy.");
+                modUserFeedback.setTextFill(Color.RED);
+            }
+        });
 
         // Show create order wiew
         createOrder.setOnAction(event -> {
@@ -549,6 +660,7 @@ public class App extends Application {
             } else {
                 if (service.getOrderInfoByDate(seekOrderDateTextField.getText()).isEmpty()) {
                     seekOrderDateFeedback.setText("Tällä päivämäärällä ei löytynyt yhtään käsiteltyä tilausta.");
+                    workwindow.setBottom(emptybox2);
                     seekOrderDateFeedback.setTextFill(Color.BLACK);
                 } else {
                     table.setItems(service.getOrderInfoByDateGrouped(seekOrderDateTextField.getText()));
@@ -660,6 +772,79 @@ public class App extends Application {
             }
         });
 
+    }
+    
+    private boolean removeAllDataIsClear() {
+        Boolean clear = false;
+        
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Tietokannan tyhjennys");
+        alert.setHeaderText("Oletko varma että haluat tyhjentää koko tietokannan?");
+        alert.setContentText("Kaikki tieto poistetaan tietokannasta. \nKaikki käyttäjät, tilaukset ja työvaiheet poistetaan.");
+        
+        ButtonType cancelButtonType = new ButtonType("Peruuta", ButtonData.CANCEL_CLOSE);
+        alert.getDialogPane().getButtonTypes().add(cancelButtonType);
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            clear = true;
+        }
+        return clear;
+    }
+    
+    private boolean changeStatusIsClear(User user, int status) {
+        Boolean clear = false;
+        String wantedStatus = "";
+        String currentStatus = "";
+        if (status == 0) {
+            wantedStatus = "Työntekijä";
+        } else if (status == 1) {
+            wantedStatus = "Työnjohtaja";
+        }
+        if (user.getStatus() == 0) {
+            currentStatus = "Työntekijä";
+        } else if (user.getStatus() == 1) {
+            currentStatus = "Työnjohtaja";
+        } else if (user.getStatus() == 99) {
+            currentStatus = "Oikeudet poistettu";
+        }
+
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Käyttäjäroolin vaihto");
+        alert.setHeaderText("Oletko varma että haluat vaihtaa käyttäjän '" + user.getName() + "' käyttäjäroolin?");
+        alert.setContentText("Nykyinen rooli on '" + currentStatus + "'." + "\n"
+                + "Olet asettamassa käyttäjän '" + user.getName() + "' rooliksi '" + wantedStatus + "'.");
+
+        ButtonType cancelButtonType = new ButtonType("Peruuta", ButtonData.CANCEL_CLOSE);
+        alert.getDialogPane().getButtonTypes().add(cancelButtonType);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            clear = true;
+        }
+        return clear;
+    }
+    
+      private boolean removeUserIsClear(User user) {
+        Boolean clear = false;
+        
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Käyttäjän poistaminen");
+        alert.setHeaderText("Oletko varma että haluat poistaa käyttäjän '" + user.getName() + "'.");
+        alert.setContentText("Jos käyttäjään liittyy tilauksia tai tapahtumia, \n"
+                + "käyttäjältä poistetaan vain sisäänkirjautumisoikeus.\n"
+                + "Sen saa takaisin muuttamalla käyttäjäroolia.\n"
+                + "Muussa tapauksessa koko käyttäjä poistetaan tietokannasta.\n"
+                + "Kaikkia työnjohtajan oikeuksilla olevia käyttäjiä ei voi poistaa.");
+
+        ButtonType cancelButtonType = new ButtonType("Peruuta", ButtonData.CANCEL_CLOSE);
+        alert.getDialogPane().getButtonTypes().add(cancelButtonType);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            clear = true;
+        }
+        return clear;
     }
 
 }

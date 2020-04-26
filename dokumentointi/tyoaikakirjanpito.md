@@ -14,4 +14,6 @@
 | 12.4. |   8   | Log-out-toiminto, tilasto-viivakaavio, SQL-kysely 'kaikki tilaukset' |
 | 13.4. |   4   | CSS-ulkoasu, .jar:in generointi |
 | 20.4. |   1   | Siistimistä ja releasen luonti |
-|  |  52  | YHTEENSÄ |
+| 24.4. |   1   | Pakkausrakenteen päivitys ym. |
+| 26.4. |   7   | Uusia toimintoja: poista käyttäjä, muuta statusta, tyhjennä tietokanta. Testejä |
+|  |  60  | YHTEENSÄ |

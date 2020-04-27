@@ -16,4 +16,5 @@
 | 20.4. |   1   | Siistimistä ja releasen luonti |
 | 24.4. |   1   | Pakkausrakenteen päivitys ym. |
 | 26.4. |   7   | Uusia toimintoja: poista käyttäjä, muuta statusta, tyhjennä tietokanta. Testejä |
+| 27. 4.|   2   | Javadocin kirjoittamista ja release |
 |  |  60  | YHTEENSÄ |

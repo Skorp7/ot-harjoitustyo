@@ -516,6 +516,8 @@ public class App extends Application {
         });
 
         removeUserLinkBtn.setOnAction(event -> {
+            modUserTextField.setText("");
+            modUserFeedback.setText("");
             rb1.setVisible(false);
             rb2.setVisible(false);
             removeUserBtn.setVisible(true);
@@ -524,6 +526,8 @@ public class App extends Application {
         });
 
         changeStatusLinkBtn.setOnAction(event -> {
+            modUserTextField.setText("");
+            modUserFeedback.setText("");
             rb1.setVisible(true);
             rb2.setVisible(true);
             removeUserBtn.setVisible(false);

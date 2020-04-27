@@ -59,7 +59,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 - Työnjohtajaikkuna
   - näyttää automaattisesti tilastokäppyrän kuukauden uusista tilauksista päiväkohtaisesti TEHTY
   - LUO TUNNUS
-    - (anna tunnus ja valitse käyttäjäryhmä) - tekestikentät TEHTY
+    - (anna tunnus ja valitse käyttäjäryhmä) - tekstikentät TEHTY
     - viesti onnistumisesta/epäonnistumisesta TEHTY
     
     
@@ -67,10 +67,12 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 
 Mahdollisia lisättäviä toiminnallisuuksia:
   - työnantajalle lisätoiminnot:
-    - poista tunnus
+    - poista tunnus TEHTY
     - poista tilaus
     - poista työvaihe
-    - muuta työntekijän nimi tai käyttöoikeus
+    - muuta työntekijän käyttöoikeus TEHTY
+    - tyhjennä tietokanta TEHTY
+    - muuta työntekijän nimi
     - hae tilastot työntekijäkohtaisesti
     - välitä asiakkaalta saatu palaute työntekijälle
   - työntekijälle lisätoiminnot:

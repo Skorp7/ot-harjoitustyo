@@ -5,6 +5,7 @@ Sovelluksella voi seurata hammaslaboratorion tuotantoa. Laboratorion työtahti o
 
 ## Dokumentaatio
 
+* [Käyttöohje](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/kayttoohje.md)
 * [Työaikakirjanpito](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 * [Vaatimusmäärittely](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
 * [Arkkitehtuurikuvaus](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
@@ -53,10 +54,10 @@ mvn jxr:jxr checkstyle:checkstyle
 ```
 Raportin saa nähtäväksi avaamalla selaimella tiedoston target/site/checkstyle.html
 
-### Javadoc
+### JavaDoc
 
-Javadoc:in saa generoitua komennolla
+JavaDoc:in saa generoitua komennolla
 ```
 mvn javadoc:javadoc
 ```
-Javadocin saa nähtäväksi avaamalla selaimella tiedoston target/site/apidocs/index.html
+JavaDocin saa nähtäväksi avaamalla selaimella tiedoston target/site/apidocs/index.html

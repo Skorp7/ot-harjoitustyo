@@ -5,7 +5,7 @@ package dicip.domain;
  * @author sakorpi
  */
 /**
- * Luokka kuvaa yksittäistä tilausta
+ * Class represents a single order
  */
 public class Order {
 

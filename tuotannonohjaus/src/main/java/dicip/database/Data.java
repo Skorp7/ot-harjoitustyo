@@ -5,7 +5,6 @@ import dicip.domain.User;
 import dicip.domain.Order;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javafx.collections.ObservableList;
 
 /**
  *
@@ -13,99 +12,129 @@ import javafx.collections.ObservableList;
  */
 /**
  *
- * Rajapinta tietokantojen käsittelyä varten
+ * Interface for the database
  */
 public interface Data {
 
     // Database actions:
     /**
-     * Tietokannan alustava metodi, laittaa tietokannan käyttövalmiiksi.
+     * Format the database to make it ready to use. Returns false if already
+     * formatted.
      *
-     * @return onnistuiko alustus
+     * @return true if formatted, else false
      */
     boolean format();
 
     /**
-     * Metodi tyhjentää tietokannan kokonaan, jonka jälkeen se pitää alustaa
-     * uudelleen.
+     * Clear the database. After this it has to be formatted again.
+     *
+     * @return true if done, else false
      */
     boolean removeAllDataFromDatabase();
 
     // User actions:
     /**
-     * Hakee käyttäjän tietokannasta
+     * Get user from database
      *
-     * @param name käyttäjän antama syöte (nimi)
-     * @return User-olio jolla on nimenä syötetty nimi tai 'null' jos käyttäjää
-     * ei löydy.
+     * @param name given name
+     * @return Object User or 'null' if user was not found.
      */
     User getUser(String name);
 
     /**
-     * Lisää käyttäjän tietokantaan
+     * Add user to the database
      *
-     * @param user annettu User-olio
-     * @return true jos käyttäjän lisäys onnistui, muutoin false
+     * @param user given User
+     * @return true if done, else false
      */
     boolean addUser(User user);
 
     /**
-     * Poistaa käyttäjän tietokannasta
+     * Remove user from the database
      *
-     * @param user annettu User-olio
-     * @return true jos käyttäjän poistaminen onnistui, muutoin false
+     * @param user given User
+     * @return true if done, else false
      */
     public boolean removeUser(User user);
 
+    /**
+     * Change user status
+     *
+     * @param user given User
+     * @param status given status
+     * @return true if done, else false
+     */
     public boolean changeUserStatus(User user, int status);
 
+    /**
+     * Get all users as list
+     *
+     * @return a list of all users as User-objects
+     */
     public ArrayList<User> getAllUsers();
 
     // Order actions:
     /**
-     * Lisää tilauksen tietokantaan
+     * Add order to the database
      *
-     * @param order annettu Order-olio (tilaus)
-     * @return true jos tilauksen lisäys onnistui, muutoin false
+     * @param order given Order
+     * @return true if done, else false
      */
     boolean addOrder(Order order);
 
+    /**
+     * Get user from database
+     *
+     * @param code given code
+     * @return Order-object or 'null' if order was not found.
+     */
     Order getOrder(String code);
 
+    /**
+     * Get all orders as a list
+     *
+     * @return a list of Order-objects
+     */
     ArrayList<Order> getAllOrders();
 
     /**
-     * Hakee tietyn tilauksen kaikki työvaiheet
+     * Get all work phases for a specific order
      *
-     * @param code annettu tilauskoodi
-     * @return lista työvaiheista joihin liittyy annettu koodi
+     * @param code given code
+     * @return a list of WorkPhase-objects with the given code
      */
     ArrayList<WorkPhase> getOrderInfo(String code);
 
     /**
-     * Hakee tietyn päivän ajalta kaikki työvaiheet
+     * Get all the work phases with a specific date
      *
-     * @param date annettu päivämäärä
-     * @return lista työvaiheista joihin liittyy annettu päivämäärä
+     * @param date given date
+     * @return a list of WorkPhase-objects with the given date
      */
     ArrayList<WorkPhase> getOrderInfoByDate(String date);
 
+    /**
+     * Get all the work phases of the specific user
+     *
+     * @param user given User
+     * @return a list of the WorkPhase-objects done by given User
+     */
     ArrayList<WorkPhase> getOrderInfoByUser(User user);
 
     /**
-     * Hakee uusien tilausten määrän per päivä
+     * Get the count of the new orders by date.
      *
-     * @return HashMap joka sisältää arvoinaan päivämäärän ja sinä päivänä
-     * luotujen uusien tilausten määrän
+     * @return HashMap which includes date as the 'key' and the count of new
+     * orders for that date as the 'value'.
      */
     HashMap<String, Integer> getOrderCountByDate();
 
     // Event actions
     /**
-     * Lisää työvaiheen tietokantaan
+     * Add a work phase to the database
      *
-     * @param event annettu WorkPhase-olio (työvaihe)
-     * @return true jos työvaiheen lisäys onnistui, muutoin false
+     * @param event given WorkPhase
+     * @return true if done, else false
      */
     boolean addEvent(WorkPhase event);
 

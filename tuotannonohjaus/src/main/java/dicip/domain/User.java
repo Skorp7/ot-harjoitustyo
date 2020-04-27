@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 /**
  *
- * Luokka kuvaa yksittäistä käyttäjää (työntekijä tai työnjohtaja)
+ * Class represents a single user
  */
 public class User {
 
@@ -36,6 +36,11 @@ public class User {
         this.status = status;
     }
 
+    /**
+     * Compare the two user by user name
+     *
+     * @return true if the user names equals
+     */
     @Override
     public boolean equals(Object compar) {
         if (this == compar) {
@@ -48,6 +53,11 @@ public class User {
         return this.name.equals(comprUser.getName());
     }
 
+    /**
+     * Create a hashCode
+     *
+     * @return hashcode
+     */
     @Override
     public int hashCode() {
         int hash = 7;

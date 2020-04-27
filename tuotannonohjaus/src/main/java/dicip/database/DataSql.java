@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 /**
  *
- * Luokka käsittelee SQL-tietokantaa
+ * Class handles the database
  */
 public class DataSql implements Data {
 
@@ -32,7 +32,6 @@ public class DataSql implements Data {
         try {
             this.dbCon = DriverManager.getConnection(this.fileName);
             this.dbCon.setAutoCommit(false);
-//            System.out.println("Yhteys luotu");
         } catch (SQLException e) {
             System.out.println("Yhteyden luominen epäonnistui.");
             System.out.println(e.getMessage());
@@ -53,7 +52,6 @@ public class DataSql implements Data {
             if (this.s != null) {
                 this.s.close();
             }
-//            System.out.println("Yhteydet suljettu.");
         } catch (SQLException e) {
             System.out.println("Yhteyden sulkeminen tietokantaan epäonnistui.");
         }

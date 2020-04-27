@@ -6,10 +6,9 @@ package dicip.database;
  */
 /**
  *
- * Tämä luokka on vain testausta varten, jos haluaa testata sovelluslogiikkaa
- * ilman pysyväistallentavaa tietokantaa
+ * This class is only for testing purposes. To test the application
+ * logic without the permanent data saving into database.
  */
-// This class is for testing the app logic
 import dicip.domain.Order;
 import dicip.domain.User;
 import dicip.domain.WorkPhase;

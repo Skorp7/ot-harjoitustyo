@@ -1,13 +1,5 @@
 package dicip.ui;
-/**
- *
- * @author sakorpi
- */
 
-/**
- *
- * Tämä luokka vastaa käyttöliittymästä
- */
 import dicip.database.DataSql;
 import dicip.domain.WorkPhase;
 import dicip.domain.Service;
@@ -34,6 +26,14 @@ import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import javafx.util.StringConverter;
 
+/**
+ *
+ * @author sakorpi
+ */
+/**
+ *
+ * Class for graphical user interface
+ */
 public class App extends Application {
 
     @Override
@@ -57,7 +57,6 @@ public class App extends Application {
         Label logintext = new Label("Kirjaudu sisään:");
         Label feedbacktext = new Label("");
         loginfield.getChildren().addAll(logintext, loginfieldtext, loginBtn, feedbacktext, loginInfoText);
-        // loginfield.setPrefSize(200, 400);
         loginfield.setSpacing(10);
         loginfield.setPadding(spaces);
 
@@ -104,7 +103,7 @@ public class App extends Application {
         HBox adminFieldTop = new HBox();
         adminFieldTop.setSpacing(20);
         Button addUserLinkBtn = new Button("Lisää käyttäjä");
-        Button changeStatusLinkBtn = new Button ("Muuta käyttäjäroolia");
+        Button changeStatusLinkBtn = new Button("Muuta käyttäjäroolia");
         Button removeUserLinkBtn = new Button("Poista käyttäjä");
         adminFieldTop.getChildren().addAll(addUserLinkBtn, changeStatusLinkBtn, removeUserLinkBtn);
 
@@ -121,24 +120,21 @@ public class App extends Application {
         rb1.setSelected(true);
         RadioButton rb2 = new RadioButton("Työnjohtaja");
         rb2.setToggleGroup(group);
-        
+
         // User management button field:
         Button addUserBtn = new Button("Lisää käyttäjä");
         Button removeUserBtn = new Button("Poista käyttäjä");
         Button changeStatusBtn = new Button("Muuta käyttäjärooli");
         VBox modUserBtnField = new VBox();
         modUserBtnField.setSpacing(-25);
-        modUserBtnField.getChildren().addAll(addUserBtn,changeStatusBtn,removeUserBtn);
-        
-        
-        
+        modUserBtnField.getChildren().addAll(addUserBtn, changeStatusBtn, removeUserBtn);
+
         // Admin field center - user management
         VBox adminField = new VBox();
         adminField.getStylesheets().add("styles/style_admin.css");
         adminField.setSpacing(20);
         adminField.setPadding(spaces);
         adminField.getChildren().addAll(adminFieldTop, modUserTextField, rb1, rb2, modUserBtnField, modUserFeedback);
-        
 
         // Empty field center
         VBox emptybox = new VBox();
@@ -161,24 +157,21 @@ public class App extends Application {
         adminFieldRight.setPadding(spaces);
         adminFieldRight.getChildren().addAll(righttext, modUserLinkBtn, chartLinkBtn, settingsLinkBtn);
 
-
         // Settings - controls
         Button removeAllDataBtn = new Button("Tyhjennä tietokanta");
-                
+
         // Admin field center - settings
         VBox adminFieldSettings = new VBox();
         adminFieldSettings.getStylesheets().add("styles/style_admin.css");
         adminFieldSettings.setSpacing(20);
         adminFieldSettings.setPadding(spaces);
         adminFieldSettings.getChildren().addAll(removeAllDataBtn);
-        
-        
+
         // Admin field center - chart
         VBox adminFieldChart = new VBox();
 //        Label chartTopic = new Label("Tilastoteksti");
         adminFieldChart.setSpacing(20);
         adminFieldChart.setPadding(spaces);
-
 
         // Create chart axels
         LocalDate today = LocalDate.now();
@@ -221,7 +214,7 @@ public class App extends Application {
 
         // Create left field in workwindow:
         VBox leftfield = new VBox();
-        Label lefttext = new Label("leftTEXT plaaplaplaaplaa");
+        Label lefttext = new Label("");
         Button logOutBtn = new Button("Kirjaudu ulos");
         logOutBtn.setCancelButton(true);
         Button adminBtn = new Button("Hallinta");
@@ -413,6 +406,7 @@ public class App extends Application {
                 } else {
                     adminBtn.setDisable(true);
                 }
+                lefttext.setText("Kirjautuneena:\n" + service.getLoggedInUser().getName());
                 win.setScene(workScene);
                 orderBtn.fire();
                 orderBtn.requestFocus();
@@ -493,12 +487,12 @@ public class App extends Application {
             rb2.setVisible(true);
             rb1.setSelected(true);
         });
-        
+
         // Show settings field:
-        settingsLinkBtn.setOnAction(event -> { 
+        settingsLinkBtn.setOnAction(event -> {
             workwindow.setCenter(adminFieldSettings);
         });
-        
+
         // Settings field Button functions:
         // Remove data from database if user chooses "OK" in the warningbox. Then log out and format database.
         removeAllDataBtn.setOnAction(event -> {
@@ -508,7 +502,7 @@ public class App extends Application {
                 service.checkDatabase();
             }
         });
-       
+
         // User management button field:
         addUserLinkBtn.setOnAction(event -> {
             modUserTextField.setText("");
@@ -520,7 +514,7 @@ public class App extends Application {
             changeStatusBtn.setVisible(false);
             addUserBtn.setVisible(true);
         });
-        
+
         removeUserLinkBtn.setOnAction(event -> {
             rb1.setVisible(false);
             rb2.setVisible(false);
@@ -528,7 +522,7 @@ public class App extends Application {
             changeStatusBtn.setVisible(false);
             addUserBtn.setVisible(false);
         });
-        
+
         changeStatusLinkBtn.setOnAction(event -> {
             rb1.setVisible(true);
             rb2.setVisible(true);
@@ -536,7 +530,7 @@ public class App extends Application {
             changeStatusBtn.setVisible(true);
             addUserBtn.setVisible(false);
         });
-    
+
         // First check if user exists, then check if it has log in rights, then remove user or login rights
         removeUserBtn.setOnAction(event -> {
             if (service.getUser(modUserTextField.getText()) != null) {
@@ -548,7 +542,9 @@ public class App extends Application {
                     if (removeUserIsClear(user) && service.removeUser(modUserTextField.getText())) {
                         modUserFeedback.setText("Poistettu.");
                         modUserFeedback.setTextFill(Color.GREEN);
-                        if (user.equals(service.getLoggedInUser())) logOutBtn.fire();
+                        if (user.equals(service.getLoggedInUser())) {
+                            logOutBtn.fire();
+                        }
                     } else {
                         modUserFeedback.setText("Käyttäjää ei poistettu");
                         modUserFeedback.setTextFill(Color.BLACK);
@@ -773,25 +769,25 @@ public class App extends Application {
         });
 
     }
-    
+
     private boolean removeAllDataIsClear() {
         Boolean clear = false;
-        
+
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Tietokannan tyhjennys");
         alert.setHeaderText("Oletko varma että haluat tyhjentää koko tietokannan?");
         alert.setContentText("Kaikki tieto poistetaan tietokannasta. \nKaikki käyttäjät, tilaukset ja työvaiheet poistetaan.");
-        
+
         ButtonType cancelButtonType = new ButtonType("Peruuta", ButtonData.CANCEL_CLOSE);
         alert.getDialogPane().getButtonTypes().add(cancelButtonType);
-        
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             clear = true;
         }
         return clear;
     }
-    
+
     private boolean changeStatusIsClear(User user, int status) {
         Boolean clear = false;
         String wantedStatus = "";
@@ -824,10 +820,10 @@ public class App extends Application {
         }
         return clear;
     }
-    
-      private boolean removeUserIsClear(User user) {
+
+    private boolean removeUserIsClear(User user) {
         Boolean clear = false;
-        
+
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Käyttäjän poistaminen");
         alert.setHeaderText("Oletko varma että haluat poistaa käyttäjän '" + user.getName() + "'.");

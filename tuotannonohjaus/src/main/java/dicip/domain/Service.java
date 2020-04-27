@@ -15,7 +15,7 @@ import javafx.collections.ObservableList;
  */
 /**
  *
- * Luokka vastaa sovelluslogiikasta
+ * Class represents the application logic
  */
 public class Service {
 
@@ -31,15 +31,21 @@ public class Service {
     }
 
     /**
-     * Alustaa tietokannan mikäli ei ole vielä alustettu
+     * Try to format database (ready to use state), return false if can not
+     * format (most likely already formatted)
      *
-     * @return true jos alustus tuli tehtyä, muutoin false
+     * @return true if formatted now, else false
      */
-    // try to format database, return false if can not format (most likely already formated)
     public boolean checkDatabase() {
         return this.database.format();
     }
 
+    /**
+     *
+     * Remove all data from database
+     *
+     * @return true when done, else false
+     */
     public boolean removeAllDataFromDatabase() {
         this.database.removeAllDataFromDatabase();
         return true;
@@ -47,12 +53,12 @@ public class Service {
 
     // User functions:
     /**
-     * Kirjaa käyttäjän sisään, jos käyttäjä löytyy
+     * Log user in if user exists and has rights to log in (status 0 or 1)
      *
-     * @param name syötetty nimi
-     * @return true jos käyttäjä löytyi, muutoin false
+     * @param name given name
+     * @return true if done, else false
      */
-    // Return true if user exists and has right status to log in, then store it to 'loggedIn'
+    // Return true if login is done, then store it to 'loggedIn'
     public boolean login(String name) {
         if (this.database.getUser(name) != null) {
             User user = this.database.getUser(name);
@@ -67,19 +73,20 @@ public class Service {
     }
 
     /**
-     * Kirjaa sisäänkirjautuneen olevan käyttäjän ulos
+     * Logs the logged in user out
      */
     public void logOut() {
         this.loggedIn = null;
     }
 
     /**
-     * Lisää käyttäjän mikäli samannimistä käyttäjää ei vielä ole
+     * Add user if there is no user with the same name
      *
-     * @param name syötetty nimi
-     * @param status syötetty status-arvo
-     * @return true jos käyttäjän lisäys onnistui, muutoin false
+     * @param name given name
+     * @param status given status
+     * @return true if done, else false
      */
+    // The right length of the name is checked in UI, for getting the right error-messages
     public boolean addUser(String name, Integer status) {
         if (this.database.getUser(name) != null) {
             return false;
@@ -88,11 +95,23 @@ public class Service {
         return this.database.addUser(user);
     }
 
+    /**
+     * Remove user login rights by changing the status to '99'
+     *
+     * @param user given user
+     * @return true if done, else false
+     */
     public boolean removeUserLogInRights(User user) {
         return this.database.changeUserStatus(user, 99);
     }
 
-    // If the user already has some events done, don't remove it but remove log in rights.
+    /**
+     * Remove user. If the user already has some events done, don't remove it
+     * but remove the login rights.
+     *
+     * @param name given name
+     * @return true if formatted now, else false
+     */
     public boolean removeUser(String name) {
         Boolean succeed = false;
         if (this.getUser(name) != null) {
@@ -111,6 +130,11 @@ public class Service {
         return succeed;
     }
 
+    /**
+     * Count users with admin rights
+     *
+     * @return count count of admins
+     */
     public int countOfAdmins() {
         ArrayList<User> users = this.database.getAllUsers();
         int count = 0;
@@ -126,6 +150,13 @@ public class Service {
         return this.database.getUser(name);
     }
 
+    /**
+     * Change user status, check first is user exists
+     *
+     * @param name given name
+     * @param status given status
+     * @return count count of admins
+     */
     public boolean changeUserStatus(String name, int status) {
         if (this.getUser(name) != null) {
             User user = this.getUser(name);
@@ -136,13 +167,13 @@ public class Service {
 
     // Order functions:
     /**
-     * Lisää tilauksen mikäli tilausta samalla koodilla ei vielä löydy Luo
-     * samalla aikaleiman tilaukselle ja sisäänkirjausta kuvaavan tapahtuman
-     * kyseiselle tilaukselle
+     * Add an order if there is no order with the same code. Creates a time
+     * stamp for the order creation moment and creates a work phase for
+     * registration for the created order.
      *
-     * @param code syötetty koodi
-     * @param user annettu käyttäjä
-     * @return true jos tilauksen lisäys onnistui, muutoin false
+     * @param code given code
+     * @param user given user
+     * @return true if done, else false
      */
     public boolean addOrder(String code, User user) {
         LocalDateTime timestamp = LocalDateTime.now();
@@ -169,16 +200,15 @@ public class Service {
 
     // Event functions:
     /**
-     * Lisää työvaiheen ja luo sille samalla aikaleiman järjestelmän aikaan
-     * perustuen
+     * Add a work phase and creates the time stamp for it, based on the system
+     * local time. Also checks that the given code and user exist.
      *
-     * @param code syötetty koodi
-     * @param user annettu käyttäjä
-     * @param descr annettu kuvaus
-     * @param workphase annettu työvaiheen nimi
-     * @return true jos työvaiheen lisäys onnistui, muutoin false
+     * @param code given code
+     * @param user given user
+     * @param descr given description
+     * @param workphase given name of the work phase
+     * @return true if done, else false
      */
-    // Give event a timestamp and add Event
     public boolean addEvent(String workphase, String code, String descr, User user) {
         if (this.database.getOrder(code) == null || this.database.getUser(user.getName()) == null) {
             return false;
@@ -191,12 +221,11 @@ public class Service {
     }
 
     /**
-     * Hakee tietyn tilauksen kaikki työvaiheet
+     * Get all the work phases for a specific order.
      *
-     * @param code annettu tilauskoodi
-     * @return lista työvaiheista joihin liittyy annettu koodi
+     * @param code given code
+     * @return a list of the work phases with the given code
      */
-    // Get all Events for an asked Order as list
     public ObservableList<WorkPhase> getOrderInfo(String code) {
         ObservableList<WorkPhase> list = FXCollections.observableArrayList();
         ArrayList<WorkPhase> events = this.database.getOrderInfo(code);
@@ -205,25 +234,23 @@ public class Service {
     }
 
     /**
-     * Hakee tietyn päivän ajalta kaikki työvaiheet
+     * Get all the work phases with a specific date
      *
-     * @param date annettu päivämäärä
-     * @return lista työvaiheista joihin liittyy annettu päivämäärä
+     * @param date given date
+     * @return a list of the work phases with the given date
      */
-    // Get all newest Events for an asked date as list
     public ArrayList<WorkPhase> getOrderInfoByDate(String date) {
         ArrayList<WorkPhase> events = this.database.getOrderInfoByDate(date);
         return events;
     }
 
     /**
-     * Hakee tietyn päivän ajalta kaikkien käsiteltyjen tilausten viimeisimmät
-     * työvaiheet
+     * Get all the latest work phases of the handled orders in the specific date
      *
-     * @param date annettu päivämäärä
-     * @return lista työvaiheista
+     * @param date given date
+     * @return a list of latest work phases
      */
-    // Group Events by Order code and show the latest Events
+    // Group WorkPhases by Order code and show the latest WorkPhases
     public ObservableList<WorkPhase> getOrderInfoByDateGrouped(String date) {
         ObservableList<WorkPhase> list = FXCollections.observableArrayList();
         ArrayList<WorkPhase> events = this.getOrderInfoByDate(date);
@@ -241,11 +268,11 @@ public class Service {
 
     // Chart functions:
     /**
-     * Hakee uusien tilausten määrän per päivä edellisten 30 päivän ajalta
-     * perustuen järjestelmän paikalliseen aikaan
+     * Get the count of the new orders by date, during the last 30 days. Based
+     * on the system local time.
      *
-     * @return HashMap joka sisältää arvoinaan päivämäärän ja sinä päivänä
-     * luotujen uusien tilausten määrän
+     * @return HashMap which includes date as the 'key' and the count of new
+     * orders for that date as the 'value'.
      */
     // Create a map which contains event amount per day, for 30days
     public HashMap<LocalDate, Integer> getOrderAmount30Days() {

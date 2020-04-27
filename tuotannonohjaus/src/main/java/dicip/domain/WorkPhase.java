@@ -6,15 +6,16 @@ package dicip.domain;
  */
 /**
  *
- * Luokka kuvaa yksittäistä työvaihetta
+ * Class represents a single work phase
  */
 public class WorkPhase {
+
     private String workphase;
     private String orderCode;
     private String userName;
     private String description;
     private String timestamp;
-    
+
     public WorkPhase(String timestamp, String workphase, String code, String name, String description) {
         this.workphase = workphase;
         this.orderCode = code;
@@ -50,5 +51,5 @@ public class WorkPhase {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
 }

@@ -12,6 +12,7 @@ Sovelluksella voi seurata hammaslaboratorion tuotantoa. Laboratorion työtahti o
 ## Releaset
 
 * [Viikko 5](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko5)
+* [Viikko 6](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko6)
 
 ## Komentorivitoiminnot
 Kommennot siitä kansiosta jossa pom.xml sijaitsee.
@@ -51,3 +52,11 @@ Checkstyle-tarkistukset saa ajettua komennolla
 mvn jxr:jxr checkstyle:checkstyle
 ```
 Raportin saa nähtäväksi avaamalla selaimella tiedoston target/site/checkstyle.html
+
+### Javadoc
+
+Javadoc:in saa generoitua komennolla
+```
+mvn javadoc:javadoc
+```
+Javadocin saa nähtäväksi avaamalla selaimella tiedoston target/site/apidocs/index.html

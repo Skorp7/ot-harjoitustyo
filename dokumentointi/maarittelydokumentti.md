@@ -43,8 +43,8 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - viesti onnistumisesta/epäonnistumisesta TEHTY
     - jos tilaus on jo olemassa, antaa virheilmoituksen ja näyttää napin, joka klikatessa siirtää tiedot työvaiheen merkintäikkunaan ja valinta "sisäänkirjaus" on valittuna TEHTY
   - LISÄÄ TYÖVAIHE
-    - (anna koodi ja työntekijä) - tekstikentät TEHTY
-    - ruutuvalinta: uloskirjaus tai uusi sisäänkirjaus - muuttaa tekstikenttää TEHTY
+    - (anna koodi, työvaihe ja lisätietoja) - tekstikentät TEHTY
+    - ruutuvalinta: uloskirjaus tai uusi sisäänkirjaus - muuttaa tekstikenttää 'työvaihe' TEHTY
     - uloskirjaus-valinta antaa valittavaksi käytettävän lähettipalvelun TEHTY
     - viesti onnistumisesta/epäonnistumisesta TEHTY
   - TILAUKSEN ULOSKIRJAUS (liitetty työvaiheen merkintään)
@@ -55,7 +55,10 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - viesti onnistumisesta/epäonnistumisesta TEHTY
     - näyttää tilauksen seurantahistorian TEHTY
   - ETSI TILAUKSET PÄIVÄMÄÄRÄLLÄ
+    - (anna päivämäärä) TEHTY
+    - klikatessa 'tänään'-nappia, tulee päivämääräkenttään paikalliseen aikaan perustuva päivämäärä TEHTY
     - näyttää päivän aikana käsiteltyjen tilausten edellisen työvaiheen jos haettiin päivämäärällä TEHTY
+    - jos jotain tilausta klikkaa pitkään, näkee kyseisen tilauksen kaikki työvaiheet TEHTY
 - Työnjohtajaikkuna
   - näyttää automaattisesti tilastokäppyrän kuukauden uusista tilauksista päiväkohtaisesti TEHTY
   - LUO TUNNUS

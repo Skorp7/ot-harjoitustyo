@@ -18,7 +18,7 @@ Käynnistyksen jälkeen voi kirjautua sisään tunnuksella 'admin', jolla on kai
 
 <img src="kuvat/login.png" width=300>
 
-## Uuden käyttäjän lisääminen ja poistaminen
+## Käyttäjien lisääminen ja poistaminen
 
 On suositeltavaa että käyt ensimmäisenä luomassa toisen tunnuksen, jolla on kaikki käyttöoikeudet ja poistat tunnuksen 'admin'.
 

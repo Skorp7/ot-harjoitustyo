@@ -62,7 +62,6 @@ public class App extends Application {
 
         // Create topic field:
         VBox welcomefield = new VBox();
-        welcomefield.getStyleClass().add("styles/style.css");
         Label welcometext = new Label("Tuotannonohjaus DICIP");
         welcometext.getStyleClass().add("welcometext");
         welcomefield.getChildren().add(welcometext);
@@ -71,7 +70,6 @@ public class App extends Application {
         welcomefield.setSpacing(20);
         welcomefield.setAlignment(Pos.CENTER);
         welcomefield.autosize();
-
         welcometext.setPadding(spaces);
 
         // Create bottom field:
@@ -145,17 +143,15 @@ public class App extends Application {
         emptybox.setSpacing(20);
 
         // Admin field right
-        Label righttext = new Label("Plaaplaaplaapalapa");
         Button modUserLinkBtn = new Button("Käyttäjähallinta");
         Button chartLinkBtn = new Button("Tilastot");
-        // chartLinkBtn.getStyleClass().add("button");
         Button settingsLinkBtn = new Button("Asetukset");
         VBox adminFieldRight = new VBox();
         adminFieldRight.getStylesheets().add("styles/style_admin.css");
         adminFieldRight.setPrefWidth(300);
         adminFieldRight.setSpacing(20);
         adminFieldRight.setPadding(spaces);
-        adminFieldRight.getChildren().addAll(righttext, modUserLinkBtn, chartLinkBtn, settingsLinkBtn);
+        adminFieldRight.getChildren().addAll(modUserLinkBtn, chartLinkBtn, settingsLinkBtn);
 
         // Settings - controls
         Button removeAllDataBtn = new Button("Tyhjennä tietokanta");
@@ -229,10 +225,8 @@ public class App extends Application {
         VBox workField = new VBox();
         workField.setSpacing(10);
         workField.setPrefWidth(400);
-        Label workLabel = new Label("TÄHÄN TULEE TEKSTIÄ");
 
         // Workfield right
-        Label rightText = new Label("WORKWIEW RIGHT");
         Button seekbtnCode = new Button("Etsi tilaus koodilla");
         Button seekbtnDate = new Button("Etsi tilaukset päivämäärällä");
         Button createOrder = new Button("Luo uusi tilaus");
@@ -241,7 +235,7 @@ public class App extends Application {
         workFieldRight.setPrefWidth(300);
         workFieldRight.setSpacing(20);
         workFieldRight.setPadding(spaces);
-        workFieldRight.getChildren().addAll(rightText, createOrder, createPhase, seekbtnCode, seekbtnDate);
+        workFieldRight.getChildren().addAll(createOrder, createPhase, seekbtnCode, seekbtnDate);
 
         // AddOrderField:
         Button addOrderbtn = new Button("Lisää tilaus");
@@ -347,7 +341,6 @@ public class App extends Application {
         Label welcometext2 = new Label("Tuotannonohjaus DICIP");
         welcometext2.getStyleClass().add("welcometext");
         topBox.getChildren().add(welcometext2);
-        topBox.getStyleClass().add("styles/style.css");
         welcometext2.setAlignment(Pos.CENTER);
         welcometext2.setFont(Font.font("Monospace", 20));
         topBox.setSpacing(20);

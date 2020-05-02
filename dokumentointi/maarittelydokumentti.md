@@ -13,68 +13,71 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
 ## Perusversion toiminnallisuus
 
 - Ennen kirjautumista
-  - Käyttäjä voi kirjautua sisään TEHTY
-  - Virheellinen tunnus aiheuttaa virheviestin TEHTY
+  - Käyttäjä voi kirjautua sisään
+  - Virheellinen tunnus aiheuttaa virheviestin
 
 - Kirjautumisen jälkeen
 
   - Työntekijät voivat:
-    - luoda tilauksia TEHTY
-    - tehdä niihin työvaihemerkintöjä TEHTY
-    - hakea seurantakoodilla tai päivämäärällä tilauksia tietokannasta TEHTY
-    - tehdä tilauksen uloskirjauksen (tilaus poistuu tuotantotiloista mutta saattaa tulla takaisin) TEHTY
+    - luoda tilauksia 
+    - tehdä niihin työvaihemerkintöjä
+    - hakea seurantakoodilla tai päivämäärällä tilauksia tietokannasta 
+    - tehdä tilauksen uloskirjauksen (tilaus poistuu tuotantotiloista mutta saattaa tulla takaisin) 
 
   - Työnjohtajat voivat tämän lisäksi:
-    - nähdä kuukausikohtaisia tilastoja tilauksista tilastonäkymässä TEHTY
-    - luoda käyttäjätunnuksia ja määrittää tunnusten oikeudet TEHTY
+    - nähdä kuukausikohtaisia tilastoja tilauksista tilastonäkymässä
+    - luoda käyttäjätunnuksia
+    - muokata käyttäjien oikeuksia
+    - poista käyttäjiä
+    - tyhjentää tietokannan
   
-  - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet. TEHTY
+  - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet.
   
   - Perusversiossa ei ole toteutettu kirjautumisessa salasanatoimintoa vaan kirjautuminen tapahtuu pelkällä tunnuksella.
 
 ## Käyttöliittymäluonnos
 
 - Kirjautumisnäkymä
-  - ANNA TUNNUS - tekstikenttä TEHTY
-  - viesti jos epäonnistuu TEHTY
-- Aloitusikkuna
+  - ANNA TUNNUS - tekstikenttä
+  - viesti jos epäonnistuu
+- Tuotantonäkymä
   - LUO UUSI TILAUS
-    - (anna koodi) -tekstikenttä TEHTY
-    - viesti onnistumisesta/epäonnistumisesta TEHTY
-    - jos tilaus on jo olemassa, antaa virheilmoituksen ja näyttää napin, joka klikatessa siirtää tiedot työvaiheen merkintäikkunaan ja valinta "sisäänkirjaus" on valittuna TEHTY
+    - (anna koodi) -tekstikenttä
+    - viesti onnistumisesta/epäonnistumisesta
+    - jos tilaus on jo olemassa, antaa virheilmoituksen ja näyttää napin, joka klikatessa siirtää tiedot työvaiheen merkintäikkunaan ja valinta "sisäänkirjaus" on valittuna 
   - LISÄÄ TYÖVAIHE
-    - (anna koodi, työvaihe ja lisätietoja) - tekstikentät TEHTY
-    - ruutuvalinta: uloskirjaus tai uusi sisäänkirjaus - muuttaa tekstikenttää 'työvaihe' TEHTY
-    - uloskirjaus-valinta antaa valittavaksi käytettävän lähettipalvelun TEHTY
-    - viesti onnistumisesta/epäonnistumisesta TEHTY
-  - TILAUKSEN ULOSKIRJAUS (liitetty työvaiheen merkintään)
-    - (anna koodi ja valitse toimitustapa) - tekstikentät TEHTY
-    - viesti onnistumisesta/epäonnistumisesta TEHTY
+    - (anna koodi, työvaihe ja lisätietoja) - tekstikentät 
+    - ruutuvalinta: uloskirjaus tai uusi sisäänkirjaus - valinta muuttaa tekstikenttää 'työvaihe'
+    - uloskirjaus-valinta antaa valittavaksi käytettävän lähettipalvelun 
+    - viesti onnistumisesta/epäonnistumisesta
   - ETSI TILAUS KOODILLA
-    - (anna koodi) TEHTY
-    - viesti onnistumisesta/epäonnistumisesta TEHTY
-    - näyttää tilauksen seurantahistorian TEHTY
+    - (anna koodi) -tekstikenttä
+    - viesti onnistumisesta/epäonnistumisesta
+    - näyttää tilauksen seurantahistorian
   - ETSI TILAUKSET PÄIVÄMÄÄRÄLLÄ
-    - (anna päivämäärä) TEHTY
-    - klikatessa 'tänään'-nappia, tulee päivämääräkenttään paikalliseen aikaan perustuva päivämäärä TEHTY
-    - näyttää päivän aikana käsiteltyjen tilausten edellisen työvaiheen jos haettiin päivämäärällä TEHTY
-    - jos jotain tilausta klikkaa pitkään, näkee kyseisen tilauksen kaikki työvaiheet TEHTY
-- Työnjohtajaikkuna
-  - näyttää automaattisesti tilastokäppyrän kuukauden uusista tilauksista päiväkohtaisesti TEHTY
-  - LUO TUNNUS
-    - (anna tunnus ja valitse käyttäjäryhmä) - tekstikentät TEHTY
-    - viesti onnistumisesta/epäonnistumisesta TEHTY
+    - (anna päivämäärä) -tekstikenttä
+    - klikatessa 'tänään'-nappia, tulee päivämääräkenttään järjestelmän paikalliseen aikaan perustuva päivämäärä
+    - näyttää päivän aikana käsiteltyjen tilausten edellisen työvaiheen
+    - jos jotain tilausta klikkaa pitkään, näkee kyseisen tilauksen kaikki työvaiheet
+- Hallintanäkymä (työnjohtajille)
+  - KÄYTTÄJÄHALLINTA (lisää/muokkaa/poista käyttäjä)
+    - (anna tunnus) -tekstikenttä
+    - käyttäjäroolin valinta
+    - varoitusikkuna muokkaamisesta ja poistamisesta
+    - ilmoitus onnistumesta/epäonnistumisesta
+  - TILASTOT
+    - näyttää automaattisesti tilastokäppyrän kuukauden uusista tilauksista päiväkohtaisesti
+  - ASETUKSET
+    - tyhjennä tietokanta -nappi
+    - varoitus ennen tyhjennystä
     
     
 ## Jatkokehitysideat harjoitustyöhön
 
 Mahdollisia lisättäviä toiminnallisuuksia:
   - työnantajalle lisätoiminnot:
-    - poista tunnus TEHTY
     - poista tilaus
     - poista työvaihe
-    - muuta työntekijän käyttöoikeus TEHTY
-    - tyhjennä tietokanta TEHTY
     - muuta työntekijän nimi
     - hae tilastot työntekijäkohtaisesti
     - välitä asiakkaalta saatu palaute työntekijälle

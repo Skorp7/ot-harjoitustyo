@@ -25,10 +25,12 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - tehdä tilauksen uloskirjauksen (tilaus poistuu tuotantotiloista mutta saattaa tulla takaisin) 
 
   - Työnjohtajat voivat tämän lisäksi:
-    - nähdä kuukausikohtaisia tilastoja tilauksista tilastonäkymässä
+    - nähdä tilaston uusista tilauksista 30 päivän aikana
+    - nähdä tilausten valmistumisaikojen mediaanin
+    - käyttäjien määrän
     - luoda käyttäjätunnuksia
     - muokata käyttäjien oikeuksia
-    - poista käyttäjiä
+    - poistaa käyttäjiä
     - tyhjentää tietokannan
   
   - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet.

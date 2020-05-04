@@ -53,3 +53,5 @@ Sovellus ei anna tällä hetkellä järkeviä virheilmoituksia jos:
 - konfiguraation määrittelemiin tiedostoihin ei ole luku/kirjoitusoikeuksia
 - jos konfiguraatiotiedosto puuttuu
 - jos tietokantatiedosto on vaurioitunut (silloin se täytyy vain poistaa jotta sovellus luo uuden toimivan tilalle)
+
+Tilasto-näkymässä näytettävä *'Eniten tehtyjä työvaiheita'* -kohta näyttää sen käyttäjän, joka on tehnyt eniten työvaiheita. Kuitenkin jos useammalla käyttäjällä on sama määrä tehtyjä työvaiheita, kohdassa näkyy satunnaisesti vain joku heistä, eikä kaikki.

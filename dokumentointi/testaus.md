@@ -25,7 +25,7 @@ Testaus on toteutettu testitietokannalla, eli testit käsittelevät eri tietokan
 
 ### Testauskattavuus
 
-Sovelluksen testauksen rivikattavuus on 96% ja haarautumiskattavuus 92% kun käyttöliittymäkerros jätetään huomiotta. 
+Sovelluksen testauksen rivikattavuus on 97% ja haarautumiskattavuus 92% kun käyttöliittymäkerros jätetään huomiotta. 
 
 <img src="kuvat/jacocoreport.png" width=800>
 

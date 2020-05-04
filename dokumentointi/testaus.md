@@ -21,7 +21,7 @@ Sovelluslogiikkaa on testattu myös pysyväistallentavan *Data*-rajapinnan toteu
 ### Tietokantaa käsittelevä luokka
 
 Ohjelman tietokantaa (SQL) käsittelevä luokka *DataSql* on testattu sekä automaattisilla JUnit-testeillä että manuaalisesti. Testiluokka on nimeltään *DataTest*.
-Testaus on toteutettu testitietokannalla, li testit käsittelevät eri tietokantatiedostoa kuin itse sovellus.
+Testaus on toteutettu testitietokannalla, eli testit käsittelevät eri tietokantatiedostoa kuin itse sovellus.
 
 ### Testauskattavuus
 

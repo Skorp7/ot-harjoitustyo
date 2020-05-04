@@ -13,10 +13,10 @@ dataFile=jdbc:sqlite:datafile.db
 
 Ohjelma luo käynnistyessään tietokantatiedoston *datafile.db* samaan kansioon, johon .jar-tiedosto on ladattu. Jos olet ladannut saman ohjelman eri version aiemmin, kannattaa poistaa vanha versio ja vanha tietokantatiedosto ennen käynnistämistä.
 
-Voit testata ohjelmaa myös jo valmiiksi täydennetyllä tietokannalla. Jos haluat sen testikäyttöön, voit ladata tiedoston *datafileForTutorial.db* ja tallentaa sen samaan kansioon .jar-tiedoston kanssa. Tällöin sinun täytyy myös muuttaa tiedoston *config.properties* sisältö seuraavaksi:
-```
-dataFile=jdbc:sqlite:datafileForTutorial.db
-```
+>Voit testata ohjelmaa myös jo valmiiksi täydennetyllä tietokannalla. Jos haluat sen testikäyttöön, voit ladata tiedoston >*datafileForTutorial.db* ja tallentaa sen samaan kansioon .jar-tiedoston kanssa. Tällöin sinun täytyy myös muuttaa tiedoston >*config.properties* sisältö seuraavaksi:
+>```
+>dataFile=jdbc:sqlite:datafileForTutorial.db
+>```
 
 
 ## Ohjelman käynnistäminen
@@ -69,7 +69,8 @@ Käyttäjäroolia voi vaihtaa menemällä käyttäjähallintaan ja klikkaamalla 
 
 ### Tietokannan tyhjentäminen
 
-HUOM! Älä tyhjennä tietokantaa ellet ole täysin varma että haluat tehdä sen!
+**HUOM! Älä tyhjennä tietokantaa ellet ole täysin varma että haluat tehdä sen!**
+
 Mene oikeanpuolimmaisesta valikosta kohtaan 'Asetukset' ja valitse 'Tyhjennä tietokanta'. Järjestelmä antaa siitä varoitusviestin. Jos olet varma aikeistasi, niin klikkaa OK.
 
 <img src="kuvat/remove_data.png" width=400>
@@ -108,6 +109,6 @@ Jos haluat kirjata työn ulos tuotantotiloista, valitse valintaruutu "Uloskirjau
 Voit hakea tilauksen koko seurantahistorian nähtäville valitsemalla oikeasta reunasta 'Etsi tilaus koodilla'.
 Syötä haluamasi tilauskoodi ja klikkaa 'Etsi tilaus', jos tilausta ei löydy, tulee virheviesti. Muussa tapauksessa alhaalle ilmestyy taulukko, jossa näkyy aikajärjestyksessä kaikki tälle tilaukselle tehdyt työvaiheet ja niiden tekijät.
 
-<img src="kuvat/seekorder.png" width=600>
+<img src="kuvat/seekorder.png" width=400>
 
 ### Etsi tilaukset päivämäärällä

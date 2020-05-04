@@ -27,7 +27,7 @@ Testaus on toteutettu testitietokannalla, eli testit käsittelevät eri tietokan
 
 Sovelluksen testauksen rivikattavuus on 96% ja haarautumiskattavuus 92% kun käyttöliittymäkerros jätetään huomiotta. 
 
-<img src="kuvat/jacocoraport.png" width=800>
+<img src="kuvat/jacocoreport.png" width=800>
 
 Testauksen ulkopuolelle jäivät tilanteet, joissa tapahtuu esimerkiksi SQL-poikkeus tai muu virhetilanne esimerkiksi tiedoston käsittelyn yhteydessä.
 

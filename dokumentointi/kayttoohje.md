@@ -75,10 +75,12 @@ Mene oikeanpuolimmaisesta valikosta kohtaan 'Asetukset' ja valitse 'Tyhjennä ti
 <img src="kuvat/remove_data.png" width=400>
 
 ## Tuotannon toiminnot
+
 Pääset lisäämään ja katsomaan tilauksia ja työvaiheita menemällä vasemmasta valikosta kohtaan 'Tuotanto'. Tämä toiminto on käytettävissä sekä *Työnjohtajan* että *Työntekijän* oikeuksilla.
 
 ### Tilauksen luominen
-Voit luoda uuden tilauksen klikkaamalla oikeasta reunasta painiketta 'Luo uusi tilaus'. Anna jokin keksimäsi tilauskoodi ja klikkaa 'Lisää tilaus'.
+
+Voit luoda uuden tilauksen klikkaamalla oikeasta reunasta painiketta 'Luo uusi tilaus'. Tässä ohjelman versiossa tilauksen ID eli tilauskoodi pitää keksiä itse. Anna jokin keksimäsi tilauskoodi ja klikkaa 'Lisää tilaus'.
 
 <img src="kuvat/addorder.png" width=400>
 
@@ -86,9 +88,26 @@ Jos koodi on jo olemassa, ohjelma näyttää painikkeen, jota klikkaamalla saat 
 
 <img src="kuvat/orderexists.png" width=300>
 
-### Työvaiheen lisääminen
-Työvaiheen voi lisätä vain tilaukselle joka on jo olemassa (kts. Tilauksen lisääminen)
+Jos klikkaat painiketta, siirryt työvaiheen lisäys -näkymään kentät valmiiksi täytettynä.
 
+<img src="kuvat/order_relogin.png" width=450>
+
+### Työvaiheen lisääminen
+
+Voit lisätä tilaukselle työvaiheen klikkaamalla oikesta reunasta painiketta 'Lisää työvaihe'. Myös työn uloskirjaaminen ja vanhan työn uusi sisäänkirjaaminen lasketaan työvaiheiksi.
+Työvaiheen voi lisätä vain tilaukselle joka on jo olemassa (kts. Tilauksen lisääminen). Ohjelma ilmoittaa jos tilausta ei löydy.
+
+Kirjoita ylimpään kenttään tilauskoodi. Lisää sitten työvaiheen kuvaus. Lisätieto-kenttä on vapaaehtoinen.
+<img src="kuvat/addworkphase.png" width=400>
+
+Jos haluat kirjata työn ulos tuotantotiloista, valitse valintaruutu "Uloskirjaus". Tällöin lisätietoja ei voi lisätä, mutta voit valita käytettävän lähettipalvelun.
+
+<img src="kuvat/orderlogout.png" width=400>
 
 ### Etsi tilaus koodilla
+Voit hakea tilauksen koko seurantahistorian nähtäville valitsemalla oikeasta reunasta 'Etsi tilaus koodilla'.
+Syötä haluamasi tilauskoodi ja klikkaa 'Etsi tilaus', jos tilausta ei löydy, tulee virheviesti. Muussa tapauksessa alhaalle ilmestyy taulukko, jossa näkyy aikajärjestyksessä kaikki tälle tilaukselle tehdyt työvaiheet ja niiden tekijät.
+
+<img src="kuvat/seekorder.png" width=600>
+
 ### Etsi tilaukset päivämäärällä

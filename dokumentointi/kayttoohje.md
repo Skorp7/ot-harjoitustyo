@@ -1,15 +1,15 @@
 # Käyttöohje
 
-Lataa tiedosto [tuotannonohjausvk6.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko6)
+Lataa tiedosto [tuotannonohjaus.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko6) ja konfigurointitiedosto config.properties.
 
-Ohjelma luo käynnistyessään tietokantatiedoston *datafile.db* samaan kansioon, johon .jar-tiedosto on ladattu. Jos olet ladannut saman ohjelman eri version aiemmin, kannattaa poistaa vanha versio ja vanha tietokantatiedosto ennen käynnistämistä.
+Ohjelma luo käynnistyessään tietokantatiedoston *datafile.db* samaan kansioon, johon .jar-tiedosto on ladattu. Jos olet ladannut saman ohjelman eri version aiemmin, kannattaa poistaa vanha versio ja vanha tietokantatiedosto ennen käynnistämistä. Tai jos haluat testikäyttöön tietokantatiedoston, jossa on jo tietoa tallennettuna valmiiksi, voit ladata myös tiedoston *datafile.db* ja tallentaa sen samaan kansioon .jar-tiedoston kanssa (poista tai uudelleennimeä ensin muut samannimiset tiedostot).
 
 ## Ohjelman käynnistäminen
 
 Ohjelman voi käynnistää komentoriviltä menemällä siihen kansioon jossa .jar-tiedosto sijaitsee ja kirjoittamalla komennon:
 
 ```
-java -jar tuotannonohjausvk6.jar
+java -jar tuotannonohjaus.jar
 ```
 
 ## Sisäänkirjautuminen

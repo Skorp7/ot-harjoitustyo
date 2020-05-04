@@ -84,7 +84,7 @@ Voit luoda uuden tilauksen klikkaamalla oikeasta reunasta painiketta 'Luo uusi t
 
 Jos koodi on jo olemassa, ohjelma näyttää painikkeen, jota klikkaamalla saat tehtyä vanhalle tilaukselle uuden sisäänkirjauksen. (Esimerkiksi siinä tapauksessa että sama tilaus on käynyt välitarkastuksessa asiakkaalla ja tulee takaisin tuotantoon.) Jos kyse on vanhasta tilauksesta, klikkaa painiketta. Muutta tapauksessa keksi toinen tilauskoodi.
 
-<img src="kuvat/orderexists.png" width=500>
+<img src="kuvat/orderexists.png" width=300>
 
 ### Työvaiheen lisääminen
 Työvaiheen voi lisätä vain tilaukselle joka on jo olemassa (kts. Tilauksen lisääminen)

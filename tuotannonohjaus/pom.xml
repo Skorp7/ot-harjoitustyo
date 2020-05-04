@@ -48,6 +48,7 @@
                 <configuration>
                     <excludes>
                         <exclude>dicip/ui/*</exclude>
+                        <exclude>**/*MainProg.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

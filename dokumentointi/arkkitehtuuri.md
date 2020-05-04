@@ -74,3 +74,10 @@ Kun sisään kirjautunut käyttäjä klikkaa painiketta "Kirjaudu ulos" (logOutB
 
 Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla sovelluslogiikkaluokan *Service* metodia *logOut*. Service merkitsee sisäänkirjautuneen käyttäjän paikalle arvon *null* ja palauttaa käyttöliittymälle *true*.
 Käyttöliittymä vaihtaa nyt näkymän takaisin aloitusnäkymäksi (beginScene) ja muuttaa samalla tekstikenttien arvot takaisin lähtötilanteeseen. 
+
+## Ohjelman rakenteeseen jääneet heikkoudet
+
+* Käyttöliittymän koodia ei juurikaan ole pilkottu metodeihin tai luokkiin, joka voisi selkeyttää sitä.
+* Ohjelma käyttää suurta määrää muuttujia ja niiden nimet ovat aika samantyyppisiä, joten se voi olla sekavaa. Nimentää voisi parantaa. 
+* Tietokantaa käsittelevät metodit pystyisi ehkä rakentamaan niin että tietokantaan lisäävät metodit käyttäisivät samaa luokasta tai metodista tehtyä pohjaa ja tietokannasta poistavat toiminnot toista samaa pohjaa. Tällä hetkellä jokaisella tietokantatoiminnolla on oma metodi.
+* Data-rajapinnan tietokantaa käsittelevät metodit on valittu siten, että osa laskennasta on jätetty sovelluslogiikan tehtäväksi. Tähän voisi vetää selkeämmän rajan, että mitä toimintoja Data-luokat tekevät ja mitä sovelluslogiikkaluokat. Joko Data-rajapinnan metodeja voisi jättää yksinkertaisemmiksi yleismetodeiksi tai sitten toisin päin, että tekisi monimutkaisia hakuja ja siten helpottaisi sovelluslogiikan tehtäviä.

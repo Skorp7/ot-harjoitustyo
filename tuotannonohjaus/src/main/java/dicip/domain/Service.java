@@ -5,7 +5,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -146,12 +150,29 @@ public class Service {
         return count;
     }
 
+    /**
+     * Count users with regular rights
+     *
+     * @return count count of regular users
+     */
+    public int countOfRegularUsers() {
+        ArrayList<User> users = this.database.getAllUsers();
+        int count = 0;
+        for (User u : users) {
+            if (u.getStatus() == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public User getUser(String name) {
         return this.database.getUser(name);
     }
 
     /**
-     * Change user status, check first is user exists
+     * Change user status, check first is user exists. Also check that the last
+     * user with admin rights is not changed
      *
      * @param name given name
      * @param status given status
@@ -160,7 +181,11 @@ public class Service {
     public boolean changeUserStatus(String name, int status) {
         if (this.getUser(name) != null) {
             User user = this.getUser(name);
-            return this.database.changeUserStatus(user, status);
+            if (user.getStatus() == 1 && this.countOfAdmins() <= 1) {
+                return false;
+            } else {
+                return this.database.changeUserStatus(user, status);
+            }
         }
         return false;
     }
@@ -194,6 +219,12 @@ public class Service {
         return this.database.getOrder(code);
     }
 
+    /**
+     * Get the logged in user if exists. If nobody is logged in, then return
+     * null.
+     *
+     * @return user or null
+     */
     public User getLoggedInUser() {
         return this.loggedIn;
     }
@@ -274,7 +305,7 @@ public class Service {
      * @return HashMap which includes date as the 'key' and the count of new
      * orders for that date as the 'value'.
      */
-    // Create a map which contains event amount per day, for 30days
+    // Create a map which contains order amount per day, for 30days
     public HashMap<LocalDate, Integer> getOrderAmount30Days() {
         LocalDate today = LocalDate.now();
         HashMap<LocalDate, Integer> orderAmounts = new HashMap<>();
@@ -294,4 +325,97 @@ public class Service {
         return orderAmounts;
     }
 
+    /**
+     * Get the median value of production time of all orders. Calculates the
+     * median value of production time of all orders ever made. Uses the
+     * registration time stamp and log out time stamp to calculate.
+     *
+     * @return double
+     */
+    public double getMedianOfProductionTime() {
+        ArrayList<Long> durations = new ArrayList<>();
+        ArrayList<Order> orders = this.database.getAllOrders();
+        if (orders.isEmpty()) {
+            return -1;
+        }
+        orders.stream().map((o) -> this.calculateProductionTime(o)).filter((duration) -> (duration >= 0)).forEachOrdered((duration) -> {
+            durations.add(duration);
+        });
+        // Find out the value in the middle. If found two in the middle, take the average of those.
+        Collections.sort(durations);
+        int halfwayInd = durations.size() / 2;
+        double result = -1;
+        if (!durations.isEmpty() && durations.size() % 2 == 0) {
+            result = (((double) durations.get(halfwayInd) + (double) durations.get(halfwayInd - 1)) / 2);
+        } else if (!durations.isEmpty()) {
+            result = durations.get(halfwayInd);
+        }
+        return result;
+    }
+
+    /**
+     * Get all the events by users
+     *
+     *
+     * @return HashMap which contains User as the key and all the events as
+     * ArrayList as the value
+     */
+    public HashMap<User, ArrayList<WorkPhase>> getEventsByUser() {
+        HashMap<User, ArrayList<WorkPhase>> usersEvents = new HashMap<>();
+        ArrayList<User> users = this.database.getAllUsers();
+
+        for (User u : users) {
+            usersEvents.put(u, this.database.getOrderInfoByUser(u));
+        }
+
+        return usersEvents;
+    }
+
+    /**
+     * Get the User who has most events done. If multiple users has as many
+     * events done, it picks up randomly only one of them.
+     *
+     * @return user
+     */
+    public User getMaxEventCountUser() {
+        HashMap<User, Integer> eventCountByUser = new HashMap<>();
+        HashMap<User, ArrayList<WorkPhase>> eventsByUser = this.getEventsByUser();
+        eventsByUser.entrySet().forEach(pair -> eventCountByUser.put(pair.getKey(), pair.getValue().size()));
+
+        HashMap<User, Integer> eventCountByUserWinner = new HashMap<>();
+        User user = Collections.max(eventCountByUser.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+
+        return user;
+    }
+
+    /**
+     * Calculate the production time of an order. Uses the registration time
+     * stamp and log out time stamp to calculate.
+     *
+     * @param order given Order
+     * @return long production time
+     */
+    public long calculateProductionTime(Order order) {
+        ArrayList<WorkPhase> events = this.database.getOrderInfo(order.getCode());
+        if (events.isEmpty()) {
+            return -1;
+        }
+        String logoutTime = "";
+
+        // Find out log out time if exists
+        for (WorkPhase wp : events) {
+            if (wp.getWorkphase().equals("Uloskirjaus")) {
+                logoutTime = wp.getTimestamp();
+            }
+        }
+        if (logoutTime.equals("")) {
+            return -1;
+        }
+
+        LocalDateTime regTime = LocalDateTime.parse(events.get(0).getTimestamp(), this.formatter);
+        LocalDateTime outTime = LocalDateTime.parse(logoutTime, this.formatter);
+        long days = ChronoUnit.DAYS.between(regTime, outTime);
+
+        return days;
+    }
 }

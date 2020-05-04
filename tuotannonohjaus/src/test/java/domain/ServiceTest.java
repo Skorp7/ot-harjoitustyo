@@ -1,7 +1,7 @@
 package domain;
 
 import dicip.database.DataMap;
-import dicip.database.DataSql;
+import dicip.domain.Order;
 import dicip.domain.Service;
 import dicip.domain.User;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class ServiceTest {
 
-    private Service service;
+    private final Service service;
     private User user;
 
     public ServiceTest() {
@@ -42,112 +42,6 @@ public class ServiceTest {
     }
 
     @Test
-    public void adminExistsAfterCheckDatabase() {
-        this.service.checkDatabase();
-        assertNotEquals(null, this.service.getUser("admin"));
-    }
-
-    @Test
-    public void userNameIsCorrect() {
-        this.service.addUser("Kayttaja", 0);
-        assertEquals("Kayttaja", this.service.getUser("Kayttaja").getName());
-    }
-
-    @Test
-    public void userStatusIsCorrect() {
-        this.service.addUser("Kayttaja", 0);
-        assertEquals(0, this.service.getUser("Kayttaja").getStatus());
-    }
-
-    @Test
-    public void loginReturnTrueIfUserExists() {
-        this.service.addUser("LoginU", 0);
-        assertTrue(this.service.login("LoginU"));
-    }
-
-    @Test
-    public void loginReturnFalseIfUserDoesNotExist() {
-        assertFalse(this.service.login("LoginUser"));
-    }
-
-    @Test
-    public void loginReturnFalseIfUserHasNoRights() {
-        this.service.addUser("Elli", 0);
-        this.service.changeUserStatus("Elli", 99);
-        assertFalse(this.service.login("Elli"));
-    }
-
-    @Test
-    public void logOutLogsOut() {
-        this.service.login("Esko");
-        this.service.logOut();
-        assertTrue(this.service.getLoggedInUser() == null);
-    }
-
-    @Test
-    public void rightUserLoggedIn() {
-        this.service.addUser("Eppu", 0);
-        this.service.login("Eppu");
-        this.service.addUser("Uuno", 0);
-        this.service.login("Uuno");
-        assertEquals("Uuno", this.service.getLoggedInUser().getName());
-    }
-
-    @Test
-    public void userIsremovedIfHasNoEvents() {
-        this.service.addUser("Ulla", 0);
-        this.service.removeUser("Ulla");
-        assertTrue(service.getUser("Ulla") == null);
-    }
-
-    @Test
-    public void userIsNotremovedIfHasEvents() {
-        this.service.addUser("Ulla", 0);
-        this.service.addOrder("Kode", this.service.getUser("Ulla"));
-        this.service.addEvent("työvaihe", "Kode", "desc", this.service.getUser("Ulla"));
-        this.service.removeUser("Ulla");
-        assertFalse(this.service.getUser("Ulla") == null);
-    }
-
-    @Test
-    public void adminIsNotRemovedIfOnlyAdmin() {
-        assertFalse(this.service.removeUser("admin"));
-    }
-
-    @Test
-    public void adminIsRemovedIfThereIsOtherAdmin() {
-        this.service.addUser("admin2", 1);
-        assertTrue(this.service.removeUser("admin"));
-    }
-
-    @Test
-    public void userRightsAreRemovedOnRemoveIfHasEvents() {
-        this.service.addUser("Ulla", 0);
-        this.service.addOrder("Kode", this.service.getUser("Ulla"));
-        this.service.addEvent("työvaihe", "Kode", "desc", this.service.getUser("Ulla"));
-        this.service.removeUser("Ulla");
-        assertFalse(service.login("Ulla"));
-    }
-
-    @Test
-    public void addUserFailureIfDouble() {
-        this.service.addUser("Nimi", 0);
-        assertFalse(this.service.addUser("Nimi", 1));
-    }
-
-    @Test
-    public void addOrderFailureIfDouble() {
-        this.service.addOrder("O", this.user);
-        assertFalse(this.service.addOrder("O", this.user));
-    }
-
-    @Test
-    public void addOrderFailureIfFalseUser() {
-        User falseUser = new User("nimi", 0);
-        assertFalse(this.service.addOrder("O", falseUser));
-    }
-
-    @Test
     public void addEventFailureIfFalseUser() {
         User falseUser = new User("nimifalse", 0);
         this.service.addOrder("code", this.user);
@@ -157,12 +51,6 @@ public class ServiceTest {
     @Test
     public void addEventFailureIfFalseOrderCode() {
         assertFalse(this.service.addEvent("workphase", "falseCode", "descr", this.user));
-    }
-
-    @Test
-    public void addedOrderExists() {
-        this.service.addOrder("O", this.user);
-        assertTrue(this.service.getOrder("O") != null);
     }
 
     @Test
@@ -186,4 +74,104 @@ public class ServiceTest {
         this.service.addEvent("workphase2", "V", "descr", userr);
         assertEquals(3, this.service.getOrderInfoByDate(modTimestamp).size());
     }
+
+    @Test
+    public void mostEventsUserIsRightUser() {
+        this.service.removeAllDataFromDatabase();
+        this.service.checkDatabase();
+        this.service.addUser("Eetu", 0);
+        this.service.addUser("Aivo", 0);
+        User userr = new User("Aivo", 0);
+        User user1 = new User("Eetu", 0);
+        this.service.addOrder("V", userr);
+        this.service.addEvent("workphase", "V", "descr", userr);
+        this.service.addEvent("workphase2", "V", "descr", userr);
+        this.service.addEvent("workphase2", "V", "descr", user1);
+        this.service.addEvent("workphase2", "V", "descr", user1);
+        assertEquals("Aivo", this.service.getMaxEventCountUser().getName());
+    }
+
+    @Test
+    public void mostEventsUserIsChosenEvenEventCountIsZeroAfterFormat() {
+        this.service.removeAllDataFromDatabase();
+        this.service.checkDatabase();
+        assertEquals("admin", this.service.getMaxEventCountUser().getName());
+    }
+
+    @Test
+    public void calculateProductionTimeOfNonExistingOrderReturnsMinusOne() {
+        Order order = new Order("koodi", "Esko", "2020-02-22");
+        assertEquals(-1, this.service.calculateProductionTime(order));
+    }
+
+    @Test
+    public void calculateProductionTimeIsZeroWhenTodaysOrderIsReadyToday() {
+        Order order = new Order("koodi", "Esko", "2020-02-22");
+        this.service.addOrder("koodi", this.user);
+        this.service.addEvent("Uloskirjaus", "koodi", "descr", this.user);
+        assertEquals(0.0, this.service.calculateProductionTime(order), 0.5);
+    }
+
+    @Test
+    public void productionMedianValueIsZeroWhenTodaysEvenCountOrdersAreReadyToday() {
+        this.service.addOrder("TodaysOrder", this.user);
+        this.service.addOrder("TodaysOrder2", this.user);
+        this.service.addEvent("Sisäänkirjaus", "TodaysOrder", "", this.user);
+        this.service.addEvent("Uloskirjaus", "TodaysOrder", "", this.user);
+        this.service.addEvent("Sisäänkirjaus", "TodaysOrder2", "", this.user);
+        this.service.addEvent("Uloskirjaus", "TodaysOrder2", "", this.user);
+        assertEquals(0.0, this.service.getMedianOfProductionTime(), 0.5);
+    }
+
+    @Test
+    public void productionMedianValueIsMinusOneWhenNoOrdersAreReady() {
+        this.service.addOrder("TodaysOrder", this.user);
+        this.service.addOrder("TodaysOrder2", this.user);
+        this.service.addEvent("Sisäänkirjaus", "TodaysOrder", "", this.user);
+        this.service.addEvent("Mallien valmistus", "TodaysOrder", "", this.user);
+        this.service.addEvent("Sisäänkirjaus", "TodaysOrder2", "", this.user);
+        this.service.addEvent("Kuivaus", "TodaysOrder2", "", this.user);
+        assertEquals(-1.0, this.service.getMedianOfProductionTime(), 0.5);
+    }
+
+    @Test
+    public void productionMedianValueIsMinusOneWhenNoOrdersAreFound() {
+        this.service.removeAllDataFromDatabase();
+        this.service.checkDatabase();
+        assertEquals(-1.0, this.service.getMedianOfProductionTime(), 0.5);
+    }
+
+    @Test
+    public void productionMedianValueIsZeroWhenTodaysOddCountOrdersAreReadyToday() {
+        this.service.addOrder("TodaysOrder", this.user);
+        this.service.addEvent("Sisäänkirjaus", "TodaysOrder", "", this.user);
+        this.service.addEvent("Uloskirjaus", "TodaysOrder", "", this.user);
+        assertEquals(0.0, this.service.getMedianOfProductionTime(), 0.5);
+    }
+
+    @Test
+    public void getLastEventFirstInGetOrderInfoByDateGrouped() {
+        LocalDateTime timestamp = LocalDateTime.now();
+        String modTimestamp = timestamp.toString().substring(0, 10);
+        this.service.addOrder("X", this.user);
+        this.service.addOrder("Y", this.user);
+        this.service.addEvent("työvaihe1x", "X", "desc", this.user);
+        this.service.addEvent("työvaihe2x", "X", "desc", this.user);
+        this.service.addEvent("työvaihe1y", "Y", "desc", this.user);
+        assertEquals("työvaihe1y", this.service.getOrderInfoByDateGrouped(modTimestamp).get(0).getWorkphase());
+    }
+
+    @Test
+    public void getOnlyTheLastEventsInGetOrderInfoByDateGrouped() {
+        LocalDateTime timestamp = LocalDateTime.now();
+        String modTimestamp = timestamp.toString().substring(0, 10);
+        this.service.addOrder("X", this.user);
+        this.service.addOrder("Y", this.user);
+        this.service.addEvent("työvaihe1x", "X", "desc", this.user);
+        this.service.addEvent("työvaihe2x", "X", "desc", this.user);
+        this.service.addEvent("työvaihe1y", "Y", "desc", this.user);
+        this.service.addEvent("työvaihe3x", "X", "desc", this.user);
+        assertEquals(2, this.service.getOrderInfoByDateGrouped(modTimestamp).size());
+    }
+
 }

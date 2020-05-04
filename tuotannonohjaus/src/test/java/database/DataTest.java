@@ -18,18 +18,20 @@ import static org.junit.Assert.*;
 public class DataTest {
 
     Data databTest;
+    User user;
 
     public DataTest() {
         // Change the database here to "new DataMap()" if you don't want to test with SQL
         // This test uses it's own SQL-database file testi.db and does not mess up the file used by real app.
-         this.databTest = new DataSql("jdbc:sqlite:testi.db");
+        this.databTest = new DataSql("jdbc:sqlite:testi.db");
         //this.databTest = new DataMap();
         this.databTest.format();
     }
 
     @Before
     public void setUp() {
-        this.databTest.addUser(new User("TestiKayttaja", 0));
+        this.user = new User("TestiKayttaja", 0);
+        this.databTest.addUser(this.user);
         this.databTest.addOrder(new Order("P", "TestiKayttaja", "2020-03-06"));
     }
 
@@ -42,12 +44,12 @@ public class DataTest {
     public void adminExistsAtBeginning() {
         assertTrue(this.databTest.getUser("admin") != null);
     }
-    
+
     @Test
     public void notExistingUserReturnsNull() {
         assertEquals(null, this.databTest.getUser("olematon"));
     }
-    
+
     @Test
     public void notExistingOrderReturnsNull() {
         assertEquals(null, this.databTest.getOrder("olematon"));
@@ -60,11 +62,34 @@ public class DataTest {
     }
 
     @Test
+    public void changeStatusCorrectToAdmin() {
+        this.databTest.changeUserStatus(this.user, 1);
+        assertEquals(1, this.databTest.getUser("TestiKayttaja").getStatus());
+    }
+
+    @Test
+    public void changeStatusCorrectToRegularUser() {
+        this.databTest.changeUserStatus(this.user, 0);
+        assertEquals(0, this.databTest.getUser("TestiKayttaja").getStatus());
+    }
+
+    @Test
+    public void removeUserRemovesUser() {
+        this.databTest.removeUser(this.user);
+        assertEquals(null, this.databTest.getUser("TestiKayttaja"));
+    }
+
+    @Test
+    public void userAmountIsCorrect() {
+        assertEquals(2, this.databTest.getAllUsers().size());
+    }
+
+    @Test
     public void addedOrderExists() {
         this.databTest.addOrder(new Order("Koodi", "TestiKayttaja", "2020-04-06"));
         assertNotEquals(null, this.databTest.getOrder("Koodi"));
     }
-    
+
     @Test
     public void addedOrderHasRightUserName() {
         this.databTest.addOrder(new Order("Koodi2", "TestiKayttaja", "2020-04-06"));
@@ -82,7 +107,7 @@ public class DataTest {
         this.databTest.addOrder(new Order("Koodi4", "TestiKayttaja", "2020-04-06"));
         assertEquals("Koodi4", this.databTest.getOrder("Koodi4").getCode());
     }
-    
+
     @Test
     public void returnLastWorkPhaseWhenGetEventsByDate() {
         WorkPhase wp1 = new WorkPhase("2020-04-08 12:00:00", "Sisäänkirjaus", "P", "TestiKayttaja", "kuvaus");
@@ -94,7 +119,7 @@ public class DataTest {
         ArrayList<WorkPhase> result = this.databTest.getOrderInfoByDate("2020-04-08");
         assertEquals("Uloskirjaus", result.get(0).getWorkphase());
     }
-    
+
     @Test
     public void returnRightAmountOfEventsWhenGetOrderInfo() {
         Order order = new Order("H", "TestiKayttaja", "2020-04-08 11:00:00");
@@ -106,9 +131,9 @@ public class DataTest {
         this.databTest.addEvent(wp2);
         this.databTest.addEvent(wp3);
         ArrayList<WorkPhase> result = this.databTest.getOrderInfo("H");
-        assertTrue(result.size()==3);
+        assertTrue(result.size() == 3);
     }
-    
+
     @Test
     public void addedEventExists() {
         Boolean found = false;
@@ -122,7 +147,7 @@ public class DataTest {
         }
         assertTrue(found);
     }
-    
+
     @Test
     public void getRightOrderCountByDay() {
         String day = "2020-04-14";
@@ -136,13 +161,13 @@ public class DataTest {
         HashMap<String, Integer> orderCounts = this.databTest.getOrderCountByDate();
         orderCounts.entrySet().stream().forEach(pair -> {
             if (pair.getKey().contains(day)) {
-               foundCountForToday.add(pair.getValue());
+                foundCountForToday.add(pair.getValue());
             }
         });
         int foundCount = foundCountForToday.get(0);
         assertEquals(2, foundCount);
     }
-    
+
     @Test
     public void getZeroOrderCountByZeroOrdersByDay() {
         String day = "2020-04-14";
@@ -150,7 +175,7 @@ public class DataTest {
         HashMap<String, Integer> orderCounts = this.databTest.getOrderCountByDate();
         orderCounts.entrySet().stream().forEach(pair -> {
             if (pair.getKey().contains(day)) {
-               foundCountForToday.add(pair.getValue());
+                foundCountForToday.add(pair.getValue());
             }
         });
         if (foundCountForToday.isEmpty()) {
@@ -159,7 +184,7 @@ public class DataTest {
         int foundCount = foundCountForToday.get(0);
         assertEquals(0, foundCount);
     }
-    
+
     @Test
     public void getRightAmountOfOrders() {
         Order order = new Order("H", "TestiKayttaja", "2020-04-14 11:00:00");
@@ -172,8 +197,34 @@ public class DataTest {
         this.databTest.addOrder(order);
         this.databTest.addOrder(order2);
         this.databTest.addOrder(order3);
-        // The test class already has added one order, so insted of 3, we expect 4
         assertEquals(3, this.databTest.getAllOrders().size());
     }
+
+    @Test
+    public void getRightAmountOfEventsByUser() {
+        Order order = new Order("H", "TestiKayttaja", "2020-04-14 11:00:00");
+        Order order2 = new Order("T", "TestiKayttaja", "2020-04-14 05:00:00");
+        Order order3 = new Order("T2", "TestiKayttaja", "2020-04-14 05:33:00");
+        WorkPhase wp = new WorkPhase("2020-04-14 12:00:00", "Sisäänkirjaus", "T", "TestiKayttaja", "kuvaus");
+        this.databTest.addEvent(wp);
+        this.databTest.addOrder(order);
+        this.databTest.addOrder(order2);
+        this.databTest.addOrder(order3);
+        assertEquals(1, this.databTest.getOrderInfoByUser(this.user).size());
+    }
+
+    @Test
+    public void getZeroAmountOfEventsByUser() {
+        Order order = new Order("H", "TestiKayttaja1", "2020-04-14 11:00:00");
+        Order order2 = new Order("T", "TestiKayttaja1", "2020-04-14 05:00:00");
+        Order order3 = new Order("T2", "TestiKayttaja1", "2020-04-14 05:33:00");
+        WorkPhase wp = new WorkPhase("2020-04-14 12:00:00", "Sisäänkirjaus", "T", "TestiKayttaja", "kuvaus");
+        this.databTest.addEvent(wp);
+        this.databTest.addOrder(order);
+        this.databTest.addOrder(order2);
+        this.databTest.addOrder(order3);
+        User user = new User("TestiKayttaja1", 0);
+        assertEquals(0, this.databTest.getOrderInfoByUser(user).size());
+    }
+
 }
-    

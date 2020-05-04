@@ -33,8 +33,6 @@ public class DataSql implements Data {
             this.dbCon = DriverManager.getConnection(this.fileName);
             this.dbCon.setAutoCommit(false);
         } catch (SQLException e) {
-            System.out.println("Yhteyden luominen epäonnistui.");
-            System.out.println(e.getMessage());
         }
     }
 
@@ -53,7 +51,6 @@ public class DataSql implements Data {
                 this.s.close();
             }
         } catch (SQLException e) {
-            System.out.println("Yhteyden sulkeminen tietokantaan epäonnistui.");
         }
     }
 
@@ -61,7 +58,6 @@ public class DataSql implements Data {
     public boolean format() {
         try {
             this.connect();
-            // this.dbCon = DriverManager.getConnection("jdbc:sqlite:testi.db");
             this.s = this.dbCon.createStatement();
             this.s.execute("CREATE TABLE Users (id INTEGER PRIMARY KEY, name TEXT UNIQUE, status INTEGER)");
             this.s.execute("INSERT INTO Users (name, status) VALUES ('admin',1)");
@@ -69,8 +65,6 @@ public class DataSql implements Data {
             this.s.execute("CREATE TABLE Events (id INTEGER PRIMARY KEY, workphase TEXT, code TEXT NOT NULL REFERENCES Orders, usr_id REFERENCES Users, description TEXT, timestamp TEXT)");
             this.s.execute("PRAGMA foreign_keys = ON");
             this.dbCon.commit();
-            System.out.println("Tietokanta alustettu nyt");
-            //        s.close();
             return true;
         } catch (SQLException e) {
             return false;
@@ -87,10 +81,8 @@ public class DataSql implements Data {
             this.p.setString(1, name);
             this.rr = p.executeQuery();
             if (!this.rr.next()) {
-                System.out.println("Käyttäjää ei löydy");
                 return null;
             } else {
-                System.out.println("Käyttäjä löytyi");
                 return new User(this.rr.getString("name"), this.rr.getInt("status"));
             }
         } catch (SQLException e) {
@@ -109,11 +101,8 @@ public class DataSql implements Data {
             this.p.setInt(2, user.getStatus());
             this.p.executeUpdate();
             this.dbCon.commit();
-            System.out.println("Käyttäjä lisätty");
             return true;
         } catch (SQLException e) {
-            System.out.println("Käyttäjää ei lisätty.");
-            System.out.println(e.getMessage());
             return false;
         } finally {
             this.closeConnections();
@@ -128,11 +117,8 @@ public class DataSql implements Data {
             this.p.setString(1, user.getName());
             this.p.executeUpdate();
             this.dbCon.commit();
-            System.out.println("Käyttäjä poistettu");
             return true;
         } catch (SQLException e) {
-            System.out.println("Käyttäjää ei poistettu.");
-            System.out.println(e.getMessage());
             return false;
         } finally {
             this.closeConnections();
@@ -170,7 +156,6 @@ public class DataSql implements Data {
                 users.add(user);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
         } finally {
             this.closeConnections();
         }
@@ -187,10 +172,8 @@ public class DataSql implements Data {
             this.p.setString(3, order.getUserName());
             this.p.executeUpdate();
             this.dbCon.commit();
-            System.out.println("Tilaus lisätty");
             return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             return false;
         } finally {
             this.closeConnections();
@@ -206,13 +189,12 @@ public class DataSql implements Data {
             this.p.setString(1, code);
             this.rr = this.p.executeQuery();
             if (!this.rr.next()) {
-                System.out.println("Tilausta ei löydy");
+                return foundOrder;
             } else {
                 foundOrder = new Order(this.rr.getString("code"), this.rr.getString("name"), this.rr.getString("timestamp"));
             }
             return foundOrder;
         } catch (SQLException e) {
-            System.out.println("Yhteyttä tietokantaan ei löydy. Tilausta ei löydy." + e.getMessage());
             return null;
         } finally {
             this.closeConnections();
@@ -234,7 +216,6 @@ public class DataSql implements Data {
                 events.add(event);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
         } finally {
             this.closeConnections();
         }
@@ -246,7 +227,7 @@ public class DataSql implements Data {
         ArrayList<WorkPhase> events = new ArrayList<>();
         try {
             this.connect();
-            // Select all the events for this user
+            // Select all the workphases for this user
             this.p = this.dbCon.prepareStatement("SELECT E.code, E.workphase, E.description, U.name, E.timestamp FROM Events E LEFT JOIN Users U ON U.id == E.usr_id WHERE name=?");
             this.p.setString(1, user.getName());
             this.rr = this.p.executeQuery();
@@ -256,7 +237,6 @@ public class DataSql implements Data {
                 events.add(event);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
         } finally {
             this.closeConnections();
         }
@@ -278,7 +258,6 @@ public class DataSql implements Data {
                 events.add(event);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
         } finally {
             this.closeConnections();
         }
@@ -299,7 +278,6 @@ public class DataSql implements Data {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
         } finally {
             this.closeConnections();
         }
@@ -319,7 +297,6 @@ public class DataSql implements Data {
                 orders.put(rr.getString("t"), rr.getInt("c"));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
         } finally {
             this.closeConnections();
         }
@@ -338,10 +315,8 @@ public class DataSql implements Data {
             this.p.setString(5, event.getTimestamp());
             this.p.executeUpdate();
             this.dbCon.commit();
-            System.out.println("Työvaihe lisätty");
             return true;
         } catch (SQLException e) {
-            System.out.println("Työvaihetta ei lisätty sql" + e.getMessage());
             return false;
         } finally {
             this.closeConnections();
@@ -359,10 +334,8 @@ public class DataSql implements Data {
             this.s.execute("DROP TABLE IF EXISTS Events");
             this.s.execute("DROP TABLE IF EXISTS Users");
             this.dbCon.commit();
-            System.out.println("Tietokanta tyhjennetty.");
             return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             return false;
         } finally {
             this.closeConnections();

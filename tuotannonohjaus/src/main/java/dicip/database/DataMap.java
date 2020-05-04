@@ -1,19 +1,18 @@
 package dicip.database;
 
+import dicip.domain.Order;
+import dicip.domain.User;
+import dicip.domain.WorkPhase;
+import java.util.*;
+
 /**
  *
  * @author sakorpi
  */
 /**
  *
- * This class is only for testing purposes. To test the application
- * logic without the permanent data saving into database.
+ * Class for testing purposes
  */
-import dicip.domain.Order;
-import dicip.domain.User;
-import dicip.domain.WorkPhase;
-import java.util.*;
-
 public class DataMap implements Data {
 
     private ArrayList<User> users;
@@ -96,33 +95,10 @@ public class DataMap implements Data {
                 phaseList.add(e);
             }
         }
-        // Events are saved in ascending order, so reverse it first and then 
+        // Events are saved in ascending order, so reverse it
         Collections.reverse(phaseList);
         return phaseList;
     }
-//
-//    @Override
-//    public ArrayList<WorkPhase> getOrderInfoByDateGrouped(String date) {
-//        ArrayList<WorkPhase> phaseList = new ArrayList<>();
-//        ArrayList<WorkPhase> modPhaseList = new ArrayList<>();
-//        // Select events by date
-//        for (WorkPhase e : this.events) {
-//            if (e.getTimestamp().contains(date)) {
-//                phaseList.add(e);
-//            }
-//        }
-//        // Events are saved in ascending order, so reverse it first and then 
-//        // save codes into a list and check that every WP is added only once
-//        
-//        ArrayList<String> codeList = new ArrayList<>();
-//        for (WorkPhase e : phaseList) {
-//            if (!codeList.contains(e.getCode())) {
-//                modPhaseList.add(e);
-//                codeList.add(e.getCode());
-//            }
-//        }
-//        return modPhaseList;
-//    }
 
     @Override
     public boolean removeAllDataFromDatabase() {

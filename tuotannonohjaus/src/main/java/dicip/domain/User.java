@@ -39,6 +39,7 @@ public class User {
     /**
      * Compare the two user by user name
      *
+     * @param compar object to compare with
      * @return true if the user names equals
      */
     @Override
@@ -56,7 +57,7 @@ public class User {
     /**
      * Create a hashCode
      *
-     * @return hashcode
+     * @return hash HashCode
      */
     @Override
     public int hashCode() {

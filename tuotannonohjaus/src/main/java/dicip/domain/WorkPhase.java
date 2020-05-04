@@ -6,7 +6,7 @@ package dicip.domain;
  */
 /**
  *
- * Class represents a single work phase
+ * Class represents a single work phase (event)
  */
 public class WorkPhase {
 

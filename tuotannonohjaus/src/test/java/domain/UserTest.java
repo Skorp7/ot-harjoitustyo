@@ -1,6 +1,7 @@
 
 package domain;
 
+import dicip.domain.Order;
 import dicip.domain.User;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -56,5 +57,12 @@ public class UserTest {
         User sameuser1 = new User("TheSame", 0);
         User sameuser2 = new User("TheSame", 1);
         assertEquals(sameuser1, sameuser2);
+    }
+    
+    @Test
+    public void otherObjectIsNotUser() {
+        Order same1 = new Order("Uuno", "Uuno", "2020-05-04");
+        User same2 = new User("Uuno", 1);
+        assertNotEquals(same2, same1);
     }
 }

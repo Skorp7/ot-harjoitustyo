@@ -1,12 +1,17 @@
 package dicip.ui;
 
+import dicip.database.Data;
 import dicip.database.DataSql;
-import dicip.domain.WorkPhase;
-import dicip.domain.Service;
-import dicip.domain.User;
+import dicip.domain.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Properties;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -36,13 +41,25 @@ import javafx.util.StringConverter;
  */
 public class App extends Application {
 
+    private Service service;
+    private Scene beginScene;
+    private Scene workScene;
+
+    @Override
+    public void init() throws Exception {
+
+        // Create service and read config-file to get the name for the database file
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("config.properties"));
+        String dataFile = properties.getProperty("dataFile");
+        Data database = new DataSql(dataFile);
+        this.service = new Service(database);
+    }
+
     @Override
     public void start(Stage win) throws SQLException {
 
-        // Create app service:
-        Service service = new Service(new DataSql("jdbc:sqlite:datafile.db"));
-
-        // Create window components
+        // Create window components 
         BorderPane mainwindow = new BorderPane();
         BorderPane workwindow = new BorderPane();
         VBox topBox = new VBox();
@@ -82,10 +99,9 @@ public class App extends Application {
         centerField.setAlignment(Pos.CENTER_RIGHT);
         Image beginImage = null;
         try {
-            Image image = new Image(getClass().getResourceAsStream("/styles/kappyra2.png"));
+            Image image = new Image(this.getClass().getResourceAsStream("/styles/kappyra2.png"));
             beginImage = image;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
         ImageView imView = new ImageView(beginImage);
         imView.setFitHeight(400);
@@ -165,7 +181,9 @@ public class App extends Application {
 
         // Admin field center - chart
         VBox adminFieldChart = new VBox();
-//        Label chartTopic = new Label("Tilastoteksti");
+        Label extraChart1 = new Label("");
+        Label extraChart2 = new Label("");
+        Label extraChart3 = new Label("");
         adminFieldChart.setSpacing(20);
         adminFieldChart.setPadding(spaces);
 
@@ -206,7 +224,7 @@ public class App extends Application {
         XYChart.Series orderData = new XYChart.Series();
         // Load orderData when clicked the Button
         orderChart30Days.getData().add(orderData);
-        adminFieldChart.getChildren().addAll(orderChart30Days);
+        adminFieldChart.getChildren().addAll(orderChart30Days, extraChart1, extraChart3, extraChart2);
 
         // Create left field in workwindow:
         VBox leftfield = new VBox();
@@ -356,11 +374,11 @@ public class App extends Application {
         mainwindow.setCenter(centerField);
         mainwindow.setTop(welcomefield);
 
-        Scene beginScene = new Scene(mainwindow, 1000, 700);
-        beginScene.getStylesheets().add("styles/style.css");
-        Scene workScene = new Scene(workwindow, 1000, 700);
-        workScene.getStylesheets().add("styles/style.css");
-        win.setScene(beginScene);
+        this.beginScene = new Scene(mainwindow, 1000, 700);
+        this.beginScene.getStylesheets().add("styles/style.css");
+        this.workScene = new Scene(workwindow, 1000, 700);
+        this.workScene.getStylesheets().add("styles/style.css");
+        win.setScene(this.beginScene);
         win.setTitle("DICIP");
         win.show();
 
@@ -391,16 +409,16 @@ public class App extends Application {
         // Create functions for buttons:
         // Check if inserted name is correct and then log in
         loginBtn.setOnAction(event -> {
-            if (service.login(loginfieldtext.getText())) {
+            if (this.service.login(loginfieldtext.getText())) {
                 feedbacktext.setText("Käyttäjä löytyi");
                 feedbacktext.setTextFill(Color.GREEN);
-                if (service.getLoggedInUser().getStatus() == 1) {
+                if (this.service.getLoggedInUser().getStatus() == 1) {
                     adminBtn.setDisable(false);
                 } else {
                     adminBtn.setDisable(true);
                 }
-                lefttext.setText("Kirjautuneena:\n" + service.getLoggedInUser().getName());
-                win.setScene(workScene);
+                lefttext.setText("Kirjautuneena:\n" + this.service.getLoggedInUser().getName());
+                win.setScene(this.workScene);
                 orderBtn.fire();
                 orderBtn.requestFocus();
             } else {
@@ -418,7 +436,7 @@ public class App extends Application {
 
         // Go back to the begin view      
         logOutBtn.setOnAction(event -> {
-            service.logOut();
+            this.service.logOut();
             win.setScene(beginScene);
             loginfieldtext.setText("Anna tunnus");
             feedbacktext.setText("");
@@ -434,7 +452,7 @@ public class App extends Application {
 
         // Admin view: Add user: Check if the username is already taken or too short, then add user
         addUserBtn.setOnAction(event -> {
-            if (service.getUser(modUserTextField.getText()) != null) {
+            if (this.service.getUser(modUserTextField.getText()) != null) {
                 modUserFeedback.setText("Tunnus on jo olemassa, valitse toinen tunnus.");
                 modUserFeedback.setTextFill(Color.RED);
             } else if (modUserTextField.getText().length() < 3) {
@@ -447,7 +465,7 @@ public class App extends Application {
                 } else if (group.getSelectedToggle().equals(rb2)) {
                     status = 1;
                 }
-                if (service.addUser(modUserTextField.getText(), status)) {
+                if (this.service.addUser(modUserTextField.getText(), status)) {
                     modUserFeedback.setText("Käyttäjä lisätty.");
                     modUserFeedback.setTextFill(Color.GREEN);
                 } else {
@@ -462,9 +480,17 @@ public class App extends Application {
         chartLinkBtn.setOnAction(event -> {
             workwindow.setCenter(adminFieldChart);
             orderData.getData().clear();
-            service.getOrderAmount30Days().entrySet().stream().forEach(pari -> {
+            this.service.getOrderAmount30Days().entrySet().stream().forEach(pari -> {
                 orderData.getData().add(new XYChart.Data(pari.getKey().getDayOfYear(), pari.getValue()));
             });
+            double median = this.service.getMedianOfProductionTime();
+            if (median == -1) {
+                extraChart1.setText("Tilausten keskimääräinen valmistusaika (mediaani):\nEi yhtään tilausta valmiina");
+            } else {
+                extraChart1.setText("Tilausten keskimääräinen valmistusaika (mediaani): " + median + " päivää");
+            }
+            extraChart2.setText("Työnjohtajia: " + this.service.countOfAdmins() + "\nTyöntekijöitä: " + this.service.countOfRegularUsers());
+            extraChart3.setText("Eniten tehtyjä työvaiheita: " + this.service.getMaxEventCountUser().getName());
         });
 
         // Show add user field:
@@ -490,9 +516,9 @@ public class App extends Application {
         // Remove data from database if user chooses "OK" in the warningbox. Then log out and format database.
         removeAllDataBtn.setOnAction(event -> {
             if (this.removeAllDataIsClear()) {
-                service.removeAllDataFromDatabase();
+                this.service.removeAllDataFromDatabase();
                 logOutBtn.fire();
-                service.checkDatabase();
+                this.service.checkDatabase();
             }
         });
 
@@ -530,16 +556,16 @@ public class App extends Application {
 
         // First check if user exists, then check if it has log in rights, then remove user or login rights
         removeUserBtn.setOnAction(event -> {
-            if (service.getUser(modUserTextField.getText()) != null) {
-                User user = service.getUser(modUserTextField.getText());
+            if (this.service.getUser(modUserTextField.getText()) != null) {
+                User user = this.service.getUser(modUserTextField.getText());
                 if (user.getStatus() == 99) {
                     modUserFeedback.setText("Käyttäjän oikeudet on jo poistettu.");
                     modUserFeedback.setTextFill(Color.BLACK);
                 } else {
-                    if (removeUserIsClear(user) && service.removeUser(modUserTextField.getText())) {
+                    if (removeUserIsClear(user) && this.service.removeUser(modUserTextField.getText())) {
                         modUserFeedback.setText("Poistettu.");
                         modUserFeedback.setTextFill(Color.GREEN);
-                        if (user.equals(service.getLoggedInUser())) {
+                        if (user.equals(this.service.getLoggedInUser())) {
                             logOutBtn.fire();
                         }
                     } else {
@@ -560,9 +586,8 @@ public class App extends Application {
             } else if (group.getSelectedToggle().equals(rb2)) {
                 status = 1;
             }
-            if (service.getUser(modUserTextField.getText()) != null) {
-                if (changeStatusIsClear(service.getUser(modUserTextField.getText()), status)) {
-                    service.changeUserStatus(modUserTextField.getText(), status);
+            if (this.service.getUser(modUserTextField.getText()) != null) {
+                if (changeStatusIsClear(this.service.getUser(modUserTextField.getText()), status) && this.service.changeUserStatus(modUserTextField.getText(), status)) {
                     modUserFeedback.setText("Käyttäjärooli vaihdettu.");
                     modUserFeedback.setTextFill(Color.GREEN);
                 } else {
@@ -587,11 +612,11 @@ public class App extends Application {
 
         // Check if the given order code is alrady taken, then add order        
         addOrderbtn.setOnAction(event -> {
-            if (service.getOrder(addOrderTextField.getText()) != null) {
+            if (this.service.getOrder(addOrderTextField.getText()) != null) {
                 addOrderFeedback.setText(" Tilausnumero on jo käytössä. \n Jos jo uloskirjattu tilaus on tulossa takaisin sisään,\n kirjaa se sisään tästä:");
                 addOrderFeedback.setTextFill(Color.RED);
                 addOldOrderbtn.setVisible(true);
-            } else if (service.addOrder(addOrderTextField.getText(), service.getLoggedInUser())) {
+            } else if (this.service.addOrder(addOrderTextField.getText(), this.service.getLoggedInUser())) {
                 addOrderFeedback.setText("Tilaus lisätty.");
                 addOrderFeedback.setTextFill(Color.GREEN);
             } else {
@@ -626,10 +651,10 @@ public class App extends Application {
 
         // Check if order exists and then get the order info        
         seekOrderbtn.setOnAction(event -> {
-            if (service.getOrder(seekOrderTextField.getText()) != null) {
+            if (this.service.getOrder(seekOrderTextField.getText()) != null) {
                 seekOrderFeedback.setText("Tilaus koodilla '" + seekOrderTextField.getText() + "' löytyi.");
                 seekOrderFeedback.setTextFill(Color.GREEN);
-                table.setItems(service.getOrderInfo(seekOrderTextField.getText()));
+                table.setItems(this.service.getOrderInfo(seekOrderTextField.getText()));
                 codeCol.setVisible(false);
                 workwindow.setBottom(tablebox);
             } else {
@@ -651,12 +676,12 @@ public class App extends Application {
                 seekOrderDateFeedback.setText("Päivämäärän muoto virheellinen.");
                 seekOrderDateFeedback.setTextFill(Color.RED);
             } else {
-                if (service.getOrderInfoByDate(seekOrderDateTextField.getText()).isEmpty()) {
+                if (this.service.getOrderInfoByDate(seekOrderDateTextField.getText()).isEmpty()) {
                     seekOrderDateFeedback.setText("Tällä päivämäärällä ei löytynyt yhtään käsiteltyä tilausta.");
                     workwindow.setBottom(emptybox2);
                     seekOrderDateFeedback.setTextFill(Color.BLACK);
                 } else {
-                    table.setItems(service.getOrderInfoByDateGrouped(seekOrderDateTextField.getText()));
+                    table.setItems(this.service.getOrderInfoByDateGrouped(seekOrderDateTextField.getText()));
                     codeCol.setVisible(true);
                     workwindow.setBottom(tablebox);
                     seekOrderDateFeedback.setText("Käsiteltyjä tilauksia löytyi.\nNäytetään viimeisimmät työvaiheet.\nKlikkaa riviä (pitkään) nähdäksesi tilauksen koko seuranta.");
@@ -670,7 +695,7 @@ public class App extends Application {
         table.setOnMousePressed(event -> {
             WorkPhase selectedWP = table.getSelectionModel().getSelectedItem();
             if (selectedWP != null && codeCol.isVisible()) {
-                table.setItems(service.getOrderInfo(selectedWP.getCode()));
+                table.setItems(this.service.getOrderInfo(selectedWP.getCode()));
                 seekOrderDateFeedback.setText("Näytetään tilauksen '" + selectedWP.getCode() + "' seuranta.");
             }
         });
@@ -753,10 +778,10 @@ public class App extends Application {
             if (logOutCheckBox.isSelected()) {
                 description = groupCourier.getSelectedToggle().getUserData().toString();
             }
-            if (service.getOrder(addEventCodeTextField.getText()) == null) {
+            if (this.service.getOrder(addEventCodeTextField.getText()) == null) {
                 addEventFeedback.setText("Tilausnumeroa ei löydy, ei voi lisätä työvaihetta.");
                 addEventFeedback.setTextFill(Color.RED);
-            } else if (service.addEvent(addEventTextField.getText(), addEventCodeTextField.getText(), description, service.getLoggedInUser())) {
+            } else if (this.service.addEvent(addEventTextField.getText(), addEventCodeTextField.getText(), description, this.service.getLoggedInUser())) {
                 addEventFeedback.setText("Työvaihe lisätty tilauskoodille '" + addEventCodeTextField.getText() + "'.");
                 addEventFeedback.setTextFill(Color.GREEN);
             } else {
@@ -840,4 +865,7 @@ public class App extends Application {
         return clear;
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

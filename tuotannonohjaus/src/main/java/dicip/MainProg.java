@@ -1,6 +1,6 @@
-package dicip.ui;
+package dicip;
 
-import static javafx.application.Application.launch;
+import dicip.ui.App;
 
 /**
  *
@@ -13,6 +13,6 @@ import static javafx.application.Application.launch;
 public class MainProg {
     
     public static void main(String[] args) {
-        launch(App.class);
+        App.main(args);
     }
 }

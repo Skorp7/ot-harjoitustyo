@@ -99,6 +99,7 @@ Voit lisätä tilaukselle työvaiheen klikkaamalla oikesta reunasta painiketta '
 Työvaiheen voi lisätä vain tilaukselle joka on jo olemassa (kts. Tilauksen lisääminen). Ohjelma ilmoittaa jos tilausta ei löydy.
 
 Kirjoita ylimpään kenttään tilauskoodi. Lisää sitten työvaiheen kuvaus. Lisätieto-kenttä on vapaaehtoinen.
+
 <img src="kuvat/addworkphase.png" width=400>
 
 Jos haluat kirjata työn ulos tuotantotiloista, valitse valintaruutu "Uloskirjaus". Tällöin lisätietoja ei voi lisätä, mutta voit valita käytettävän lähettipalvelun.
@@ -106,9 +107,21 @@ Jos haluat kirjata työn ulos tuotantotiloista, valitse valintaruutu "Uloskirjau
 <img src="kuvat/orderlogout.png" width=400>
 
 ### Etsi tilaus koodilla
+
 Voit hakea tilauksen koko seurantahistorian nähtäville valitsemalla oikeasta reunasta 'Etsi tilaus koodilla'.
 Syötä haluamasi tilauskoodi ja klikkaa 'Etsi tilaus', jos tilausta ei löydy, tulee virheviesti. Muussa tapauksessa alhaalle ilmestyy taulukko, jossa näkyy aikajärjestyksessä kaikki tälle tilaukselle tehdyt työvaiheet ja niiden tekijät.
 
 <img src="kuvat/seekorder.png" width=400>
 
 ### Etsi tilaukset päivämäärällä
+
+Voit hakea tämän päivän viimeisimmät tehdyt työvaiheet valitsemala oikeasta reunasta 'Etsi tilaukset päivämäärällä'.
+Painikkeesta 'Tänään' saat päivämääräkenttään valmiiksi täytettynä järjestelmän aikaan perustuvan päivämäärän tälle päivälle. Voit myös kirjoittaa päivämäärän itse, mutta muista oikea muoto! (vvvv-kk-pp) Klikkaa sitten 'Etsi tilaukset'.
+Ohjelma ilmoittaa jos muoto on väärä tai jos päivän aikana ei ole käsitelty yhtään tilausta.
+
+<img src="kuvat/seekdate.png" width=400>
+
+Jos käsiteltyjä tilauksia löytyy, ohjelma näyttää jokaisesta tilauksesta vain viimeisimpänä tehdyn työvaiheen. Jos haluat nähdä tietyn tilauksen koko seurannan, klikkaa kyseistä tilausta pitkään, niin näkymä vaihtuu.
+
+<img src="kuvat/seekdateshoworder.png" width=400>
+

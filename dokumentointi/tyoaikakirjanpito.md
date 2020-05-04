@@ -18,5 +18,5 @@
 | 26.4. |   7   | Uusia toimintoja: poista käyttäjä, muuta statusta, tyhjennä tietokanta. Testejä |
 | 27.4. |   2   | Javadocin kirjoittamista ja release |
 | 1.5.  |   4   | Mediaanin laskeminen, testejä, 'ahkerin työntekijä', käyttäjäroolien määrät |
-| 4.5.  |   8   | Refaktorointia, testausta, siistimistä, dokumentointia |
+| 4.5.  |   8   | Refaktorointia, config-tiedosto, testausta, siistimistä, dokumentointia |
 |  |  74  | YHTEENSÄ |

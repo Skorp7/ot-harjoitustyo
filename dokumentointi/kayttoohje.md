@@ -2,9 +2,22 @@
 
 Lataa tiedosto [tuotannonohjaus.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko7) ja konfigurointitiedosto config.properties.
 
+## Konfigurointi
+
+Ohjelma olettaa käynnistyessään että samasta kansiosta .jar -tiedoston kanssa löytyy tiedosto *config.properties*.
+
+Konfigurointitiedoston sisältö on seuraava:
+```
+dataFile=jdbc:sqlite:datafile.db
+```
+
 Ohjelma luo käynnistyessään tietokantatiedoston *datafile.db* samaan kansioon, johon .jar-tiedosto on ladattu. Jos olet ladannut saman ohjelman eri version aiemmin, kannattaa poistaa vanha versio ja vanha tietokantatiedosto ennen käynnistämistä.
 
-Jos haluat testikäyttöön tietokantatiedoston, jossa on jo tietoa tallennettuna valmiiksi, voit ladata myös tiedoston *datafile.db* ja tallentaa sen samaan kansioon .jar-tiedoston kanssa (poista tai uudelleennimeä ensin muut samannimiset tiedostot).
+Voit testata ohjelmaa myös jo valmiiksi täydennetyllä tietokannalla. Jos haluat sen testikäyttöön, voit ladata tiedoston *datafileForTutorial.db* ja tallentaa sen samaan kansioon .jar-tiedoston kanssa. Tällöin sinun täytyy myös muuttaa tiedoston *config.properties* sisältö seuraavaksi:
+```
+dataFile=jdbc:sqlite:datafileForTutorial.db
+```
+
 
 ## Ohjelman käynnistäminen
 
@@ -39,5 +52,5 @@ Se onnistuu menemällä ylävalikosta kohtaan 'Poista käyttäjä'. Kirjoita tek
 
 <img src="kuvat/rmuser_alert.png" width=500>
 
-Ohjelma pitää huolen siitä, että tietokannassa on aina vähintään yksi käyttäjä, jolla on *Työnjohtajan* oikeudet. Ainoaa jäljellä olevaa *Työnjohtajaa* ei siis voi poistaa.
+Ohjelma pitää huolen siitä, että tietokannassa on aina vähintään yksi käyttäjä, jolla on *Työnjohtajan* oikeudet. Ainoaa jäljellä olevaa *Työnjohtajaa* ei siis voi poistaa tai sen käyttäjäroolia muuttaa.
 Ohjelma ei myöskään poista kokonaan sellaisia käyttäjiä, jotka ovat jo luoneet tilauksia tai tehneet työvaihemerkintöjä, ettei tilastoista häviä tietoa. Näiltä käyttäjiltä poistataan vain sisäänkirjautumisoikeus, jonka *Työnjohtajan* oikeuksilla voi antaa myöhemmin takaisin.

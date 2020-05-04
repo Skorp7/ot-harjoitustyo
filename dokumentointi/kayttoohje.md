@@ -31,7 +31,7 @@ java -jar tuotannonohjaus.jar
 
 Käynnistyksen jälkeen voi kirjautua sisään tunnuksella 'admin', jolla on kaikki käyttöoikeudet. Kirjoita nimi kenttään ja klikkaa 'Kirjaudu'.
 
-<img src="kuvat/login.png" width=300>
+<img src="kuvat/login.png" width=400>
 
 ## Uloskirjautuminen
 
@@ -65,7 +65,7 @@ Ohjelma ei myöskään poista kokonaan sellaisia käyttäjiä, jotka ovat jo luo
 
 Käyttäjäroolia voi vaihtaa menemällä käyttäjähallintaan ja klikkaamalla 'muuta käyttäjäroolia'-painiketta yläreunasta. Kirjoita kenttään sen käyttäjän nimi, jonka roolia haluat vaihtaa ja valitse uusi rooli. Olemattomasta käyttäjästä tulee virheviesti. Jos ohjelmassa on vain yksi käyttäjä *Työnjohtajan* oikeuksilla, niin tämän käyttäjän roolia ei voi vaihtaa.
 
-<img src="kuvat/change_status.png" width=400>
+<img src="kuvat/change_status.png" width=500>
 
 ### Tietokannan tyhjentäminen
 

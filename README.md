@@ -35,7 +35,7 @@ Raportin saa nähtäväksi avaamalla selaimella tiedoston target/site/jacoco/ind
 
 Sovelluksen saa käynnistettyä yliopiston Cubbli-linux koneilla
 ```
-mvn compile exec:java -Dexec.mainClass=ui.MainProg
+mvn compile exec:java -Dexec.mainClass=dicip.MainProg
 ```
 Tai voit luoda .jar-tiedoston komennolla
 ```

@@ -89,7 +89,7 @@ Jos koodi on jo olemassa, ohjelma näyttää painikkeen, jota klikkaamalla saat 
 
 <img src="kuvat/orderexists.png" width=300>
 
-Jos klikkaat painiketta, siirryt työvaiheen lisäys -näkymään kentät valmiiksi täytettynä.
+Jos klikkaat painiketta, siirryt työvaiheen lisäys -näkymään kentät valmiiksi täytettynä. Klikkaa sitten 'Lisää työvaihe'.
 
 <img src="kuvat/order_relogin.png" width=450>
 

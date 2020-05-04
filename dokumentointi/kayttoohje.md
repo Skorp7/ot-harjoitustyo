@@ -73,7 +73,7 @@ Käyttäjäroolia voi vaihtaa menemällä käyttäjähallintaan ja klikkaamalla 
 
 Mene oikeanpuolimmaisesta valikosta kohtaan 'Asetukset' ja valitse 'Tyhjennä tietokanta'. Järjestelmä antaa siitä varoitusviestin. Jos olet varma aikeistasi, niin klikkaa OK.
 
-<img src="kuvat/remove_data.png" width=400>
+<img src="kuvat/remove_data.png" width=500>
 
 ## Tuotannon toiminnot
 
@@ -119,9 +119,9 @@ Voit hakea tämän päivän viimeisimmät tehdyt työvaiheet valitsemala oikeast
 Painikkeesta 'Tänään' saat päivämääräkenttään valmiiksi täytettynä järjestelmän aikaan perustuvan päivämäärän tälle päivälle. Voit myös kirjoittaa päivämäärän itse, mutta muista oikea muoto! (vvvv-kk-pp) Klikkaa sitten 'Etsi tilaukset'.
 Ohjelma ilmoittaa jos muoto on väärä tai jos päivän aikana ei ole käsitelty yhtään tilausta.
 
-<img src="kuvat/seekdate.png" width=400>
+<img src="kuvat/seekdate.png" width=500>
 
 Jos käsiteltyjä tilauksia löytyy, ohjelma näyttää jokaisesta tilauksesta vain viimeisimpänä tehdyn työvaiheen. Jos haluat nähdä tietyn tilauksen koko seurannan, klikkaa kyseistä tilausta pitkään, niin näkymä vaihtuu.
 
-<img src="kuvat/seekdateshoworder.png" width=400>
+<img src="kuvat/seekdateshoworder.png" width=550>
 

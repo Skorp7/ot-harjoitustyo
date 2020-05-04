@@ -777,6 +777,9 @@ public class App extends Application {
             if (this.service.getOrder(addEventCodeTextField.getText()) == null) {
                 addEventFeedback.setText("Tilausnumeroa ei löydy, ei voi lisätä työvaihetta.");
                 addEventFeedback.setTextFill(Color.RED);
+            } else if (addEventTextField.getText().isEmpty()) {
+                addEventFeedback.setText("Työvaihe puuttuu.");
+                addEventFeedback.setTextFill(Color.RED);
             } else if (this.service.addEvent(addEventTextField.getText(), addEventCodeTextField.getText(), description, this.service.getLoggedInUser())) {
                 addEventFeedback.setText("Työvaihe lisätty tilauskoodille '" + addEventCodeTextField.getText() + "'.");
                 addEventFeedback.setTextFill(Color.GREEN);

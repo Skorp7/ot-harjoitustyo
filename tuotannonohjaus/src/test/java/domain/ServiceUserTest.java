@@ -70,8 +70,14 @@ public class ServiceUserTest {
     }
 
     @Test
-    public void loginReturnTrueIfUserExists() {
+    public void loginReturnTrueIfRegularUserExists() {
         this.service.addUser("LoginU", 0);
+        assertTrue(this.service.login("LoginU"));
+    }
+
+    @Test
+    public void loginReturnTrueIfAdminUserExists() {
+        this.service.addUser("LoginU", 1);
         assertTrue(this.service.login("LoginU"));
     }
 
@@ -158,6 +164,12 @@ public class ServiceUserTest {
     @Test
     public void adminStatusIsNotChangedIfOnlyOneAdmin() {
         assertFalse(this.service.changeUserStatus("admin", 0));
+    }
+    
+    @Test
+    public void adminStatusIsChangedIfThereIsAnotherAdmin() {
+        this.service.addUser("OtherAdmin", 1);
+        assertTrue(this.service.changeUserStatus("admin", 0));
     }
 
     @Test

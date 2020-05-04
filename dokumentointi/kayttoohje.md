@@ -29,7 +29,7 @@ java -jar tuotannonohjaus.jar
 
 ## Sisäänkirjautuminen
 
-Käynnistyksen jälkeen voi kirjautua sisään tunnuksella 'admin', jolla on kaikki käyttöoikeudet. Kirjoita nimi kenttään ja klikkaa 'Kirjaudu'.
+Ensimmäisen käynnistyksen jälkeen voi kirjautua sisään tunnuksella 'admin', jolla on kaikki käyttöoikeudet. Kirjoita nimi kenttään ja klikkaa 'Kirjaudu'.
 
 <img src="kuvat/login.png" width=400>
 

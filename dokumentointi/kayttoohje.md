@@ -33,11 +33,17 @@ Käynnistyksen jälkeen voi kirjautua sisään tunnuksella 'admin', jolla on kai
 
 <img src="kuvat/login.png" width=300>
 
-## Käyttäjien lisääminen ja poistaminen
+## Uloskirjautuminen
 
-On suositeltavaa että käyt ensimmäisenä luomassa toisen tunnuksen, jolla on kaikki käyttöoikeudet ja poistat tunnuksen 'admin'.
+Klikkaa vasemmalla alimpana olevaa painiketta "Kirjaudu ulos".
 
-Uusi käyttäjä lisätään menemällä vasemmanpuoleisesta valikosta kohtaan 'Hallinta'. Aukeaa hallinta-näkymä joka aukeaa vain *Työnjohtajan* oikeuksilla.
+## Työnjohtajan toiminnot:
+
+Työnjohtajan toimintoihin pääsee käsiksi menemällä vasemmanpuoleisesta valikosta kohtaan 'Hallinta'. Aukeaa hallinta-näkymä joka aukeaa vain *Työnjohtajan* oikeuksilla.
+
+### Käyttäjän lisääminen ja poistaminen
+
+Voi esimerkiksi ensimmäisenä käydä luomassa toisen tunnuksen, jolla on kaikki käyttöoikeudet ja poistaa tunnuksen 'admin'.
 
 <img src="kuvat/adduser.png" width=600>
 
@@ -53,4 +59,36 @@ Se onnistuu menemällä ylävalikosta kohtaan 'Poista käyttäjä'. Kirjoita tek
 <img src="kuvat/rmuser_alert.png" width=500>
 
 Ohjelma pitää huolen siitä, että tietokannassa on aina vähintään yksi käyttäjä, jolla on *Työnjohtajan* oikeudet. Ainoaa jäljellä olevaa *Työnjohtajaa* ei siis voi poistaa tai sen käyttäjäroolia muuttaa.
-Ohjelma ei myöskään poista kokonaan sellaisia käyttäjiä, jotka ovat jo luoneet tilauksia tai tehneet työvaihemerkintöjä, ettei tilastoista häviä tietoa. Näiltä käyttäjiltä poistataan vain sisäänkirjautumisoikeus, jonka *Työnjohtajan* oikeuksilla voi antaa myöhemmin takaisin.
+Ohjelma ei myöskään poista kokonaan sellaisia käyttäjiä, jotka ovat jo luoneet tilauksia tai tehneet työvaihemerkintöjä, ettei tilastoista häviä tietoa. Näiltä käyttäjiltä poistataan vain sisäänkirjautumisoikeus, jonka *Työnjohtajan* oikeuksilla voi antaa myöhemmin takaisin (kts. käyttäjäroolin vaihtaminen).
+
+### Käyttäjäroolin vaihtaminen
+
+Käyttäjäroolia voi vaihtaa menemällä käyttäjähallintaan ja klikkaamalla 'muuta käyttäjäroolia'-painiketta yläreunasta. Kirjoita kenttään sen käyttäjän nimi, jonka roolia haluat vaihtaa ja valitse uusi rooli. Olemattomasta käyttäjästä tulee virheviesti. Jos ohjelmassa on vain yksi käyttäjä *Työnjohtajan* oikeuksilla, niin tämän käyttäjän roolia ei voi vaihtaa.
+
+<img src="kuvat/change_status.png" width=400>
+
+### Tietokannan tyhjentäminen
+
+HUOM! Älä tyhjennä tietokantaa ellet ole täysin varma että haluat tehdä sen!
+Mene oikeanpuolimmaisesta valikosta kohtaan 'Asetukset' ja valitse 'Tyhjennä tietokanta'. Järjestelmä antaa siitä varoitusviestin. Jos olet varma aikeistasi, niin klikkaa OK.
+
+<img src="kuvat/remove_data.png" width=400>
+
+## Tuotannon toiminnot
+Pääset lisäämään ja katsomaan tilauksia ja työvaiheita menemällä vasemmasta valikosta kohtaan 'Tuotanto'. Tämä toiminto on käytettävissä sekä *Työnjohtajan* että *Työntekijän* oikeuksilla.
+
+### Tilauksen luominen
+Voit luoda uuden tilauksen klikkaamalla oikeasta reunasta painiketta 'Luo uusi tilaus'. Anna jokin keksimäsi tilauskoodi ja klikkaa 'Lisää tilaus'.
+
+<img src="kuvat/addorder.png" width=400>
+
+Jos koodi on jo olemassa, ohjelma näyttää painikkeen, jota klikkaamalla saat tehtyä vanhalle tilaukselle uuden sisäänkirjauksen. (Esimerkiksi siinä tapauksessa että sama tilaus on käynyt välitarkastuksessa asiakkaalla ja tulee takaisin tuotantoon.) Jos kyse on vanhasta tilauksesta, klikkaa painiketta. Muutta tapauksessa keksi toinen tilauskoodi.
+
+<img src="kuvat/orderexists.png" width=500>
+
+### Työvaiheen lisääminen
+Työvaiheen voi lisätä vain tilaukselle joka on jo olemassa (kts. Tilauksen lisääminen)
+
+
+### Etsi tilaus koodilla
+### Etsi tilaukset päivämäärällä

@@ -19,4 +19,5 @@
 | 27.4. |   2   | Javadocin kirjoittamista ja release |
 | 1.5.  |   4   | Mediaanin laskeminen, testejä, 'ahkerin työntekijä', käyttäjäroolien määrät |
 | 4.5.  |   8   | Refaktorointia, config-tiedosto, testausta, siistimistä, dokumentointia |
-|  |  74  | YHTEENSÄ |
+| 5.5.  |   2   | Dokumentointia ja release |
+|  |  76  | YHTEENSÄ |

@@ -75,7 +75,7 @@ Kun sisään kirjautunut käyttäjä klikkaa painiketta "Kirjaudu ulos" (logOutB
 Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla sovelluslogiikkaluokan *Service* metodia *logOut*. Service merkitsee sisäänkirjautuneen käyttäjän paikalle arvon *null* ja palauttaa käyttöliittymälle *true*.
 Käyttöliittymä vaihtaa nyt näkymän takaisin aloitusnäkymäksi (beginScene) ja muuttaa samalla tekstikenttien arvot takaisin lähtötilanteeseen. 
 
-### Työvaiheen lisääminen
+#### Työvaiheen lisääminen
 
 Kun käyttäjä kirjoittaa työvaihetta lisätessään kenttiin olemassa olevan tilauksen tunnuksen ja täyttää pakolliset kentät, kontrolli etenee ohjelmassa seuraavasti:
 
@@ -94,9 +94,9 @@ Sovelluslogiikka on siis eristetty tietokannan käsittelystä.
 
 ### Tiedostot
 
-Kaikki tieto tallennetaan samaan tietokantatiedostoon, jonka nimi määritellään *config.properties* tiedostossa. Tiedosto on sijoitettu sovelluksen juureen.
+Kaikki tieto tallennetaan samaan tietokantatiedostoon, jonka nimi määritellään *config.properties* tiedostossa. Tiedosto on sijoitettu sovelluksen juureen. Jos tiedostoa ei ole olemassa ohjelman käynnistyessä, se luo sellaisen sovelluksen juureen.
 Jokaiselle eri tietotyypille on tietokannassa omat tietokantataulunsa. Taulujen tietoja yhdistellään id:n ja tilauskoodin perusteella, joten jos jotain tietoa täytyy muuttaa, niin se tarvitsee muuttaa vain yhdestä taulutsa. 
-Taulut on eritelty samalla tavalla kuin sovelluslogiikkakerroksen oliot (Order, User, WorkPhase). Tietokantataulut ovat nimeltään Orders, Users ja Events ja sisältävät muuten samat tiedot kuin niitä vastaavien olioiden oliomuuttujat, mutta lisäksi Users ja Events listoissa olevilla alkioilla on id:t. Orders listan alkioiden id:nä toimii tilauskoodi.
+Taulut on eritelty samalla tavalla kuin sovelluslogiikkakerroksen oliot (Order, User, WorkPhase). Tietokantataulut ovat nimeltään Orders, Users ja Events ja sisältävät muuten samat tiedot kuin niitä vastaavien olioiden oliomuuttujat, mutta lisäksi Users ja Events listoissa olevilla tietueilla on id:t. Orders listan tietuiden id:nä toimii tilauskoodi.
 
 Tietokantaa kuvaava SQL-skeema:
 ```
@@ -104,7 +104,7 @@ CREATE TABLE Users (id INTEGER PRIMARY KEY, name TEXT UNIQUE, status INTEGER)
 CREATE TABLE Orders (code TEXT UNIQUE PRIMARY KEY, timestamp TEXT, usr_id INTEGER REFERENCES Users)
 CREATE TABLE Events (id INTEGER PRIMARY KEY, workphase TEXT, code TEXT NOT NULL REFERENCES Orders, usr_id REFERENCES Users, description TEXT, timestamp TEXT)
 ```
-Skeemasta nähdään, että tietokanta jo itsessään tarkistaa, että lisättävän työvaiheen tilauskoodi ja käyttäjä id löytyy tietokannasta, ettei tietokantaan voi päätyä työvaiheita jotka eivät ole kenekään tekemiä tai että ne on tehty olemattomalle tilaukselle. Nämä tarkistukset tehdään myös luokassa *Service*, virhetilanteiden (esim. nullpointereiden) minimoimikseksi. Tietokanta pitää myös siitä huolen ettei samannimisiä käyttäjiä voi olla eikä samalla koodilla olevia tilauksia.
+Skeemasta nähdään, että tietokanta jo itsessään tarkistaa, että lisättävän työvaiheen tilauskoodi ja käyttäjä id löytyy tietokannasta, ettei tietokantaan voi päätyä työvaiheita jotka eivät ole kenekään tekemiä tai että ne on tehty olemattomalle tilaukselle. Nämä tarkistukset tehdään myös luokassa *Service*, virhetilanteiden (esim. nullpointereiden) minimoimikseksi. Tietokanta pitää myös siitä huolen ettei samannimisiä käyttäjiä voi olla montaa eikä samalla koodilla olevia tilauksia.
 
 ## Ohjelman rakenteeseen jääneet heikkoudet
 

@@ -34,7 +34,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - poistaa käyttäjiä
     - tyhjentää tietokannan
   
-  - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet.
+  - Sovellusta käyttöönottaessa on olemassa jo yksi tunnus jolla on työnjohtajan oikeudet. Tämän tunnuksen ('admin') voi poistaa kun on luotu toinen tunnus työnjohtajan oikeuksilla.
   
   - Perusversiossa ei ole toteutettu kirjautumisessa salasanatoimintoa vaan kirjautuminen tapahtuu pelkällä tunnuksella.
 

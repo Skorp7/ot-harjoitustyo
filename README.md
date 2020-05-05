@@ -13,8 +13,9 @@ Sovelluksella voi seurata hammaslaboratorion tuotantoa. Laboratorion työtahti o
 
 ## Releaset
 
-* [Viikko 5](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko5)
+*  [loppupalautus](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/loppupalautus)
 * [Viikko 6](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko6)
+* [Viikko 5](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Komentorivitoiminnot
 Kommennot siitä kansiosta jossa pom.xml sijaitsee.

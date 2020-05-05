@@ -83,7 +83,11 @@ Kun käyttäjä kirjoittaa työvaihetta lisätessään kenttiin olemassa olevan 
 
 Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla ensimmäiseksi sovelluslogiikkaluokan *Service* metodia *getOrder*, joka ottaa parametrikseen tekstikenttään kirjoitetun koodin. Service kysyy tietokantaa käsittelevältä rajapinnalta *Data*, onko kyseisellä koodilla olevaa tilausta olemassa. Jos on, *Data* hakee tietokannasta kyseisen tilauksen tiedot ja muodostaa siitä olion *Order* jonka se palauttaa *Servicelle* joka palauttaa sen *App*:ille. *App* tarkistaa onko olio *null* vai ei, koska ei ole, niin seuraavaksi ohjelma tarkistaa onko työvaihetta kuvaava kenttä täytetty, jos on, tapahtumakäsittelijä kutsuu seuraavaksi *Service*-luokan metodia *addEvent* ja antaa parametreiksi tekstikenttien tekstit.
 
-*Service* tarkistaa *Datalta* vielä, ovatko kyseinen tilaus ja käyttäjä olemassa, jos palautuneet arvot eivät ole *null*, niin seuraavaksi *Service* pyytää *Data*a lisäämään työvaiheen tietokantaan metodilla *addEvent*. Kun lisäys on tehty, *Data* palauttaa arvon *true*. *Service*n metodi *addEvent* välittää arvon *true* käyttölii
+*Service* tarkistaa *Datalta* vielä, ovatko kyseinen tilaus ja käyttäjä olemassa, jos palautuneet arvot eivät ole *null*, niin seuraavaksi *Service* pyytää *Data*a lisäämään työvaiheen tietokantaan metodilla *addEvent*. Kun lisäys on tehty, *Data* palauttaa arvon *true*. *Service*n metodi *addEvent* välittää arvon *true* käyttöliittymän tapahtumakäsittelijälle, joka nyt muuttaa palautekentän tekstin kertomaan onnistuneetsa työvaiheen lisäämisestä.
+
+### Muut toiminnallisuudet
+
+Muut toiminnot tapahtuvat samalla periaatteella. Käyttäjä painaa jotain nappia tai kirjoittaa tekstikenttiin ja käyttöliittymän tapahtumakäsittelijä kutsuu tilanteeseen sopivaa metodia. Sovelluslogiikkaluokka *Service* hoitaa mahdollisen liikenteen tietokantaan päin rajapinnan *Data* kautta ja palauttaa tietoja käyttöliittymäkerrokselle, joka tekee tarvittavat muutokset käyttöliittymän näkymiin.
 
 ## Tietojen pysyväistallennus
 

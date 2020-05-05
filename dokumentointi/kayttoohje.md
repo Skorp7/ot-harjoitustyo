@@ -1,6 +1,6 @@
 # Käyttöohje
 
-Lataa tiedosto [tuotannonohjaus.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko7) ja konfigurointitiedosto config.properties.
+Lataa tiedosto [tuotannonohjaus.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/loppupalautus) ja konfigurointitiedosto config.properties.
 
 ## Konfigurointi
 

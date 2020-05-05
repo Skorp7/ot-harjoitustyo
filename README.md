@@ -1,4 +1,4 @@
-# Tuotannonohjaus
+# Tuotannonohjaus DICIP
 
 Sovelluksella voi seurata hammaslaboratorion tuotantoa. Laboratorion työtahti on nopea ja tilaukset liikkuvat päivän aikana usean eri työntekijän käsissä eri tuotantotiloissa. Sovellus auttaa pitämään tilaukset järjestyksessä ja auttaa työnjohtajaa hahmottamaan kunkin työntekijän työmääriä. Seurantakoodin avulla näkee missä työvaiheessa tilaus on menossa tuotantoketjussa ja ketkä työntekijät ovat tehneet mitkä työvaiheet. Jos jostakin tilauksesta tulee palautetta, se on helppo näin kohdentaa oikealle työntekijälle.
 
@@ -6,14 +6,14 @@ Sovelluksella voi seurata hammaslaboratorion tuotantoa. Laboratorion työtahti o
 ## Dokumentaatio
 
 * [Käyttöohje](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/kayttoohje.md)
-* [Työaikakirjanpito](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 * [Vaatimusmäärittely](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
 * [Arkkitehtuurikuvaus](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
+* [Työaikakirjanpito](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 * [Testausdokumentti](https://github.com/Skorp7/ot-harjoitustyo/blob/master/dokumentointi/testaus.md)
 
 ## Releaset
 
-*  [loppupalautus](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/loppupalautus)
+* [loppupalautus](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/loppupalautus)
 * [Viikko 6](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko6)
 * [Viikko 5](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/viikko5)
 

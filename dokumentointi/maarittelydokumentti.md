@@ -70,6 +70,7 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
     - ilmoitus onnistumesta/epäonnistumisesta
   - TILASTOT
     - näyttää automaattisesti tilastokäppyrän kuukauden uusista tilauksista päiväkohtaisesti
+    - näyttää myös käyttäjien määrät käyttäjärooleittain sekä aktiivisimman käyttäjän
   - ASETUKSET
     - tyhjennä tietokanta -nappi
     - varoitus ennen tyhjennystä

@@ -4,7 +4,7 @@
 
 Sovelluksella on tarkoitus seurata hammaslaboratorion tuotantoa. Seurantakoodin avulla näkee missä työvaiheessa tilaus on menossa tuotantoketjussa ja ketkä työntekijät ovat tehneet mitkä työvaiheet. Sovellus tallentaa myös historian ja luo erilaisia tilastoja tilausmääristä sekä hakee tietyn päivän aikana käsitellyt tilaukset. 
 
-On tärkeää ettei työvaiheille luoda liian tarkkoja määrityksiä ja ne saa nimetä vapaasti, koska yhdellä tilauksella voi olla useita työvaiheita, joita toisiin samanlaisiin tilauksiin ei tarvitse tehdä ehkä lainkaan. Voi myös esiintyä täysin ennalata arvaamattomia työvaiheita, joita ei ole koskaan aiemmin tehty.
+On tärkeää ettei työvaiheille luoda liian tarkkoja määrityksiä ja ne saa nimetä vapaasti, koska yhdellä tilauksella voi olla useita työvaiheita, joita toisiin samanlaisiin tilauksiin ei tarvitse tehdä ehkä lainkaan. Voi myös esiintyä täysin ennalta arvaamattomia työvaiheita, joita ei ole koskaan aiemmin tehty.
 
 ## Käyttäjät
 

@@ -75,6 +75,16 @@ Kun sisään kirjautunut käyttäjä klikkaa painiketta "Kirjaudu ulos" (logOutB
 Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla sovelluslogiikkaluokan *Service* metodia *logOut*. Service merkitsee sisäänkirjautuneen käyttäjän paikalle arvon *null* ja palauttaa käyttöliittymälle *true*.
 Käyttöliittymä vaihtaa nyt näkymän takaisin aloitusnäkymäksi (beginScene) ja muuttaa samalla tekstikenttien arvot takaisin lähtötilanteeseen. 
 
+### Työvaiheen lisääminen
+
+Kun käyttäjä kirjoittaa työvaihetta lisätessään kenttiin olemassa olevan tilauksen tunnuksen ja täyttää pakolliset kentät, kontrolli etenee ohjelmassa seuraavasti:
+
+<img src="kuvat/sekvenssi_addevent.JPG" width="70%" title="Sekvenssikaavio - addEvent"> 
+
+Käyttöliittymän (App) tapahtumakäsittelijä reagoi painikkeen painamiseen kutsumalla ensimmäiseksi sovelluslogiikkaluokan *Service* metodia *getOrder*, joka ottaa parametrikseen tekstikenttään kirjoitetun koodin. Service kysyy tietokantaa käsittelevältä rajapinnalta *Data*, onko kyseisellä koodilla olevaa tilausta olemassa. Jos on, *Data* hakee tietokannasta kyseisen tilauksen tiedot ja muodostaa siitä olion *Order* jonka se palauttaa *Servicelle* joka palauttaa sen *App*:ille. *App* tarkistaa onko olio *null* vai ei, koska ei ole, niin seuraavaksi ohjelma tarkistaa onko työvaihetta kuvaava kenttä täytetty, jos on, tapahtumakäsittelijä kutsuu seuraavaksi *Service*-luokan metodia *addEvent* ja antaa parametreiksi tekstikenttien tekstit.
+
+*Service* tarkistaa *Datalta* vielä, ovatko kyseinen tilaus ja käyttäjä olemassa, jos palautuneet arvot eivät ole *null*, niin seuraavaksi *Service* pyytää *Data*a lisäämään työvaiheen tietokantaan metodilla *addEvent*. Kun lisäys on tehty, *Data* palauttaa arvon *true*. *Service*n metodi *addEvent* välittää arvon *true* käyttöliittymän tapahtumakäsittelijälle, joka nyt muuttaa palautekentän tekstin kertomaan onnistuneetsa työvaiheen lisäämisestä.
+
 ## Ohjelman rakenteeseen jääneet heikkoudet
 
 * Käyttöliittymän koodia ei juurikaan ole pilkottu metodeihin tai luokkiin, joka voisi selkeyttää sitä.

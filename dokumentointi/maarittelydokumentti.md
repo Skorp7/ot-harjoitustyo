@@ -88,10 +88,9 @@ Mahdollisia lisättäviä toiminnallisuuksia:
   - työntekijälle lisätoiminnot:
     - poistaa mahdollisen virhelyönnin seurauksena tekemänsä viimeisimmän työvaiheen tai lisäämänsä tilauksen sen luomisnäkymässä
   - muut lisätoiminnot:
-  	- tilausnumeron automaattinen generointi
   	- asiakastiedon liittäminen tilaukseen
     - tilauksen tyypin liittäminen tilaukseen (esim. "purentakisko")
-    - erilaiset tilastot mm. tilausten työstönopeudesta
+    - tarkemmat tilastot mm. tilausten työstönopeudesta per työntekijä ja työtyyppi
     
 
 ## Jatkokehityksen tavoitteet lopulliseen sovellukseen

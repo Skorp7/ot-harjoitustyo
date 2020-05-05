@@ -27,7 +27,8 @@ Sovelluksessa on kaksi käyttäjäryhmää; *työntekijät* ja *työnjohtajat*.
   - Työnjohtajat voivat tämän lisäksi:
     - nähdä tilaston uusista tilauksista 30 päivän aikana
     - nähdä tilausten valmistumisaikojen mediaanin
-    - käyttäjien määrän
+    - nähdä kuka käyttäjistä on tehnyt eniten työvaiheita
+    - nähdä käyttäjien määrän
     - luoda käyttäjätunnuksia
     - muokata käyttäjien oikeuksia
     - poistaa käyttäjiä

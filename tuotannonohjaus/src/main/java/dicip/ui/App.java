@@ -66,10 +66,9 @@ public class App extends Application {
         Button loginBtn = new Button("Kirjaudu");
         loginBtn.setDefaultButton(true);
         TextField loginfieldtext = new TextField("Anna tunnus");
-        Label loginInfoText = new Label("Ensimmäisen käynnistyksen jälkeen\nvoi kirjautua tunnuksella 'admin',\njolla on kaikki käyttöoikeudet.");
         Label logintext = new Label("Kirjaudu sisään:");
         Label feedbacktext = new Label("");
-        loginfield.getChildren().addAll(logintext, loginfieldtext, loginBtn, feedbacktext, loginInfoText);
+        loginfield.getChildren().addAll(logintext, loginfieldtext, loginBtn, feedbacktext);
         loginfield.setSpacing(10);
         loginfield.setPadding(spaces);
 

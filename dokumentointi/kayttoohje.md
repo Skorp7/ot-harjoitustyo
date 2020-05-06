@@ -13,10 +13,15 @@ dataFile=jdbc:sqlite:datafile.db
 
 Ohjelma luo käynnistyessään tietokantatiedoston *datafile.db* samaan kansioon, johon .jar-tiedosto on ladattu. Jos olet ladannut saman ohjelman eri version aiemmin, kannattaa poistaa vanha versio ja vanha tietokantatiedosto ennen käynnistämistä.
 
+### Kokeilu valmiiksi täytetyllä tietokannalla
+
 >Voit testata ohjelmaa myös jo valmiiksi täydennetyllä tietokannalla. Jos haluat sen testikäyttöön, voit ladata tiedoston *datafileForTutorial.db* ja tallentaa sen samaan kansioon .jar-tiedoston kanssa. Tällöin sinun täytyy myös muuttaa tiedoston *config.properties* sisältö seuraavaksi:
 ```
 dataFile=jdbc:sqlite:datafileForTutorial.db
 ```
+
+Tietokannassa on valmiiksi käyttäjät 'admin', 'Ines' ja 'Leo'. Tilauksia/työvaiheita on luotu päivämäärille välillä 2020-05-01 - 2020-05-09.
+
 
 
 ## Ohjelman käynnistäminen

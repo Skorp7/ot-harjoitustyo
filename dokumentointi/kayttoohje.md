@@ -1,6 +1,6 @@
 # Käyttöohje
 
-Lataa tiedosto [tuotannonohjaus.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/loppupalautus) ja konfigurointitiedosto config.properties.
+Lataa tiedosto [tuotannonohjaus.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/loppupalautus) ja konfigurointitiedosto [config.properties](https://github.com/Skorp7/ot-harjoitustyo/releases/download/loppupalautus/config.properties).
 
 ## Konfigurointi
 
@@ -15,7 +15,7 @@ Ohjelma luo käynnistyessään tietokantatiedoston *datafile.db* samaan kansioon
 
 ### Kokeilu valmiiksi täytetyllä tietokannalla
 
->Voit testata ohjelmaa myös jo valmiiksi täydennetyllä tietokannalla. Jos haluat sen testikäyttöön, voit ladata tiedoston *datafileForTutorial.db* ja tallentaa sen samaan kansioon .jar-tiedoston kanssa. Tällöin sinun täytyy myös muuttaa tiedoston *config.properties* sisältö seuraavaksi:
+>Voit testata ohjelmaa myös jo valmiiksi täydennetyllä tietokannalla. Jos haluat sen testikäyttöön, voit ladata tiedoston [datafileForTutorial.db](https://github.com/Skorp7/ot-harjoitustyo/releases/download/loppupalautus/datafileForTutorial.db) ja tallentaa sen samaan kansioon .jar-tiedoston kanssa. Tällöin sinun täytyy myös muuttaa tiedoston *config.properties* sisältö seuraavaksi:
 ```
 dataFile=jdbc:sqlite:datafileForTutorial.db
 ```

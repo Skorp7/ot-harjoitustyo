@@ -20,7 +20,7 @@ Ohjelma luo käynnistyessään tietokantatiedoston *datafile.db* samaan kansioon
 dataFile=jdbc:sqlite:datafileForTutorial.db
 ```
 
-Tietokannassa on valmiiksi käyttäjät 'admin', 'Ines' ja 'Leo'. Tilauksia/työvaiheita on luotu päivämäärille välillä 2020-05-01 - 2020-05-09.
+>Tietokannassa on valmiiksi käyttäjät 'admin', 'Ines' ja 'Leo'. Tilauksia/työvaiheita on luotu päivämäärille välillä 2020-05-01 - 2020-05-09.
 
 
 

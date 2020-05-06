@@ -112,7 +112,7 @@ Skeemasta nähdään, että tietokanta jo itsessään tarkistaa, että lisättä
 
 ## Ohjelman rakenteeseen jääneet heikkoudet
 
-* Käyttöliittymän koodia ei juurikaan ole pilkottu metodeihin tai luokkiin, joka voisi selkeyttää sitä.
-* Ohjelma käyttää suurta määrää muuttujia ja niiden nimet ovat aika samantyyppisiä, joten se voi olla sekavaa. Nimentää voisi parantaa. 
+* Käyttäjää, työvaihetta ja tilausta edustavia olioita käytetään joissain metodeissa parametreina, kun taas joissain tapauksissa parametriksi tulee esimerkiksi käyttäjän nimi merkkijonoa olion sijaan. Tällä hetkellä näiden kahden tavan väliltä on valittu se, joka on ollut kätevin toteuttaa käyttäjän antama syöte ja metodin muut käyttökohteet huomioiden. Voisi kuitenkin olla selkeämpää, että merkkijonoista luotaisiin oliot aina ennen kuin mitään annetaan parametriksi ja parametreiksi menisi merkkijonon sijaan aina olio kun se on mahdollista.
+* Käyttöliittymän koodia ei juurikaan ole pilkottu metodeihin tai luokkiin. Pilkkominen voisi selkeyttää rakennetta etenkin jatkossa, kun koodi tulee laajenemaan entiseestään.
 * Tietokantaa käsittelevät metodit pystyisi ehkä rakentamaan niin että tietokantaan lisäävät metodit käyttäisivät samaa luokasta tai metodista tehtyä pohjaa ja tietokannasta poistavat toiminnot toista samaa pohjaa. Tällä hetkellä jokaisella tietokantatoiminnolla on oma metodi.
 * Data-rajapinnan tietokantaa käsittelevät metodit on valittu siten, että osa laskennasta on jätetty sovelluslogiikan tehtäväksi. Tähän voisi vetää selkeämmän rajan, että mitä toimintoja Data-luokat tekevät ja mitä sovelluslogiikkaluokat. Joko Data-rajapinnan metodeja voisi jättää yksinkertaisemmiksi yleismetodeiksi tai sitten toisin päin, että tekisi monimutkaisia tietokantahakuja ja siten helpottaisi sovelluslogiikan vastuulle jääviä tehtäviä.

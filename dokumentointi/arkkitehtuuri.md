@@ -93,7 +93,7 @@ Muut toiminnot tapahtuvat samalla periaatteella. Käyttäjä painaa jotain nappi
 
 Pakkauksen dicip.database luokka DataSql huolehtii tietojen tallentamisesta tietokantaan.
 
-Luokka noudattavaa Data Access Object -suunnittelumallia. Se toteuttaa rajapinnan *Data* ja näin tietojen tallentamisen toteutustapa on helppo vaihtaa tekemällä toinen luokka joka toteuttaa saman rajapinnan. Näin on tehtykin jo testausta varten, luomalla *Data*n toteuttava luokka *DataMap*, joka ei käytä SQL:ää. 
+Luokka noudattaa Data Access Object -suunnittelumallia. Se toteuttaa rajapinnan *Data* ja näin tietojen tallentamisen toteutustapa on helppo vaihtaa tekemällä toinen luokka joka toteuttaa saman rajapinnan. Näin on tehtykin jo testausta varten, luomalla *Data*n toteuttava luokka *DataMap*, joka ei käytä SQL:ää. 
 Sovelluslogiikka on siis eristetty tietokannan käsittelystä.
 
 ### Tiedostot

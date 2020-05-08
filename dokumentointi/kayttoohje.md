@@ -46,20 +46,21 @@ Klikkaa vasemmalla alimpana olevaa painiketta "Kirjaudu ulos".
 
 Työnjohtajan toimintoihin pääsee käsiksi menemällä vasemmanpuoleisesta valikosta kohtaan 'Hallinta'. Aukeaa hallinta-näkymä joka aukeaa vain *Työnjohtajan* oikeuksilla.
 
-### Käyttäjän lisääminen ja poistaminen
-
-Voi esimerkiksi ensimmäisenä käydä luomassa toisen tunnuksen, jolla on kaikki käyttöoikeudet ja poistaa tunnuksen 'admin'.
-
 <img src="kuvat/adduser.png" width=600>
 
-Valitse sitten oikeanpuolimmaisesta valikosta 'Käyttäjänhallinta' ja 'Lisää käyttäjä'. Valitse käyttäjärooliksi *Työnjohtaja*.
+### Käyttäjän lisääminen ja poistaminen
+
+>Voit esimerkiksi ensimmäisenä käydä luomassa toisen tunnuksen, jolla on kaikki käyttöoikeudet ja poistaa tunnuksen 'admin'.
+
+Valitse hallinta-näkymässä oikeanpuolimmaisesta valikosta 'Käyttäjänhallinta' ja 'Lisää käyttäjä'. Valitse käyttäjärooliksi *Työnjohtaja*.
 
 <img src="kuvat/adduser_boss.png" width=400>
 
 Klikkaa painiketta 'Lisää käyttäjä'. Ruutuun tulee palaute, onnistuiko käyttäjän lisääminen vai ei.
 
-Jos onnistui, nyt voit halutessasi poistaa tunnuksen 'admin'. 
-Se onnistuu menemällä ylävalikosta kohtaan 'Poista käyttäjä'. Kirjoita tekstikenttään 'admin' ja klikkaa "Poista käyttäjä". Vastaa myös varoitusviestiin OK. Ohjelma kirjaa sinut nyt automaattisesti ulos ja voit kirjautua takaisin sisään juuri luomallasi toisella tunnuksella.
+>Jos onnistui, nyt voit halutessasi poistaa tunnuksen 'admin'. 
+
+Käyttäjän poistaminen onnistuu menemällä ylävalikosta kohtaan 'Poista käyttäjä'. Kirjoita tekstikenttään haluamasi käyttäjä, esim. 'admin' ja klikkaa "Poista käyttäjä". Vastaa myös varoitusviestiin OK. Ohjelma kirjaa sinut nyt automaattisesti ulos ja voit kirjautua takaisin sisään toisella olemassaolevalla tunnuksella.
 
 <img src="kuvat/rmuser_alert.png" width=500>
 

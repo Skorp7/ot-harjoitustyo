@@ -1,6 +1,6 @@
 # Käyttöohje
 
-Lataa tiedosto [tuotannonohjaus.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/loppupalautus) ja konfigurointitiedosto [config.properties](https://github.com/Skorp7/ot-harjoitustyo/releases/download/loppupalautus/config.properties).
+Lataa tiedosto [dicip.jar](https://github.com/Skorp7/ot-harjoitustyo/releases/tag/loppupalautus) ja konfigurointitiedosto [config.properties](https://github.com/Skorp7/ot-harjoitustyo/releases/download/loppupalautus/config.properties).
 
 ## Konfigurointi
 
@@ -29,7 +29,7 @@ dataFile=jdbc:sqlite:datafileForTutorial.db
 Ohjelman voi käynnistää komentoriviltä menemällä siihen kansioon jossa .jar-tiedosto sijaitsee ja kirjoittamalla komennon:
 
 ```
-java -jar tuotannonohjaus.jar
+java -jar dicip.jar
 ```
 
 ## Sisäänkirjautuminen
